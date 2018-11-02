@@ -1,0 +1,48 @@
+---
+title: "flex_dashboard_jmc2392"
+author: "Jacky Choi"
+date: "November 2, 2018"
+output:
+    flexdashboard::flex_dashboard
+---
+
+I first load up all the needed packages.
+```{r setup, include = FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(chron)
+library(ggplot2)
+library(plotly)
+```
+
+\
+I then gather the datasets into R.
+```{r loading_data, include = FALSE}
+data("instacart")
+data("rest_inspec")
+head(instacart)
+```
+
+\
+Next, I create visuals.
+```{r instacart_graph1, echo = FALSE}
+instacart_graph1 = 
+  instacart %>% 
+  group_by(product_name) %>% 
+  filter(product_id == 1, 2) %>% 
+  ggplot(aes(x = order_dow, y = days_since_prior_order)) + 
+  geom_point() +
+    labs(
+    title = "Days Since Last Order, by Day of Week",
+    x = "Day of Week",
+    y = "Days Since Last Order",
+    caption = "Data from the instacart file"
+    ) +
+  scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5, 6),
+                     labels = c("0", "1", "2", "3", "4", "5", "6")) + 
+  geom_smooth(se = FALSE) +
+  theme(legend.position = "bottom")
+
+instacart_graph1
+```

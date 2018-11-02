@@ -1,0 +1,11 @@
+---
+title: "jmc2392_hw4"
+author: "Jacky Choi"
+date: "November 2, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

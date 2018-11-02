@@ -1,0 +1,40 @@
+---
+title: ""
+---
+<br>
+</br>
+<center>
+
+##Jacky Choi, MPHc
+
+<link rel="stylesheet" href="styles.css" type="text/css">
+<link rel="stylesheet" href="academicons/css/academicons.min.css"/>
+<link rel="apple-touch-icon" href="/images/jacky.jpg" >
+
+MPH Graduate Student <br>
+[Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) <br>
+Columbia University Mailman School of Public Health
+
+<br><img src="images/jacky.jpg" alt="jacky" style="width:35%; border:10px solid">
+
+<br>
+
+#### About Me
+
+I am currently a second-year graduate student in the Department of Epidemiology at the Mailman School of Public Health at Columbia University pursuing an Applied Biostatistics certificate. My current experience is geared heavily around working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health research. I seek a position that adequately develops these skills further.
+
+My long-term goal is to be an expert in applying epidemiological techniques, strategies, and approaches toward research projects, outbreak investigations, and/or public health programs and interventions, particularly in the context of infectious diseases.
+
+<br>
+
+#### Contact Information
+
+Jacky Choi
+72-15 Loubet Street
+Forest Hills,
+New York, NY 11375
+
+
+Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
+Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
+Phone: 917-216-1621
