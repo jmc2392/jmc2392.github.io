@@ -6,7 +6,6 @@ output:
     flexdashboard::flex_dashboard
 ---
 
-I first load up all the needed packages.
 ```{r setup, include = FALSE}
 library(flexdashboard)
 library(tidyverse)
@@ -16,16 +15,12 @@ library(ggplot2)
 library(plotly)
 ```
 
-\
-I then gather the datasets into R.
 ```{r loading_data, include = FALSE}
 data("instacart")
 data("rest_inspec")
 head(instacart)
 ```
 
-\
-Next, I create visuals.
 ```{r instacart_graph1, echo = FALSE}
 instacart_graph1 = 
   instacart %>% 
