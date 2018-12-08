@@ -38,3 +38,14 @@ New York, NY 11375
 Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
 Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
 Phone: 917-216-1621
+
+
+#### Yoav's Stuff
+
+```{r test, echo = FALSE}
+library("XML")
+result <- xmlParse(file = "sitemap-categories-test.xml")
+```
+
+
+Access the file [here](sitemap-categories-test.xml)
