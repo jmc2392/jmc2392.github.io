@@ -1,16 +1,19 @@
 name: "Yay internet!"
+header-includes:
+   - \setlength\parindent{24pt}
 output_dir: "."
 navbar:
   title: "Home"
   right:
+    - text: "NHANES Data Analysis"
+      href: projects.html
     - text: "Resume"
-      href: http://dw.convertfiles.com/files/0020021001541176280/jacky%20choi%20-%20updated%20resume.html
+      href: resume.html
     - icon: fa-envelope fa-lg
       href: mailto:<jmc2392@cumc.columbia.edu>
     - icon: fa-github fa-lg
       href: http://github.com/jmc2392/
-  left:
-    - text: "Visuals"
-      href: flex_dashboard.html
+header includes:
+    - \setlength\parindent{24pt}
 output:
   html_document

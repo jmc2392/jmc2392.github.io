@@ -1,9 +1,32 @@
 ---
 title: ""
 ---
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
 <br>
-</br>
-<center>
 
 ##Jacky Choi, MPHc
 
@@ -21,31 +44,29 @@ Columbia University Mailman School of Public Health
 
 #### About Me
 
-I am currently a second-year graduate student in the Department of Epidemiology at the Mailman School of Public Health at Columbia University pursuing an Applied Biostatistics certificate. My current experience is geared heavily around working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health research. I seek a position that adequately develops these skills further.
-
-My long-term goal is to be an expert in applying epidemiological techniques, strategies, and approaches toward research projects, outbreak investigations, and/or public health programs and interventions, particularly in the context of infectious diseases.
+I am currently a second-year graduate student in the Department of Epidemiology at the Mailman School of Public Health at Columbia University pursuing an Applied Biostatistics certificate. My academic coursework has been geared heavily toward foundational biostatistical skills using various statistical programs and languages, while my experience has involved working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health research. Taken together, I believe I am a formidable candidate for data scientist, analyst, and biostatistician positions. I am currently seeking these positions, or any that sufficiently develops my analytic mindset, programming/coding capability, biostatistical skills, and/or knowledge of research methods.
 
 <br>
+
+#### Website
+
+I built this website using R and GitHub so that I could showcase some of the projects that I have worked on over the past couple of years. I tried incorporating projects that showcase my various competencies, including:
+
+* Usage of various statistical programs and/or languages (e.g., SQL, R, SAS)
+* Ability to write scientific or research papers
+* Understanding of how to clean, manipulate, and analyze data
+* Knowledge of how to apply various regression techniques and models (e.g., linear, logistic)
+
+Please take the time to glance at some of the projects on this website!
+
+To view my resume, you can click [here](resume.html).
+
+
+<br> 
 
 #### Contact Information
 
 Jacky Choi
-72-15 Loubet Street
-Forest Hills,
-New York, NY 11375
-
-
 Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
 Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
 Phone: 917-216-1621
-
-
-#### Yoav's Stuff
-
-```{r test, echo = FALSE}
-library("XML")
-result <- xmlParse(file = "sitemap-categories-test.xml")
-```
-
-
-Access the file [here](sitemap-categories-test.xml)
