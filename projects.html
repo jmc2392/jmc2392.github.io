@@ -285,7 +285,10 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="projects.html">NHANES Data Analysis</a>
+  <a href="projects2.html">NHANES Data Analysis</a>
+</li>
+<li>
+  <a href="projects.html">NHANES Data Analysis 2</a>
 </li>
 <li>
   <a href="resume.html">Resume</a>
@@ -408,7 +411,7 @@ font-weight: bold;
 <p>     Figure 1 shows the distribution of the individuals who provided the number of meals prepared away from home in the last week. Despite DMD895 capturing a wide variety of food places, most individuals stated that they did not receive any meals prepared away from home. The overall distribution was right-skewed. Figure 2 provides the distribution of the individuals who provided their BMI. Because the distribution was slightly right-skewed, we performed a log transformation of the outcome variable (not shown; see appendix containing SAS output).</p>
 <p>Figure 1: Distribution of DBD895 <br> <img src="images/figure1.jpg" alt="1" style="width:50%; border:1px solid"></p>
 <p><br></p>
-<p>Figure 2: Distribution of BMXBMI (Before Log Transformation) <img src="images/figure2.jpg" alt="2" style="width:50%; border:1px solid"></p>
+<p>Figure 2: Distribution of BMXBMI (Before Log Transformation) <br> <img src="images/figure2.jpg" alt="2" style="width:50%; border:1px solid"></p>
 <p>     We performed a backward model selection process to determine the best linear regression model to account for our exposure, outcome, and covariates. Because some of our variables were used as proxies and imperfectly measured what we wanted to examined and because of the sheer number of covariates we wanted to include in the model, we conservatively went for using an alpha level of 0.10. Our first model selection step included all variables (see Figure 3); because frequency of alcohol consumption had a p-value of 0.7511, we removed variable ALQ120Q. Our second model selection step indicated that our interaction term between gender and frequency of alcohol consumption had a p-value of 0.8972, so we removed the associated interaction term. Our third model selection step indicated that the variable examining the ratio of family income to poverty level had a p-value of 0.4281, so we removed variable INDFMPIR. Our final linear regression model included number of meals prepared away from home, age, gender, race/ethnicity, education levels, history of blood pressure, and physical activity levels as predictors in our model (see Figure 4). All covariates in this model were significant at alpha = 0.10.</p>
 <p>Figure 3: Model Selection - All Covariates <br> <img src="images/figure3a.jpg" alt="3a" style="width:50%; border:1px solid"> <img src="images/figure3b.jpg" alt="3b" style="width:50%; border:1px solid"> <img src="images/figure3c.jpg" alt="3c" style="width:50%; border:1px solid"></p>
 <p><br> Figure 4: Model Selection - Final Model <br> <img src="images/figure4a.jpg" alt="4a" style="width:50%; border:1px solid"> <img src="images/figure4b.jpg" alt="4b" style="width:50%; border:1px solid"> <img src="images/figure4c.jpg" alt="4c" style="width:50%; border:1px solid"></p>

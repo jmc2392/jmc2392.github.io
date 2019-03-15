@@ -6,6 +6,8 @@ navbar:
   title: "Home"
   right:
     - text: "NHANES Data Analysis"
+      href: projects2.html
+    - text: "NHANES Data Analysis 2"
       href: projects.html
     - text: "Resume"
       href: resume.html

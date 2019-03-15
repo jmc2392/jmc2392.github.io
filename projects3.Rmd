@@ -1,0 +1,68 @@
+---
+title: "projects3"
+author: "Jacky Choi"
+date: "March 15, 2019"
+output: html_document
+---
+
+
+Note: Weights above are arbitrarily assigned such that each category is equally weighted. Depending on team’s preferences, weights for each category should be adjusted. You can formally determine the weight/preference of each category using the following steps:
+
+1) Survey the team and examine what they believe should be the most important factors in determining whether a data request should be prioritized first. 
+
+Example Survey Question:
+What should be the most important factors in determining whether a data request should be prioritized first? Order each factor below, with 1 being the most important factor, 2 being somewhat important, 3 being neither important nor unimportant, 4 being somewhat unimportant, and 5 being the least important factor.
+
+Example Respondent Answers:
+Factor	Rating
+Length of time data request has been in queue	2
+Who is making the data request	3
+Extent and ease of completing the data request	1
+Amount of time given to complete the data request (i.e., turnaround time)	4
+Overall importance of data request	5
+
+
+2) Input response options from ALL respondents into an Excel, CSV, or SAS file.
+
+In the table containing hypothetical data shown below:
+•	Obs is an ID for each row
+•	Rating contains the response rating given by each respondent, from 1 to 5
+•	Factor lists the factor being considered above
+•	Count gives the frequency that each factor received for each rating
+
+```{r}
+library(knitr)
+
+mystring<-
+("obs,factor,rating,count 
+1,Time,1,22
+2,Time,2,20
+3,Time,3,18
+4,Time,4,16
+5,Time,5,14
+6,Requestor,1,6
+7,Requestor,2,15
+8,Requestor,3,20
+9,Requestor,4,23
+10,Requestor,5,26
+11,Extent,1,20
+12,Extent,2,22
+13,Extent,3,20
+14,Extent,4,14
+15,Extent,5,14
+16,Turnaround,1,13
+17,Turnaround,2,17
+18,Turnaround,3,28
+19,Turnaround,4,18
+20,Turnaround,5,14
+21,Importance,1,16
+22,Importance,2,18
+23,Importance,3,22
+24,Importance,4,19
+25,Importance,5,15")
+
+mydata <- read.table(textConnection(mystring), header=TRUE, sep=",", row.names="obs")
+kable(mydata)
+```
+
+
