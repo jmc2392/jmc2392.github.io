@@ -61,7 +61,7 @@ Figure 1: Frequency of Various Moods Survey Question <br>
 <br>
 
 ```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
-knitr::include_graphics("images/depressed.jpg")
+include_graphics("images/depressed.jpg")
 ```
 
 <br>
@@ -156,8 +156,6 @@ datatable(mood_table2, rownames = FALSE, caption = NULL,
 
 
 ```{r mood_table3, eval = FALSE, echo = FALSE}
-library(knitr)
-
 mystring<-
 ("obs,item,rating,count 
 1,Depressed,1,22
@@ -226,7 +224,7 @@ Figure 5 plots the expected probability of each rating by mood. We can clearly t
 We run the same model in R. The R code and output for the model is provided below.
 
 ```{r packages, echo = TRUE}
-
+library(knitr)
 library(plotly)
 library(ggplot2)
 library(MASS)
