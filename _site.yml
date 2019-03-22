@@ -1,14 +1,21 @@
-name: "Yay internet!"
+name: "Navigation Bar"
 header-includes:
    - \setlength\parindent{24pt}
 output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "NHANES Data Analysis"
-      href: projects2.html
-    - text: "NHANES Data Analysis 2"
-      href: projects.html
+    - text: "SAS Projects"
+      menu:
+        - text: "Alcohol and Smoking Using NHANES"
+          href: NHANES1.html
+        - text: "Away-From-Home Meals and BMI"
+          href: NHANES2.html
+    - text: "R Projects"
+      menu:
+        - text: "Analyzing Likert Scale of Depressive Symptoms"
+          href: projects3.html
+          
     - text: "Resume"
       href: resume.html
     - icon: fa-envelope fa-lg

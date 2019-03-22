@@ -4,6 +4,4 @@ title: "About"
 
 ### About this site
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
-
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
+#Note to Self: Include fig_caption: yes in YAML and {r figure_x, echo = FALSE, fig.cap = "Figure 1. Test", out.width = '100%'} knitr::include_graphics("images/figure5.jpg") in code chuck for figure captions and image insert

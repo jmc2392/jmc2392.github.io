@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Jacky Choi" />
 
-<meta name="date" content="2019-03-15" />
 
-<title>projects3</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -171,6 +172,107 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -188,11 +290,32 @@ $(document).ready(function () {
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="projects2.html">NHANES Data Analysis</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    SAS Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="NHANES1.html">Alcohol and Smoking Using NHANES</a>
+    </li>
+    <li>
+      <a href="NHANES2.html">Away-From-Home Meals and BMI</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="projects.html">NHANES Data Analysis 2</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects3.html">Analyzing Likert Scale of Depressive Symptoms</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="resume.html">Resume</a>
@@ -218,194 +341,403 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">projects3</h1>
-<h4 class="author"><em>Jacky Choi</em></h4>
-<h4 class="date"><em>March 15, 2019</em></h4>
 
 </div>
 
 
-<p>Note: Weights above are arbitrarily assigned such that each category is equally weighted. Depending on team’s preferences, weights for each category should be adjusted. You can formally determine the weight/preference of each category using the following steps:</p>
-<ol style="list-style-type: decimal">
-<li>Survey the team and examine what they believe should be the most important factors in determining whether a data request should be prioritized first.</li>
-</ol>
-<p>Example Survey Question: What should be the most important factors in determining whether a data request should be prioritized first? Order each factor below, with 1 being the most important factor, 2 being somewhat important, 3 being neither important nor unimportant, 4 being somewhat unimportant, and 5 being the least important factor.</p>
-<p>Example Respondent Answers: Factor Rating Length of time data request has been in queue 2 Who is making the data request 3 Extent and ease of completing the data request 1 Amount of time given to complete the data request (i.e., turnaround time) 4 Overall importance of data request 5</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Input response options from ALL respondents into an Excel, CSV, or SAS file.</li>
-</ol>
-<p>In the table containing hypothetical data shown below: • Obs is an ID for each row • Rating contains the response rating given by each respondent, from 1 to 5 • Factor lists the factor being considered above • Count gives the frequency that each factor received for each rating</p>
-<pre class="r"><code>library(knitr)
+<p><br></p>
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
 
-mystring&lt;-
-(&quot;obs,factor,rating,count 
-1,Time,1,22
-2,Time,2,20
-3,Time,3,18
-4,Time,4,16
-5,Time,5,14
-6,Requestor,1,6
-7,Requestor,2,15
-8,Requestor,3,20
-9,Requestor,4,23
-10,Requestor,5,26
-11,Extent,1,20
-12,Extent,2,22
-13,Extent,3,20
-14,Extent,4,14
-15,Extent,5,14
-16,Turnaround,1,13
-17,Turnaround,2,17
-18,Turnaround,3,28
-19,Turnaround,4,18
-20,Turnaround,5,14
-21,Importance,1,16
-22,Importance,2,18
-23,Importance,3,22
-24,Importance,4,19
-25,Importance,5,15&quot;)
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
 
-mydata &lt;- read.table(textConnection(mystring), header=TRUE, sep=&quot;,&quot;, row.names=&quot;obs&quot;)
-kable(mydata)</code></pre>
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+<div id="analyzing-likert-scale-of-depressive-symptoms" class="section level2">
+<h2>Analyzing Likert Scale of Depressive Symptoms</h2>
+<p><br></p>
+<div id="skills" class="section level3">
+<h3>Skills</h3>
+<ul>
+<li>Data Analysis</li>
+<li>Logistic Regression</li>
+<li>R</li>
+<li>SAS</li>
+</ul>
+<p><br></p>
+</div>
+<div id="background" class="section level3">
+<h3>Background</h3>
+<p>At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents’ level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.</p>
+<p>Figure 1: Frequency of Various Moods Survey Question <br> <img src="images/depressed.jpg" alt="depressed1" style="width:75%; border:1px solid"></p>
+<p><br></p>
+<p>Figure 2: Sample Respondent Answer to Survey Question <br> <img src="images/depressed2.jpg" alt="depressed2" style="width:75%; border:1px solid"></p>
+<p><br></p>
+</div>
+<div id="methods" class="section level3">
+<h3>Methods</h3>
+<p>I input the respondent answers into a table (group-level format).</p>
+<p>In the table shown below:</p>
+<ul>
+<li><code>Obs</code> is an ID for each row</li>
+<li><code>Rating</code> contains the response rating given by each respondent, from 1 to 5</li>
+<li><code>Item</code> lists the type of mood being considered</li>
+<li><code>Count</code> gives the frequency that each item received for each rating</li>
+</ul>
 <table>
+<caption>Figure 1. Count of Each Mood Item</caption>
 <thead>
 <tr class="header">
-<th align="left">factor</th>
-<th align="right">rating</th>
-<th align="right">count</th>
+<th align="center">obs</th>
+<th align="center">item</th>
+<th align="center">rating</th>
+<th align="center">count</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Time</td>
-<td align="right">1</td>
-<td align="right">22</td>
+<td align="center">1</td>
+<td align="center">Depressed</td>
+<td align="center">1</td>
+<td align="center">22</td>
 </tr>
 <tr class="even">
-<td align="left">Time</td>
-<td align="right">2</td>
-<td align="right">20</td>
+<td align="center">2</td>
+<td align="center">Depressed</td>
+<td align="center">2</td>
+<td align="center">20</td>
 </tr>
 <tr class="odd">
-<td align="left">Time</td>
-<td align="right">3</td>
-<td align="right">18</td>
+<td align="center">3</td>
+<td align="center">Depressed</td>
+<td align="center">3</td>
+<td align="center">18</td>
 </tr>
 <tr class="even">
-<td align="left">Time</td>
-<td align="right">4</td>
-<td align="right">16</td>
+<td align="center">4</td>
+<td align="center">Depressed</td>
+<td align="center">4</td>
+<td align="center">16</td>
 </tr>
 <tr class="odd">
-<td align="left">Time</td>
-<td align="right">5</td>
-<td align="right">14</td>
+<td align="center">5</td>
+<td align="center">Depressed</td>
+<td align="center">5</td>
+<td align="center">14</td>
 </tr>
 <tr class="even">
-<td align="left">Requestor</td>
-<td align="right">1</td>
-<td align="right">6</td>
+<td align="center">6</td>
+<td align="center">Happy</td>
+<td align="center">1</td>
+<td align="center">6</td>
 </tr>
 <tr class="odd">
-<td align="left">Requestor</td>
-<td align="right">2</td>
-<td align="right">15</td>
+<td align="center">7</td>
+<td align="center">Happy</td>
+<td align="center">2</td>
+<td align="center">15</td>
 </tr>
 <tr class="even">
-<td align="left">Requestor</td>
-<td align="right">3</td>
-<td align="right">20</td>
+<td align="center">8</td>
+<td align="center">Happy</td>
+<td align="center">3</td>
+<td align="center">20</td>
 </tr>
 <tr class="odd">
-<td align="left">Requestor</td>
-<td align="right">4</td>
-<td align="right">23</td>
+<td align="center">9</td>
+<td align="center">Happy</td>
+<td align="center">4</td>
+<td align="center">23</td>
 </tr>
 <tr class="even">
-<td align="left">Requestor</td>
-<td align="right">5</td>
-<td align="right">26</td>
+<td align="center">10</td>
+<td align="center">Happy</td>
+<td align="center">5</td>
+<td align="center">26</td>
 </tr>
 <tr class="odd">
-<td align="left">Extent</td>
-<td align="right">1</td>
-<td align="right">20</td>
+<td align="center">11</td>
+<td align="center">Hopeless</td>
+<td align="center">1</td>
+<td align="center">20</td>
 </tr>
 <tr class="even">
-<td align="left">Extent</td>
-<td align="right">2</td>
-<td align="right">22</td>
+<td align="center">12</td>
+<td align="center">Hopeless</td>
+<td align="center">2</td>
+<td align="center">22</td>
 </tr>
 <tr class="odd">
-<td align="left">Extent</td>
-<td align="right">3</td>
-<td align="right">20</td>
+<td align="center">13</td>
+<td align="center">Hopeless</td>
+<td align="center">3</td>
+<td align="center">20</td>
 </tr>
 <tr class="even">
-<td align="left">Extent</td>
-<td align="right">4</td>
-<td align="right">14</td>
+<td align="center">14</td>
+<td align="center">Hopeless</td>
+<td align="center">4</td>
+<td align="center">14</td>
 </tr>
 <tr class="odd">
-<td align="left">Extent</td>
-<td align="right">5</td>
-<td align="right">14</td>
+<td align="center">15</td>
+<td align="center">Hopeless</td>
+<td align="center">5</td>
+<td align="center">14</td>
 </tr>
 <tr class="even">
-<td align="left">Turnaround</td>
-<td align="right">1</td>
-<td align="right">13</td>
+<td align="center">16</td>
+<td align="center">Satisfied</td>
+<td align="center">1</td>
+<td align="center">13</td>
 </tr>
 <tr class="odd">
-<td align="left">Turnaround</td>
-<td align="right">2</td>
-<td align="right">17</td>
+<td align="center">17</td>
+<td align="center">Satisfied</td>
+<td align="center">2</td>
+<td align="center">17</td>
 </tr>
 <tr class="even">
-<td align="left">Turnaround</td>
-<td align="right">3</td>
-<td align="right">28</td>
+<td align="center">18</td>
+<td align="center">Satisfied</td>
+<td align="center">3</td>
+<td align="center">28</td>
 </tr>
 <tr class="odd">
-<td align="left">Turnaround</td>
-<td align="right">4</td>
-<td align="right">18</td>
+<td align="center">19</td>
+<td align="center">Satisfied</td>
+<td align="center">4</td>
+<td align="center">18</td>
 </tr>
 <tr class="even">
-<td align="left">Turnaround</td>
-<td align="right">5</td>
-<td align="right">14</td>
+<td align="center">20</td>
+<td align="center">Satisfied</td>
+<td align="center">5</td>
+<td align="center">14</td>
 </tr>
 <tr class="odd">
-<td align="left">Importance</td>
-<td align="right">1</td>
-<td align="right">16</td>
+<td align="center">21</td>
+<td align="center">Anxious</td>
+<td align="center">1</td>
+<td align="center">16</td>
 </tr>
 <tr class="even">
-<td align="left">Importance</td>
-<td align="right">2</td>
-<td align="right">18</td>
+<td align="center">22</td>
+<td align="center">Anxious</td>
+<td align="center">2</td>
+<td align="center">18</td>
 </tr>
 <tr class="odd">
-<td align="left">Importance</td>
-<td align="right">3</td>
-<td align="right">22</td>
+<td align="center">23</td>
+<td align="center">Anxious</td>
+<td align="center">3</td>
+<td align="center">22</td>
 </tr>
 <tr class="even">
-<td align="left">Importance</td>
-<td align="right">4</td>
-<td align="right">19</td>
+<td align="center">24</td>
+<td align="center">Anxious</td>
+<td align="center">4</td>
+<td align="center">19</td>
 </tr>
 <tr class="odd">
-<td align="left">Importance</td>
-<td align="right">5</td>
-<td align="right">15</td>
+<td align="center">25</td>
+<td align="center">Anxious</td>
+<td align="center">5</td>
+<td align="center">15</td>
 </tr>
 </tbody>
 </table>
+<p><br></p>
+<p>I ran an ordinal logistic regression model (proportional odds model) on the data to determine the ranking of each item, modeling the independent variable, item, against the response variable, rating. For the reference mood item, I used “Happy.” I assumed that the scale from one response option to another (i.e., Never to Rarely, Rarely to Some of the time, etc.) is the same for all response options; the proportional odds assumption held (p &gt; 0.05) for this model, supporting this. I modeled my parameters over lower-ordered values of the ratings - that is, a larger positive parameter/coefficient indicates respondents’ preference or tendency toward the lower-numbered ratings for that mood item compared to the reference mood item.</p>
+<p><br></p>
+</div>
+<div id="results---sas" class="section level3">
+<h3>Results - SAS</h3>
+<p>The SAS code and output for the model is provided below.</p>
+<p>Figure 3: SAS Code for Logistic Regression Model <br> <img src="images/depressed3.jpg" alt="depressed3" style="width:75%; border:1px solid"></p>
+<p><br></p>
+<p>Figure 4: Partial SAS Output for Logistic Regression Model <br> <img src="images/depressed4.jpg" alt="depressed4" style="width:75%; border:1px solid"></p>
+<p><br></p>
+<p>From the SAS output above, we can see that the coefficient for the Depressed item is 1.0094, indicating that the log odds of the Depressed item having a lower-numbered rating compared to the Happy item is 1.0094. Recall that a lower-numbered rating indicates that the respondent experienced the mood more frequently. Thus, respondents experienced depressive moods more often than happy moods.</p>
+<p>Note that the SAS output also gives the odds of a respondent picking a lower-numbered rating for each mood item compared to every other mood item (not shown here).</p>
+<p>The relative magnitude of the slopes in the output above imply the ordering of their frequency. Thus, the order of most frequently experienced mood to least frequently experienced mood among these 90 respondents is depressed, hopeless, anxious, satistfied, and happy.</p>
+</div>
+<div id="results---r" class="section level3">
+<h3>Results - R</h3>
+<p>We run the same model in R. The R code and output for the model is provided below.</p>
+<pre class="r"><code>item &lt;- factor(rep(c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;), c(90, 90, 90, 90, 90)), 
+        levels = c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;))  
+
+happy &lt;- c(6, 15, 20, 23, 26) # cell counts
+depressed &lt;- c(22, 20, 18, 16, 14) # cell counts
+hopeless &lt;- c(20, 22, 20, 14, 14) # cell counts
+satisfied &lt;- c(13, 17, 28, 18, 14) # cell counts
+anxious &lt;- c(16, 18, 22, 19, 15) # cell counts
+
+rating &lt;- c(&quot;All of the time&quot;,&quot;Most of the time&quot;,&quot;Some of the time&quot;,&quot;Rarely&quot;,&quot;Never&quot;)
+rating2 &lt;- factor(c(rep(rating, happy), 
+                  rep(rating, depressed),
+                  rep(rating, hopeless),
+                  rep(rating, satisfied),
+                  rep(rating, anxious)),
+                  levels = rating)
+
+model &lt;- data.frame(item, rating2)
+
+#Ordinal Logistic Regression Model
+library(MASS)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:plotly&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>logmodel &lt;- polr(rating2 ~ item, data = model, Hess = TRUE)
+summary(logmodel)</code></pre>
+<pre><code>## Call:
+## polr(formula = rating2 ~ item, data = model, Hess = TRUE)
+## 
+## Coefficients:
+##                 Value Std. Error t value
+## itemDepressed -1.0094     0.2699  -3.739
+## itemHopeless  -1.0065     0.2683  -3.751
+## itemSatisfied -0.6549     0.2616  -2.503
+## itemAnxious   -0.7116     0.2650  -2.686
+## 
+## Intercepts:
+##                                   Value    Std. Error t value 
+## All of the time|Most of the time   -2.2909   0.2192   -10.4510
+## Most of the time|Some of the time  -1.1943   0.1992    -5.9959
+## Some of the time|Rarely            -0.1845   0.1916    -0.9626
+## Rarely|Never                        0.8581   0.1981     4.3320
+## 
+## Residual Deviance: 1423.476 
+## AIC: 1439.476</code></pre>
+<pre class="r"><code>#Predictions
+predict(logmodel, newdata = data.frame(item = &quot;Depressed&quot;), type = &quot;p&quot;)</code></pre>
+<pre><code>##  All of the time Most of the time Some of the time           Rarely 
+##        0.2172945        0.2366131        0.2413848        0.1708813 
+##            Never 
+##        0.1338263</code></pre>
+<pre class="r"><code>predict(logmodel, newdata = data.frame(item = &quot;Hopeless&quot;), type = &quot;p&quot;)</code></pre>
+<pre><code>##  All of the time Most of the time Some of the time           Rarely 
+##        0.2167892        0.2363814        0.2414915        0.1711666 
+##            Never 
+##        0.1341714</code></pre>
+<pre class="r"><code>predict(logmodel, newdata = data.frame(item = &quot;Anxious&quot;), type = &quot;p&quot;)</code></pre>
+<pre><code>##  All of the time Most of the time Some of the time           Rarely 
+##        0.1708929        0.2107209        0.2472091        0.1989226 
+##            Never 
+##        0.1722544</code></pre>
+<pre class="r"><code>predict(logmodel, newdata = data.frame(item = &quot;Satisfied&quot;), type = &quot;p&quot;)</code></pre>
+<pre><code>##  All of the time Most of the time Some of the time           Rarely 
+##        0.1629993        0.2053115        0.2471686        0.2040211 
+##            Never 
+##        0.1804995</code></pre>
+<pre class="r"><code>predict(logmodel, newdata = data.frame(item = &quot;Happy&quot;), type = &quot;p&quot;)</code></pre>
+<pre><code>##  All of the time Most of the time Some of the time           Rarely 
+##       0.09187603       0.14060895       0.22153085       0.24824872 
+##            Never 
+##       0.29773545</code></pre>
+<pre class="r"><code>#Probabilities of Each Mood Item Plotted
+a &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Depressed&quot;), type = &quot;p&quot;))
+b &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Hopeless&quot;), type = &quot;p&quot;))
+c &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Anxious&quot;), type = &quot;p&quot;))
+d &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Satisfied&quot;), type = &quot;p&quot;))
+e &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Happy&quot;), type = &quot;p&quot;))
+
+depcat &lt;- c(&quot;Depressed&quot;, &quot;Depressed&quot;, &quot;Depressed&quot;, &quot;Depressed&quot;, &quot;Depressed&quot;)
+hopelesscat &lt;- c(&quot;Hopeless&quot;, &quot;Hopeless&quot;, &quot;Hopeless&quot;, &quot;Hopeless&quot;, &quot;Hopeless&quot;)
+anxiouscat &lt;- c(&quot;Anxious&quot;, &quot;Anxious&quot;, &quot;Anxious&quot;, &quot;Anxious&quot;, &quot;Anxious&quot;)
+satisfiedcat &lt;- c(&quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;)
+happycat &lt;- c(&quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;)
+
+library(plyr)</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:plotly&#39;:
+## 
+##     arrange, mutate, rename, summarise</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     compact</code></pre>
+<pre class="r"><code>apredict &lt;- data.frame(a, depcat, rating)
+apredict &lt;- (plyr::rename(apredict, c(&quot;a&quot;=&quot;value&quot;, &quot;depcat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+bpredict &lt;- data.frame(b, hopelesscat, rating)
+bpredict &lt;- (plyr::rename(bpredict, c(&quot;b&quot;=&quot;value&quot;, &quot;hopelesscat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+cpredict &lt;- data.frame(c, anxiouscat, rating)
+cpredict &lt;- (plyr::rename(cpredict, c(&quot;c&quot;=&quot;value&quot;, &quot;anxiouscat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+dpredict &lt;- data.frame(d, satisfiedcat, rating)
+dpredict &lt;- (plyr::rename(dpredict, c(&quot;d&quot;=&quot;value&quot;, &quot;satisfiedcat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+epredict &lt;- data.frame(e, happycat, rating)
+epredict &lt;- (plyr::rename(epredict, c(&quot;e&quot;=&quot;value&quot;, &quot;happycat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+
+total &lt;- rbind(apredict, bpredict)
+total2 &lt;- rbind(total, cpredict)
+total3 &lt;- rbind(total2, dpredict)
+total4 &lt;- rbind(total3, epredict)
+
+total4$value &lt;- as.numeric(as.character(total4$value))
+
+
+library(plotly)
+library(ggplot2)
+
+plot = total4 %&gt;% 
+  ggplot(aes(fill = rating, x = category, y = value, color = rating)) +
+  geom_bar(stat = &quot;identity&quot;) +
+    labs(
+    title = &quot;Test&quot;,
+    x = &quot;Category&quot;,
+    y = &quot;Value&quot;
+    ) +
+  scale_y_continuous(limits=c(0, 1)) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = &quot;bottom&quot;)
+
+plot</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="projects3_files/figure-html/create_factors-1.png" width="672" /></p>
+</div>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 

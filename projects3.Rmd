@@ -1,68 +1,299 @@
 ---
-title: "projects3"
-author: "Jacky Choi"
-date: "March 15, 2019"
-output: html_document
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
 ---
 
+<br>
 
-Note: Weights above are arbitrarily assigned such that each category is equally weighted. Depending on team’s preferences, weights for each category should be adjusted. You can formally determine the weight/preference of each category using the following steps:
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
 
-1) Survey the team and examine what they believe should be the most important factors in determining whether a data request should be prioritized first. 
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
 
-Example Survey Question:
-What should be the most important factors in determining whether a data request should be prioritized first? Order each factor below, with 1 being the most important factor, 2 being somewhat important, 3 being neither important nor unimportant, 4 being somewhat unimportant, and 5 being the least important factor.
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
 
-Example Respondent Answers:
-Factor	Rating
-Length of time data request has been in queue	2
-Who is making the data request	3
-Extent and ease of completing the data request	1
-Amount of time given to complete the data request (i.e., turnaround time)	4
-Overall importance of data request	5
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+##Analyzing Likert Scale of Depressive Symptoms
+
+<br>
+
+###Skills
+* Data Analysis
+* Logistic Regression
+* R
+* SAS
+
+<br> 
+
+###Background
+
+At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents' level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.
+
+Figure 1: Frequency of Various Moods Survey Question <br>
+<img src="images/depressed.jpg" alt="depressed1" style="width:75%; border:1px solid"> 
+
+<br>
+
+Figure 2: Sample Respondent Answer to Survey Question <br>
+<img src="images/depressed2.jpg" alt="depressed2" style="width:75%; border:1px solid">
+
+<br>
+
+###Methods
+I input the respondent answers into a table (group-level format).
+
+In the table shown below:
+
+* `Obs` is an ID for each row
+* `Rating` contains the response rating given by each respondent, from 1 to 5
+* `Item` lists the type of mood being considered
+* `Count` gives the frequency that each item received for each rating
+
+```{r mood_table, echo = FALSE}
+mood <- tibble::tribble(
+  ~obs,  ~item,       ~rating, ~count,
+     1,  "Depressed",       1,     22,
+     2,  "Depressed",       2,     20,
+     3,  "Depressed",       3,     18,
+     4,  "Depressed",       4,     16,
+     5,  "Depressed",       5,     14,
+     6,  "Happy",           1,      6,
+     7,  "Happy",           2,     15,
+     8,  "Happy",           3,     20,
+     9,  "Happy",           4,     23,
+    10,  "Happy",           5,     26,
+    11,  "Hopeless",        1,     20,
+    12,  "Hopeless",        2,     22,
+    13,  "Hopeless",        3,     20,
+    14,  "Hopeless",        4,     14,
+    15,  "Hopeless",        5,     14,
+    16,  "Satisfied",       1,     13,
+    17,  "Satisfied",       2,     17,
+    18,  "Satisfied",       3,     28,
+    19,  "Satisfied",       4,     18,
+    20,  "Satisfied",       5,     14,
+    21,  "Anxious",         1,     16,
+    22,  "Anxious",         2,     18,
+    23,  "Anxious",         3,     22,
+    24,  "Anxious",         4,     19,
+    25,  "Anxious",         5,     15
+  )
+
+knitr::kable(mood, digits = 3, row.names = FALSE, 
+             align = "c", caption = "Figure 1. Count of Each Mood Item")
+
+```
 
 
-2) Input response options from ALL respondents into an Excel, CSV, or SAS file.
+```{r mood_table2, eval = FALSE, echo = FALSE}
+mood <- tibble::tribble(
+  ~obs,  ~item,       ~rating, ~count,
+     1,  "Depressed",       1,     22,
+     2,  "Depressed",       2,     20,
+     3,  "Depressed",       3,     18,
+     4,  "Depressed",       4,     16,
+     5,  "Depressed",       5,     14,
+     6,  "Happy",           1,      6,
+     7,  "Happy",           2,     15,
+     8,  "Happy",           3,     20,
+     9,  "Happy",           4,     23,
+    10,  "Happy",           5,     26,
+    11,  "Hopeless",        1,     20,
+    12,  "Hopeless",        2,     22,
+    13,  "Hopeless",        3,     20,
+    14,  "Hopeless",        4,     14,
+    15,  "Hopeless",        5,     14,
+    16,  "Satisfied",       1,     13,
+    17,  "Satisfied",       2,     17,
+    18,  "Satisfied",       3,     28,
+    19,  "Satisfied",       4,     18,
+    20,  "Satisfied",       5,     14,
+    21,  "Anxious",         1,     16,
+    22,  "Anxious",         2,     18,
+    23,  "Anxious",         3,     22,
+    24,  "Anxious",         4,     19,
+    25,  "Anxious",         5,     15
+  )
 
-In the table containing hypothetical data shown below:
-•	Obs is an ID for each row
-•	Rating contains the response rating given by each respondent, from 1 to 5
-•	Factor lists the factor being considered above
-•	Count gives the frequency that each factor received for each rating
+require(DT)
+datatable(mood_table2, rownames = FALSE, caption = NULL,
+               escape = FALSE, style = "default",
+               width = NULL, height = NULL)
 
-```{r}
+```
+
+
+```{r mood_table3, eval = FALSE, echo = FALSE}
 library(knitr)
 
 mystring<-
-("obs,factor,rating,count 
-1,Time,1,22
-2,Time,2,20
-3,Time,3,18
-4,Time,4,16
-5,Time,5,14
-6,Requestor,1,6
-7,Requestor,2,15
-8,Requestor,3,20
-9,Requestor,4,23
-10,Requestor,5,26
-11,Extent,1,20
-12,Extent,2,22
-13,Extent,3,20
-14,Extent,4,14
-15,Extent,5,14
-16,Turnaround,1,13
-17,Turnaround,2,17
-18,Turnaround,3,28
-19,Turnaround,4,18
-20,Turnaround,5,14
-21,Importance,1,16
-22,Importance,2,18
-23,Importance,3,22
-24,Importance,4,19
-25,Importance,5,15")
+("obs,item,rating,count 
+1,Depressed,1,22
+2,Depressed,2,20
+3,Depressed,3,18
+4,Depressed,4,16
+5,Depressed,5,14
+6,Happy,1,6
+7,Happy,2,15
+8,Happy,3,20
+9,Happy,4,23
+10,Happy,5,26
+11,Hopeless,1,20
+12,Hopeless,2,22
+13,Hopeless,3,20
+14,Hopeless,4,14
+15,Hopeless,5,14
+16,Satisfied,1,13
+17,Satisfied,2,17
+18,Satisfied,3,28
+19,Satisfied,4,18
+20,Satisfied,5,14
+21,Anxious,1,16
+22,Anxious,2,18
+23,Anxious,3,22
+24,Anxious,4,19
+25,Anxious,5,15")
 
-mydata <- read.table(textConnection(mystring), header=TRUE, sep=",", row.names="obs")
-kable(mydata)
+mood_table3 <- read.table(textConnection(mystring), header=TRUE, sep=",", row.names="obs")
+kable(mood_table3)
+```
+
+<br>
+
+I ran an ordinal logistic regression model (proportional odds model) on the data to determine the ranking of each item, modeling the independent variable, item, against the response variable, rating. For the reference mood item, I used "Happy." I assumed that the scale from one response option to another (i.e., Never to Rarely, Rarely to Some of the time, etc.) is the same for all response options; the proportional odds assumption held (p > 0.05) for this model, supporting this. I modeled my parameters over lower-ordered values of the ratings - that is, a larger positive parameter/coefficient indicates respondents’ preference or tendency toward the lower-numbered ratings for that mood item compared to the reference mood item.
+
+<br>
+
+###Results - SAS
+The SAS code and output for the model is provided below.
+
+Figure 3: SAS Code for Logistic Regression Model <br>
+<img src="images/depressed3.jpg" alt="depressed3" style="width:75%; border:1px solid"> 
+
+<br>
+
+Figure 4: Partial SAS Output for Logistic Regression Model <br>
+<img src="images/depressed4.jpg" alt="depressed4" style="width:75%; border:1px solid"> 
+
+<br>
+
+From the SAS output above, we can see that the coefficient for the Depressed item is 1.0094, indicating that the log odds of the Depressed item having a lower-numbered rating compared to the Happy item is 1.0094. Recall that a lower-numbered rating indicates that the respondent experienced the mood more frequently. Thus, respondents experienced depressive moods more often than happy moods.
+
+Note that the SAS output also gives the odds of a respondent picking a lower-numbered rating for each mood item compared to every other mood item (not shown here).
+
+The relative magnitude of the slopes in the output above imply the ordering of their frequency. Thus, the order of most frequently experienced mood to least frequently experienced mood among these 90 respondents is depressed, hopeless, anxious, satistfied, and happy.
+
+
+###Results - R
+We run the same model in R. The R code and output for the model is provided below.
+
+```{r create_factors, echo = TRUE}
+item <- factor(rep(c("Happy", "Depressed", "Hopeless", "Satisfied", "Anxious"), c(90, 90, 90, 90, 90)), 
+        levels = c("Happy", "Depressed", "Hopeless", "Satisfied", "Anxious"))  
+
+happy <- c(6, 15, 20, 23, 26) # cell counts
+depressed <- c(22, 20, 18, 16, 14) # cell counts
+hopeless <- c(20, 22, 20, 14, 14) # cell counts
+satisfied <- c(13, 17, 28, 18, 14) # cell counts
+anxious <- c(16, 18, 22, 19, 15) # cell counts
+
+rating <- c("All of the time","Most of the time","Some of the time","Rarely","Never")
+rating2 <- factor(c(rep(rating, happy), 
+                  rep(rating, depressed),
+                  rep(rating, hopeless),
+                  rep(rating, satisfied),
+                  rep(rating, anxious)),
+                  levels = rating)
+
+model <- data.frame(item, rating2)
+
+#Ordinal Logistic Regression Model
+library(MASS)
+logmodel <- polr(rating2 ~ item, data = model, Hess = TRUE)
+summary(logmodel)
+
+#Predictions
+predict(logmodel, newdata = data.frame(item = "Depressed"), type = "p")
+predict(logmodel, newdata = data.frame(item = "Hopeless"), type = "p")
+predict(logmodel, newdata = data.frame(item = "Anxious"), type = "p")
+predict(logmodel, newdata = data.frame(item = "Satisfied"), type = "p")
+predict(logmodel, newdata = data.frame(item = "Happy"), type = "p")
+
+#Probabilities of Each Mood Item Plotted
+a <- factor(predict(logmodel, newdata = data.frame(item = "Depressed"), type = "p"))
+b <- factor(predict(logmodel, newdata = data.frame(item = "Hopeless"), type = "p"))
+c <- factor(predict(logmodel, newdata = data.frame(item = "Anxious"), type = "p"))
+d <- factor(predict(logmodel, newdata = data.frame(item = "Satisfied"), type = "p"))
+e <- factor(predict(logmodel, newdata = data.frame(item = "Happy"), type = "p"))
+
+depcat <- c("Depressed", "Depressed", "Depressed", "Depressed", "Depressed")
+hopelesscat <- c("Hopeless", "Hopeless", "Hopeless", "Hopeless", "Hopeless")
+anxiouscat <- c("Anxious", "Anxious", "Anxious", "Anxious", "Anxious")
+satisfiedcat <- c("Satisfied", "Satisfied", "Satisfied", "Satisfied", "Satisfied")
+happycat <- c("Happy", "Happy", "Happy", "Happy", "Happy")
+
+library(plyr)
+apredict <- data.frame(a, depcat, rating)
+apredict <- (plyr::rename(apredict, c("a"="value", "depcat"="category", "rating" = "rating")))
+bpredict <- data.frame(b, hopelesscat, rating)
+bpredict <- (plyr::rename(bpredict, c("b"="value", "hopelesscat"="category", "rating" = "rating")))
+cpredict <- data.frame(c, anxiouscat, rating)
+cpredict <- (plyr::rename(cpredict, c("c"="value", "anxiouscat"="category", "rating" = "rating")))
+dpredict <- data.frame(d, satisfiedcat, rating)
+dpredict <- (plyr::rename(dpredict, c("d"="value", "satisfiedcat"="category", "rating" = "rating")))
+epredict <- data.frame(e, happycat, rating)
+epredict <- (plyr::rename(epredict, c("e"="value", "happycat"="category", "rating" = "rating")))
+
+total <- rbind(apredict, bpredict)
+total2 <- rbind(total, cpredict)
+total3 <- rbind(total2, dpredict)
+total4 <- rbind(total3, epredict)
+
+total4$value <- as.numeric(as.character(total4$value))
+
+
+library(plotly)
+library(ggplot2)
+
+plot = total4 %>% 
+  ggplot(aes(fill = rating, x = category, y = value, color = rating)) +
+  geom_bar(stat = "identity") +
+    labs(
+    title = "Test",
+    x = "Category",
+    y = "Value"
+    ) +
+  scale_y_continuous(limits=c(0, 1)) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = "bottom")
+
+plot
 ```
 
 

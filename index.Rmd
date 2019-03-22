@@ -10,6 +10,11 @@ title: ""
 background-color: #337ab7;
 }
 
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
 .navbar-default {
 background-color: #337ab7;
 }
