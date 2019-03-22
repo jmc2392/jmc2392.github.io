@@ -60,6 +60,12 @@ Figure 1: Frequency of Various Moods Survey Question <br>
 
 <br>
 
+```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
+knitr::include_graphics("images/depressed.jpg")
+```
+
+<br>
+
 Figure 2: Sample Respondent Answer to Survey Question <br>
 <img src="images/depressed2.jpg" alt="depressed2" style="width:75%; border:1px solid">
 
