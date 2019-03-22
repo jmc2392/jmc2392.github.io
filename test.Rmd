@@ -62,4 +62,4 @@ Figure 1: Distribution of DBD895 <br>
 <img src="images/figure1.jpg" alt="1" style="width:50%; border:1px solid">
 
 Figure 2: Frequency of Various Moods Survey Question <br>
-<img src="images2/depressed2.jpg" alt="dep2" style="width:50%; border:1px solid">
+<img src="images2/test.jpg" alt="dep2" style="width:50%; border:1px solid">
