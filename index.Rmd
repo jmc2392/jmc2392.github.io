@@ -55,7 +55,7 @@ I am currently a second-year graduate student in the Department of Epidemiology 
 
 #### Website
 
-I built this website using R and GitHub so that I could showcase some of the projects that I have worked on over the past couple of years. I tried incorporating projects that showcase my various competencies, including:
+**I built this website using R and GitHub (with a bit of CSS and HTML) so that I could showcase some of the projects that I have worked on over the past couple of years.** I tried incorporating projects that showcase my various competencies, including:
 
 * Usage of various statistical programs and/or languages (e.g., SQL, R, SAS)
 * Ability to write scientific or research papers
@@ -71,7 +71,7 @@ To view my resume, you can click [here](resume.html).
 
 #### Contact Information
 
-Jacky Choi
+Jacky Choi <br>
 Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
 Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
 Phone: 917-216-1621
