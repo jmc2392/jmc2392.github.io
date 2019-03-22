@@ -15,6 +15,8 @@ navbar:
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
           href: ordinalmodel.html
+        - text: "test"
+          href: test.html
           
     - text: "Resume"
       href: resume.html
