@@ -51,6 +51,17 @@ font-weight: bold;
 
 <br> 
 
+###Packages
+```{r packages, echo = TRUE}
+library(knitr)
+library(plotly)
+library(ggplot2)
+library(MASS)
+library(plyr)
+```
+
+<br>
+
 ###Background
 
 At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents' level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.
@@ -222,14 +233,6 @@ Figure 5 plots the expected probability of each rating by mood. We can clearly t
 
 ###Results - R
 We run the same model in R. The R code and output for the model is provided below.
-
-```{r packages, echo = TRUE}
-library(knitr)
-library(plotly)
-library(ggplot2)
-library(MASS)
-library(plyr)
-```
 
 ```{r create_model, echo = TRUE}
 item <- factor(rep(c("Happy", "Depressed", "Hopeless", "Satisfied", "Anxious"), 

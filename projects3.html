@@ -388,6 +388,37 @@ font-weight: bold;
 </ul>
 <p><br></p>
 </div>
+<div id="packages" class="section level3">
+<h3>Packages</h3>
+<pre class="r"><code>library(knitr)
+library(plotly)</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(MASS)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:plotly&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>library(plyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:plotly&#39;:
+## 
+##     arrange, mutate, rename, summarise</code></pre>
+<p><br></p>
+</div>
 <div id="background" class="section level3">
 <h3>Background</h3>
 <p>At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents’ level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.</p>
@@ -592,33 +623,6 @@ font-weight: bold;
 <div id="results---r" class="section level3">
 <h3>Results - R</h3>
 <p>We run the same model in R. The R code and output for the model is provided below.</p>
-<pre class="r"><code>library(knitr)
-library(plotly)</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plotly&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     last_plot</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<pre><code>## The following object is masked from &#39;package:graphics&#39;:
-## 
-##     layout</code></pre>
-<pre class="r"><code>library(ggplot2)
-library(MASS)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:plotly&#39;:
-## 
-##     select</code></pre>
-<pre class="r"><code>library(plyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:plotly&#39;:
-## 
-##     arrange, mutate, rename, summarise</code></pre>
 <pre class="r"><code>item &lt;- factor(rep(c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;), 
         c(90, 90, 90, 90, 90)), 
         levels = c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;))  
