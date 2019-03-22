@@ -67,12 +67,12 @@ library(plyr)
 At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents' level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.
 
 Figure 1: Frequency of Various Moods Survey Question <br>
-<img src="./images/depressed.jpg" alt="depressed1" style="width:75%; border:1px solid"> 
+<img src = "images2/depressed.jpg" alt="depressed1" style="width:75%; border:1px solid"> 
 
 <br>
 
 ```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
-include_graphics("./images/depressed.jpg")
+include_graphics("images2/depressed.jpg")
 ```
 
 <br>
