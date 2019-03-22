@@ -225,7 +225,7 @@ Figure 5 plots the expected probability of each rating by mood. We can clearly t
 ###Results - R
 We run the same model in R. The R code and output for the model is provided below.
 
-```{r packages, include = FALSE}
+```{r packages, echo = TRUE}
 
 library(plotly)
 library(ggplot2)
