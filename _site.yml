@@ -14,7 +14,7 @@ navbar:
     - text: "R Projects"
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
-          href: projects3.html
+          href: ordinalmodel.html
           
     - text: "Resume"
       href: resume.html
