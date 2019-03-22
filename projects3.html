@@ -580,14 +580,18 @@ font-weight: bold;
 <p><br></p>
 <p>Figure 4: Partial SAS Output for Logistic Regression Model <br> <img src="images/depressed4.jpg" alt="depressed4" style="width:75%; border:1px solid"></p>
 <p><br></p>
-<p>From the SAS output above, we can see that the coefficient for the Depressed item is 1.0094, indicating that the log odds of the Depressed item having a lower-numbered rating compared to the Happy item is 1.0094. Recall that a lower-numbered rating indicates that the respondent experienced the mood more frequently. Thus, respondents experienced depressive moods more often than happy moods.</p>
-<p>Note that the SAS output also gives the odds of a respondent picking a lower-numbered rating for each mood item compared to every other mood item (not shown here).</p>
-<p>The relative magnitude of the slopes in the output above imply the ordering of their frequency. Thus, the order of most frequently experienced mood to least frequently experienced mood among these 90 respondents is depressed, hopeless, anxious, satistfied, and happy.</p>
+<p>Figure 5: Probabilities of Ratings, By Mood <br> <img src="images/depressed5.jpg" alt="depressed5" style="width:75%; border:1px solid"></p>
+<p><br></p>
+<p>From Figure 3 in the SAS output above, we can see that the coefficient for the Depressed item is 1.0094, indicating that the log odds of the Depressed item having a lower-numbered rating compared to the Happy item is 1.0094. Recall that a lower-numbered rating indicates that the respondent experienced the mood more frequently. Thus, respondents experienced depressive moods more often than happy moods.</p>
+<p>The relative magnitude of the slopes in Figure 4 above imply the ordering of their frequency. <strong>Thus, the order of most frequently experienced mood to least frequently experienced mood among these 90 respondents is depressed, hopeless, anxious, satistfied, and happy.</strong> Note that Figure 4 also gives the odds of a respondent picking a lower-numbered rating for each mood item compared to the “Happy” item.</p>
+<p>Figure 5 plots the expected probability of each rating by mood. We can clearly tell, just by viewing the figure, that a respondent is more likely to feel depressed all of the time in the past month rather than feel happy all of the time in the past month.</p>
+<p><br></p>
 </div>
 <div id="results---r" class="section level3">
 <h3>Results - R</h3>
 <p>We run the same model in R. The R code and output for the model is provided below.</p>
-<pre class="r"><code>item &lt;- factor(rep(c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;), c(90, 90, 90, 90, 90)), 
+<pre class="r"><code>item &lt;- factor(rep(c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;), 
+        c(90, 90, 90, 90, 90)), 
         levels = c(&quot;Happy&quot;, &quot;Depressed&quot;, &quot;Hopeless&quot;, &quot;Satisfied&quot;, &quot;Anxious&quot;))  
 
 happy &lt;- c(6, 15, 20, 23, 26) # cell counts
@@ -607,16 +611,7 @@ rating2 &lt;- factor(c(rep(rating, happy),
 model &lt;- data.frame(item, rating2)
 
 #Ordinal Logistic Regression Model
-library(MASS)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:plotly&#39;:
-## 
-##     select</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</code></pre>
-<pre class="r"><code>logmodel &lt;- polr(rating2 ~ item, data = model, Hess = TRUE)
+logmodel &lt;- polr(rating2 ~ item, data = model, Hess = TRUE)
 summary(logmodel)</code></pre>
 <pre><code>## Call:
 ## polr(formula = rating2 ~ item, data = model, Hess = TRUE)
@@ -637,6 +632,19 @@ summary(logmodel)</code></pre>
 ## 
 ## Residual Deviance: 1423.476 
 ## AIC: 1439.476</code></pre>
+<p><br></p>
+<p>Based on the R output above, we can see that the results are the same as those derived from the SAS code. R adds on minus signs to the parameters so that a larger positive parameter/coefficient actually indicates respondents’ preference or tendency toward the HIGHER-numbered ratings for that mood item compared to the reference mood item. For instance, as shown below, exponentiating the coefficient for the Depressed item (-1.0094) gives us 0.3644 while exponentiating the coefficient for the Anxious item (-0.7116) gives us 0.4909 - thus, the odds of the Depressed item having a higher-numbered rating compared to the Happy item is 0.3644 while the odds of the Anxious item having a higher-numbered rating compared to the Happy item is 0.4909.</p>
+<pre class="r"><code>exp(coef(logmodel))</code></pre>
+<pre><code>## itemDepressed  itemHopeless itemSatisfied   itemAnxious 
+##     0.3644238     0.3655091     0.5195137     0.4908442</code></pre>
+<p><br></p>
+<p>If we find the inverse of the exponentiation of all the coefficients, we can derive the odds of a mood item having a LOWER-numbered rating compared to the Happy item, as shown below. Note that these odds ratios are the same as those derived in Figure 3 using SAS! <strong>The order of most frequently experienced mood to least frequently experienced mood among these 90 respondents remains the same as that derived in SAS - depressed, hopeless, anxious, satistfied, and happy.</strong></p>
+<pre class="r"><code>or &lt;- 1 / exp(coef(logmodel))
+or</code></pre>
+<pre><code>## itemDepressed  itemHopeless itemSatisfied   itemAnxious 
+##      2.744058      2.735910      1.924877      2.037306</code></pre>
+<p><br></p>
+<p>Lastly, we can recreate Figure 5 and plot the expected probability of each rating by mood.</p>
 <pre class="r"><code>#Predictions
 predict(logmodel, newdata = data.frame(item = &quot;Depressed&quot;), type = &quot;p&quot;)</code></pre>
 <pre><code>##  All of the time Most of the time Some of the time           Rarely 
@@ -663,7 +671,7 @@ predict(logmodel, newdata = data.frame(item = &quot;Depressed&quot;), type = &qu
 ##       0.09187603       0.14060895       0.22153085       0.24824872 
 ##            Never 
 ##       0.29773545</code></pre>
-<pre class="r"><code>#Probabilities of Each Mood Item Plotted
+<pre class="r"><code>#Probabilities of Rating for Each Mood Item, Plotted
 a &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Depressed&quot;), type = &quot;p&quot;))
 b &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Hopeless&quot;), type = &quot;p&quot;))
 c &lt;- factor(predict(logmodel, newdata = data.frame(item = &quot;Anxious&quot;), type = &quot;p&quot;))
@@ -676,34 +684,16 @@ anxiouscat &lt;- c(&quot;Anxious&quot;, &quot;Anxious&quot;, &quot;Anxious&quot;
 satisfiedcat &lt;- c(&quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;, &quot;Satisfied&quot;)
 happycat &lt;- c(&quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;, &quot;Happy&quot;)
 
-library(plyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:plotly&#39;:
-## 
-##     arrange, mutate, rename, summarise</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     compact</code></pre>
-<pre class="r"><code>apredict &lt;- data.frame(a, depcat, rating)
-apredict &lt;- (plyr::rename(apredict, c(&quot;a&quot;=&quot;value&quot;, &quot;depcat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+apredict &lt;- data.frame(a, depcat, rating)
+apredict &lt;- (plyr::rename(apredict, c(&quot;a&quot;=&quot;value&quot;, &quot;depcat&quot;=&quot;category&quot;)))
 bpredict &lt;- data.frame(b, hopelesscat, rating)
-bpredict &lt;- (plyr::rename(bpredict, c(&quot;b&quot;=&quot;value&quot;, &quot;hopelesscat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+bpredict &lt;- (plyr::rename(bpredict, c(&quot;b&quot;=&quot;value&quot;, &quot;hopelesscat&quot;=&quot;category&quot;)))
 cpredict &lt;- data.frame(c, anxiouscat, rating)
-cpredict &lt;- (plyr::rename(cpredict, c(&quot;c&quot;=&quot;value&quot;, &quot;anxiouscat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+cpredict &lt;- (plyr::rename(cpredict, c(&quot;c&quot;=&quot;value&quot;, &quot;anxiouscat&quot;=&quot;category&quot;)))
 dpredict &lt;- data.frame(d, satisfiedcat, rating)
-dpredict &lt;- (plyr::rename(dpredict, c(&quot;d&quot;=&quot;value&quot;, &quot;satisfiedcat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+dpredict &lt;- (plyr::rename(dpredict, c(&quot;d&quot;=&quot;value&quot;, &quot;satisfiedcat&quot;=&quot;category&quot;)))
 epredict &lt;- data.frame(e, happycat, rating)
-epredict &lt;- (plyr::rename(epredict, c(&quot;e&quot;=&quot;value&quot;, &quot;happycat&quot;=&quot;category&quot;, &quot;rating&quot; = &quot;rating&quot;)))
+epredict &lt;- (plyr::rename(epredict, c(&quot;e&quot;=&quot;value&quot;, &quot;happycat&quot;=&quot;category&quot;)))
 
 total &lt;- rbind(apredict, bpredict)
 total2 &lt;- rbind(total, cpredict)
@@ -712,15 +702,11 @@ total4 &lt;- rbind(total3, epredict)
 
 total4$value &lt;- as.numeric(as.character(total4$value))
 
-
-library(plotly)
-library(ggplot2)
-
 plot = total4 %&gt;% 
   ggplot(aes(fill = rating, x = category, y = value, color = rating)) +
   geom_bar(stat = &quot;identity&quot;) +
     labs(
-    title = &quot;Test&quot;,
+    title = &quot;Probability of Each Rating, By Category&quot;,
     x = &quot;Category&quot;,
     y = &quot;Value&quot;
     ) +
