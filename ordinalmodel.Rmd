@@ -53,11 +53,9 @@ font-weight: bold;
 
 ###Packages
 ```{r packages, echo = TRUE}
-library(knitr)
-library(plotly)
-library(ggplot2)
 library(MASS)
-library(plyr)
+library(dplyr)
+library(ggplot2)
 ```
 
 <br>
@@ -75,7 +73,7 @@ Figure 1: Frequency of Various Moods Survey Question <br>
 <br>
 
 ```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
-include_graphics("images2/depressed.jpg")
+knitr::include_graphics("images2/depressed.jpg")
 ```
 
 <br>
