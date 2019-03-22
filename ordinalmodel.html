@@ -412,12 +412,10 @@ library(dplyr)</code></pre>
 <div id="background" class="section level3">
 <h3>Background</h3>
 <p>At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents’ level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.</p>
-<p>Figure 1: Frequency of Various Moods Survey Question <br> <img src = "images2/depressed.JPG" alt="depressed11" style="width:75%; border:1px solid"></p>
-<p>Figure 1: Frequency of Various Moods Survey Question <br> <img src = "depressed.jpg" alt="depressed10" style="width:75%; border:1px solid"></p>
+<p>Figure 1: Frequency of Various Moods Survey Question <br> <img src = "images2/depressed.JPG" alt="depressed" style="width:75%; border:1px solid"></p>
+<p><img src="images2/depressed.JPG" width="75%" style="background-color: #000000; padding:1px; display: inline-block;" /></p>
 <p><br></p>
-<p><img src="images2/depressed.jpg" width="75%" style="background-color: #000000; padding:1px; display: inline-block;" /></p>
-<p><br></p>
-<p>Figure 2: Sample Respondent Answer to Survey Question <br> <img src="images/depressed2.jpg" alt="depressed2" style="width:75%; border:1px solid"></p>
+<p>Figure 2: Sample Respondent Answer to Survey Question <br> <img src="images2/depressed2.JPG" alt="depressed2" style="width:75%; border:1px solid"></p>
 <p><br></p>
 </div>
 <div id="methods" class="section level3">
@@ -600,11 +598,11 @@ library(dplyr)</code></pre>
 <div id="results---sas" class="section level3">
 <h3>Results - SAS</h3>
 <p>The SAS code and output for the model is provided below.</p>
-<p>Figure 3: SAS Code for Logistic Regression Model <br> <img src="images/depressed3.jpg" alt="depressed3" style="width:75%; border:1px solid"></p>
+<p>Figure 3: SAS Code for Logistic Regression Model <br> <img src="images2/depressed3.JPG" alt="depressed3" style="width:75%; border:1px solid"></p>
 <p><br></p>
-<p>Figure 4: Partial SAS Output for Logistic Regression Model <br> <img src="images/depressed4.jpg" alt="depressed4" style="width:75%; border:1px solid"></p>
+<p>Figure 4: Partial SAS Output for Logistic Regression Model <br> <img src="images2/depressed4.JPG" alt="depressed4" style="width:75%; border:1px solid"></p>
 <p><br></p>
-<p>Figure 5: Probabilities of Ratings, By Mood <br> <img src="images/depressed5.jpg" alt="depressed5" style="width:75%; border:1px solid"></p>
+<p>Figure 5: Probabilities of Ratings, By Mood <br> <img src="images2/depressed5.JPG" alt="depressed5" style="width:75%; border:1px solid"></p>
 <p><br></p>
 <p>From Figure 3 in the SAS output above, we can see that the coefficient for the Depressed item is 1.0094, indicating that the log odds of the Depressed item having a lower-numbered rating compared to the Happy item is 1.0094. Recall that a lower-numbered rating indicates that the respondent experienced the mood more frequently. Thus, respondents experienced depressive moods more often than happy moods.</p>
 <p>The relative magnitude of the slopes in Figure 4 above imply the ordering of their frequency. <strong>Thus, the order of most frequently experienced mood to least frequently experienced mood among these 90 respondents is depressed, hopeless, anxious, satistfied, and happy.</strong> Note that Figure 4 also gives the odds of a respondent picking a lower-numbered rating for each mood item compared to the “Happy” item.</p>

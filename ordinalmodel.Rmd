@@ -65,21 +65,17 @@ library(ggplot2)
 At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents' level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.
 
 Figure 1: Frequency of Various Moods Survey Question <br>
-<img src = "images2/depressed.JPG" alt="depressed11" style="width:75%; border:1px solid"> 
+<img src = "images2/depressed.JPG" alt="depressed" style="width:75%; border:1px solid"> 
 
-Figure 1: Frequency of Various Moods Survey Question <br>
-<img src = "depressed.jpg" alt="depressed10" style="width:75%; border:1px solid"> 
-
-<br>
 
 ```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
-knitr::include_graphics("images2/depressed.jpg")
+knitr::include_graphics("images2/depressed.JPG")
 ```
 
 <br>
 
 Figure 2: Sample Respondent Answer to Survey Question <br>
-<img src="images/depressed2.jpg" alt="depressed2" style="width:75%; border:1px solid">
+<img src="images2/depressed2.JPG" alt="depressed2" style="width:75%; border:1px solid">
 
 <br>
 
@@ -210,17 +206,17 @@ I ran an ordinal logistic regression model (proportional odds model) on the data
 The SAS code and output for the model is provided below.
 
 Figure 3: SAS Code for Logistic Regression Model <br>
-<img src="images/depressed3.jpg" alt="depressed3" style="width:75%; border:1px solid"> 
+<img src="images2/depressed3.JPG" alt="depressed3" style="width:75%; border:1px solid"> 
 
 <br>
 
 Figure 4: Partial SAS Output for Logistic Regression Model <br>
-<img src="images/depressed4.jpg" alt="depressed4" style="width:75%; border:1px solid"> 
+<img src="images2/depressed4.JPG" alt="depressed4" style="width:75%; border:1px solid"> 
 
 <br>
 
 Figure 5: Probabilities of Ratings, By Mood <br>
-<img src="images/depressed5.jpg" alt="depressed5" style="width:75%; border:1px solid"> 
+<img src="images2/depressed5.JPG" alt="depressed5" style="width:75%; border:1px solid"> 
 
 <br>
 
