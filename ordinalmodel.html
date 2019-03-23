@@ -315,8 +315,17 @@ div.tocify {
     <li>
       <a href="ordinalmodel.html">Analyzing Likert Scale of Depressive Symptoms</a>
     </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Biostatistical Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="test.html">test</a>
+      <a href="malaria.html">Proposal for Phase III RCT</a>
     </li>
   </ul>
 </li>
@@ -393,27 +402,23 @@ font-weight: bold;
 </div>
 <div id="packages" class="section level3">
 <h3>Packages</h3>
-<pre class="r"><code>library(MASS)
-library(dplyr)</code></pre>
+<pre class="r"><code>library(MASS)</code></pre>
 <pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:plotly&#39;:
 ## 
 ##     select</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
 ## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(ggplot2)</code></pre>
+##     select</code></pre>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)</code></pre>
 <p><br></p>
 </div>
 <div id="background" class="section level3">
 <h3>Background</h3>
 <p>At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a baseline survey containing questions about respondents’ level and frequency of various moods was administered. Researchers gathered responses from 90 individuals in the experimental group and now want to determine the ranking of their responses for one survey question that used a Likert scale - specifically, they want to know whether respondents experienced certain depressive symptoms more often than others. Figure 1 displays the survey question being analyzed and Figure 2 displays a sample respondent answer.</p>
 <p>Figure 1: Frequency of Various Moods Survey Question <br> <img src = "images2/depressed.JPG" alt="depressed" style="width:75%; border:1px solid"></p>
-<p><img src="images2/depressed.JPG" width="75%" style="background-color: #000000; padding:1px; display: inline-block;" /></p>
 <p><br></p>
 <p>Figure 2: Sample Respondent Answer to Survey Question <br> <img src="images2/depressed2.JPG" alt="depressed2" style="width:75%; border:1px solid"></p>
 <p><br></p>
