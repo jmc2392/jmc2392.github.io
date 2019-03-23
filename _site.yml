@@ -15,8 +15,10 @@ navbar:
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
           href: ordinalmodel.html
-        - text: "test"
-          href: test.html
+    - text: "Biostatistical Projects"
+      menu:
+        - text: "Proposal for Phase III RCT"
+          href: malaria.html
           
     - text: "Resume"
       href: resume.html
