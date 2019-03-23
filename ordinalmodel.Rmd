@@ -67,11 +67,6 @@ At the beginning of the Work-Focused Intervention for Depression (WFID) trial, a
 Figure 1: Frequency of Various Moods Survey Question <br>
 <img src = "images2/depressed.JPG" alt="depressed" style="width:75%; border:1px solid"> 
 
-
-```{r resume, echo = FALSE, out.width = "75%", out.extra='style="background-color: #000000; padding:1px; display: inline-block;"'}
-knitr::include_graphics("images2/depressed.JPG")
-```
-
 <br>
 
 Figure 2: Sample Respondent Answer to Survey Question <br>
