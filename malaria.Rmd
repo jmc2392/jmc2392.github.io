@@ -48,7 +48,7 @@ font-weight: bold;
 
 * Research Report Writing
 * Biostatistics
-* Survival Analysis
+* Clinical Trial Design
 
 <br>
 
