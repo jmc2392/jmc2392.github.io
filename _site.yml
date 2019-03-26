@@ -5,17 +5,21 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "SAS Projects"
+    - text: "Exploratory Data Analysis"
+      menu:
+        - text: "Exploring Activity Trends and Patterns Using EDA"
+          href: exploratory1.html
+    - text: "Data Analysis - SAS"
       menu:
         - text: "Alcohol and Smoking Using NHANES"
           href: NHANES1.html
         - text: "Away-From-Home Meals and BMI"
           href: NHANES2.html
-    - text: "R Projects"
+    - text: "Data - Analysis - R"
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
           href: ordinalmodel.html
-    - text: "Biostatistical Projects"
+    - text: "Biostatistics"
       menu:
         - text: "Proposal for Phase III RCT"
           href: malaria.html
