@@ -1,0 +1,119 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<br>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+## Exploring Activity Trends and Patterns Using EDA
+
+<br>
+
+###Skills 
+
+* Exploratory Data Analysis (EDA)
+* Data Wrangling
+* Data Visualization
+* R
+
+<br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ out.width = "100%"
+)
+
+library(tidyverse)
+library(skimr)
+```
+
+
+## Introduction
+
+Accelerometers have become an increasingly important tool for studying around-the-clock physical activity in studies. Levels of activities can be counted by measuring voltage signals on a patient within a short span of time. The goal of this project is to summarize trends and patterns from data collected on a male patient who wore an accerlerometer device that recorded his physical activity for several months.
+
+Researchers specifically want to understand his patterns of physical activity over periods of time; thus, some important questions to explore include, but are not limited to:
+
+* How does the patient's activity level change over the course of the day?
+* Does the patient become active over time?
+* Does the day of the week affect activity levels? Does the week of the year affect activity levels?
+* What is the patient's 24-hour activity profile for each day? How does time affect the profiles?
+
+<br>
+
+## Data and Methods
+
+The patient is a 63-year-old male individual with congestive heart failure (CHF). The data for the patient can be found [here](data/p8105_mtp_data.csv). The variables in the spreadsheet are:
+
+<p> `week`: Number indicating week of observational period <br> <p> 
+`day`: Day of the week <br> <p>
+`activity.*`: Activity count (measure of activity levels). Numbers replacing asterisk indicate the minute of day (e.g., `activity.3` contains the activity count for the 3rd minute after midnight for that particular day) <br> <p>
+
+<br>
+
+## Results
+
+<br>
+
+### Tidying Data
+
+After importing the data, we clean up the data by renaming variables, ordering the data by day of the week (Sunday first), creating a variable that indicates the exact minute of the observational period (`overall_minutes`), and creating a variable that numerically indicates the day of the observational period (`overall_days`).
+
+```{r tidy_data, centering = TRUE}
+activity = read_csv("data/p8105_mtp_data.csv", col_types = cols()) %>% 
+  janitor::clean_names() %>%
+  mutate(day = fct_relevel(day, str_c(c("Sunday", "Monday", "Tuesday", "Wednesday",
+                                        "Thursday", "Friday", "Saturday")))) %>% 
+  arrange(week, day) %>% 
+  mutate(overall_day = seq(1:nrow(.))) %>% 
+  gather(key = minute_of_day, value = activity_count, activity_1:activity_1440) %>% 
+  separate(minute_of_day, into = c("activity", "minute_of_day"), sep = "_") %>% 
+  select(-activity) %>% 
+  mutate(minute_of_day = as.numeric(minute_of_day)) %>% 
+  mutate(overall_minutes = seq(1:nrow(.))) 
+
+activity
+```
+
+<br>
+
+```{r}
+summary(activity)
+
+```
+

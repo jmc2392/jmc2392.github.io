@@ -62,7 +62,7 @@ I am currently a second-year graduate student in the Department of Epidemiology 
 * Understanding of how to clean, manipulate, and analyze data
 * Knowledge of how to apply various regression techniques and interpret models (e.g., linear, logistic)
 
-Please take the time to glance at some of the projects on this website!
+Note that all projects use hypothetical data, with the exception of the NHANES projects.
 
 To view my resume, you can click [here](resume.html).
 
@@ -75,3 +75,12 @@ Jacky Choi <br>
 Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
 Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
 Phone: 917-216-1621
+
+<br>
+
+#### Copyright
+
+Copyright © 2019 Jacky Choi
+
+All rights reserved. This website or any portion thereof may not be reproduced or used in any manner whatsoever
+without the express written permission of the author.
