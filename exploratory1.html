@@ -182,7 +182,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4,h5",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -191,7 +191,7 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = false;
+    options.showAndHide = true;
     options.smoothScroll = true;
 
     // tocify
@@ -254,12 +254,6 @@ div.tocify {
   border-radius: 0px;
 }
 
-.tocify-subheader {
-  display: inline;
-}
-.tocify-subheader .tocify-item {
-  font-size: 0.95em;
-}
 
 </style>
 
@@ -399,6 +393,16 @@ font-weight: bold;
 }
 
 </style>
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
 <div id="exploring-activity-trends-and-patterns-using-eda" class="section level2">
 <h2>Exploring Activity Trends and Patterns Using EDA</h2>
 <p><br></p>
@@ -412,9 +416,8 @@ font-weight: bold;
 </ul>
 <p><br></p>
 </div>
-</div>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
 <p>Accelerometers have become an increasingly important tool for studying around-the-clock physical activity in studies. Levels of activities can be counted by measuring voltage signals on a patient within a short span of time. The goal of this project is to summarize trends and patterns from data collected on a male patient who wore an accerlerometer device that recorded his physical activity for several months.</p>
 <p>Researchers specifically want to understand his patterns of physical activity over periods of time; thus, some important questions to explore include, but are not limited to:</p>
 <ul>
@@ -425,53 +428,167 @@ font-weight: bold;
 </ul>
 <p><br></p>
 </div>
-<div id="data-and-methods" class="section level2">
-<h2>Data and Methods</h2>
+<div id="data-and-methods" class="section level3">
+<h3>Data and Methods</h3>
 <p>The patient is a 63-year-old male individual with congestive heart failure (CHF). The data for the patient can be found <a href="data/p8105_mtp_data.csv">here</a>. The variables in the spreadsheet are:</p>
 <p>
 <code>week</code>: Number indicating week of observational period <br>
 <p>
 <code>day</code>: Day of the week <br>
 <p>
-<code>activity.*</code>: Activity count (measure of activity levels). Numbers replacing asterisk indicate the minute of day (e.g., <code>activity.3</code> contains the activity count for the 3rd minute after midnight for that particular day) <br>
+<code>activity.*</code>: Activity count (measure of activity levels). Numbers replacing asterisk indicate the minute of day on which the activity level was captured (e.g., <code>activity.3</code> contains the activity count for the 3rd minute after midnight for that particular day) <br>
 <p>
 <p><br></p>
 </div>
-<div id="results" class="section level2">
-<h2>Results</h2>
+<div id="results" class="section level3">
+<h3>Results</h3>
 <p><br></p>
-<div id="tidying-data" class="section level3">
-<h3>Tidying Data</h3>
-<p>After importing the data, we clean up the data by renaming variables, ordering the data by day of the week (Sunday first), creating a variable that indicates the exact minute of the observational period (<code>overall_minutes</code>), and creating a variable that numerically indicates the day of the observational period (<code>overall_days</code>).</p>
+<div id="tidying-data" class="section level4">
+<h4>Tidying Data</h4>
+<p>After importing the data, we clean up the data by renaming variables, ordering the data by day of the week (Sunday first), creating a variable that indicates each day of the observational period (<code>overall_days</code>), and creating a variable that indicates each minute of the observational period (<code>overall_minutes</code>).</p>
 <pre class="r"><code>activity = read_csv(&quot;data/p8105_mtp_data.csv&quot;, col_types = cols()) %&gt;% 
   janitor::clean_names() %&gt;%
   mutate(day = fct_relevel(day, str_c(c(&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;,
                                         &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;)))) %&gt;% 
   arrange(week, day) %&gt;% 
-  mutate(overall_day = seq(1:nrow(.))) %&gt;% 
+  mutate(overall_day = seq(1:nrow(.))) %&gt;%
   gather(key = minute_of_day, value = activity_count, activity_1:activity_1440) %&gt;% 
   separate(minute_of_day, into = c(&quot;activity&quot;, &quot;minute_of_day&quot;), sep = &quot;_&quot;) %&gt;% 
   select(-activity) %&gt;% 
   mutate(minute_of_day = as.numeric(minute_of_day)) %&gt;% 
-  mutate(overall_minutes = seq(1:nrow(.))) 
-
-activity</code></pre>
-<pre><code>## # A tibble: 473,760 x 6
-##     week day       overall_day minute_of_day activity_count overall_minutes
-##    &lt;int&gt; &lt;fct&gt;           &lt;int&gt;         &lt;dbl&gt;          &lt;dbl&gt;           &lt;int&gt;
-##  1     1 Sunday              1             1             1                1
-##  2     1 Monday              2             1             1                2
-##  3     1 Tuesday             3             1             1                3
-##  4     1 Wednesday           4             1             1                4
-##  5     1 Thursday            5             1             1                5
-##  6     1 Friday              6             1             1                6
-##  7     1 Saturday            7             1             1                7
-##  8     2 Sunday              8             1             1                8
-##  9     2 Monday              9             1             1                9
-## 10     2 Tuesday            10             1            22.              10
-## # ... with 473,750 more rows</code></pre>
+  arrange(week, day, overall_day) %&gt;% 
+  mutate(overall_minutes = seq(1:nrow(.))) </code></pre>
 <p><br></p>
-<pre class="r"><code>summary(activity)</code></pre>
+<p>We can examine the head and tail ends of the dataset (shown below) to make sure that we cleaned our data properly.</p>
+<pre class="r"><code>kable(head(activity))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">week</th>
+<th align="center">day</th>
+<th align="center">overall_day</th>
+<th align="center">minute_of_day</th>
+<th align="center">activity_count</th>
+<th align="center">overall_minutes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">6</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(tail(activity))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">week</th>
+<th align="center">day</th>
+<th align="center">overall_day</th>
+<th align="center">minute_of_day</th>
+<th align="center">activity_count</th>
+<th align="center">overall_minutes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1435</td>
+<td align="center">1</td>
+<td align="center">473755</td>
+</tr>
+<tr class="even">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1436</td>
+<td align="center">1</td>
+<td align="center">473756</td>
+</tr>
+<tr class="odd">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1437</td>
+<td align="center">1</td>
+<td align="center">473757</td>
+</tr>
+<tr class="even">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1438</td>
+<td align="center">1</td>
+<td align="center">473758</td>
+</tr>
+<tr class="odd">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1439</td>
+<td align="center">1</td>
+<td align="center">473759</td>
+</tr>
+<tr class="even">
+<td align="center">47</td>
+<td align="center">Saturday</td>
+<td align="center">329</td>
+<td align="center">1440</td>
+<td align="center">1</td>
+<td align="center">473760</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>I run a <code>summary</code> function to examine the distribution of the variables. We can see that the patient was studied over 473,760 minutes (47 weeks; 329 days). His activity levels ranged from 1 to 10,417 units; 240.3 units was the mean. There were no activity levels below 1 unit, signifying that 1 unit could have been an indication of extremely minimal or no activity in this case, or that the accelerometer device was removed at this time. The mean for activity count (240.3) is moderately greater than its media (43.0), suggesting that activity count is right-skewed; we are probably more likely to encounter lower levels of activity levels rather than higher levels.</p>
+<pre class="r"><code>(summary(activity))</code></pre>
 <pre><code>##       week           day         overall_day  minute_of_day   
 ##  Min.   : 1   Sunday   :67680   Min.   :  1   Min.   :   1.0  
 ##  1st Qu.:12   Monday   :67680   1st Qu.: 83   1st Qu.: 360.8  
@@ -488,6 +605,260 @@ activity</code></pre>
 ##  3rd Qu.:  335.0   3rd Qu.:355320  
 ##  Max.   :10417.0   Max.   :473760  
 ## </code></pre>
+<p><br></p>
+</div>
+<div id="activity-levels-over-time---days" class="section level4">
+<h4>Activity Levels Over Time - Days</h4>
+<p>We use the <code>ggplot</code> function to determine whether the patient increased activity levels over the span of the observational period; we run a regression line through the plots and can see that activity levels seem to increase over time.</p>
+<pre class="r"><code>total_activity =
+  activity %&gt;% 
+  group_by(week, day, overall_day) %&gt;% 
+  summarise(total_per_day = as.integer(sum(activity_count))) 
+
+kable(head(total_activity, 15))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">week</th>
+<th align="center">day</th>
+<th align="center">overall_day</th>
+<th align="center">total_per_day</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Sunday</td>
+<td align="center">1</td>
+<td align="center">196937</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Monday</td>
+<td align="center">2</td>
+<td align="center">432750</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Tuesday</td>
+<td align="center">3</td>
+<td align="center">297427</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Wednesday</td>
+<td align="center">4</td>
+<td align="center">369435</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Thursday</td>
+<td align="center">5</td>
+<td align="center">366178</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Friday</td>
+<td align="center">6</td>
+<td align="center">416165</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Saturday</td>
+<td align="center">7</td>
+<td align="center">1440</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Sunday</td>
+<td align="center">8</td>
+<td align="center">1440</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Monday</td>
+<td align="center">9</td>
+<td align="center">275174</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Tuesday</td>
+<td align="center">10</td>
+<td align="center">293201</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Wednesday</td>
+<td align="center">11</td>
+<td align="center">346427</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Thursday</td>
+<td align="center">12</td>
+<td align="center">345304</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Friday</td>
+<td align="center">13</td>
+<td align="center">387241</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Saturday</td>
+<td align="center">14</td>
+<td align="center">1492</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Sunday</td>
+<td align="center">15</td>
+<td align="center">1440</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>act_graph =
+  activity %&gt;% 
+  group_by(week, day, overall_day) %&gt;% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %&gt;% 
+  ggplot(aes(y = total_per_day, x = overall_day)) +
+  geom_line(alpha = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, size = 0.5, color = &quot;red&quot;, se = FALSE) +
+  labs(
+    title = &quot;Total Activity For Each of 329 Days&quot;,
+    x = &quot;Day of Observational Period&quot;,
+    y = &quot;Total Activity Levels&quot;
+  )
+
+act_graph</code></pre>
+<p><img src="exploratory1_files/figure-html/activity_over_day-1.png" width="100%" /></p>
+<p><br></p>
+<div id="statistical-analysis" class="section level5">
+<h5>Statistical Analysis</h5>
+<p>I run a formal statistical analysis to determine whether the association between total activity levels per day and the day of the observational period (i.e., time) is statistically significant. From the output below, we see that the parameter estimate for <code>overall_day</code> is around 573; thus, for every 1 day of the observational period that passes, the patient increased his total activity levels by 573 units, on average. The p-value is less than 0.05, indicating that this association is statistically significant - the patient did increase overall activity levels over time.</p>
+<pre class="r"><code>regression &lt;- lm(total_activity$total_per_day ~ total_activity$overall_day)
+tidy(summary(regression))</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   term                       estimate std.error statistic  p.value
+##   &lt;chr&gt;                         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)                 251538.   15716.      16.0  5.54e-43
+## 2 total_activity$overall_day     573.      82.6      6.94 2.10e-11</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="variation-in-activity-levels" class="section level4">
+<h4>Variation in Activity Levels</h4>
+<p>I now want to examine whether there is any variation in activity levels by day of the week. The median activity levels of all 47 weeks for each day of the week is included below. We notice that Friday, Saturday, Thursday, and Sunday have the highest median activity levels.</p>
+<pre class="r"><code>median_act = 
+  total_activity %&gt;% 
+  group_by(day) %&gt;% 
+  summarise(median_per_day = as.integer(median(total_per_day)))
+
+kable(median_act[order(-median_act$median_per_day),])</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">day</th>
+<th align="center">median_per_day</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Friday</td>
+<td align="center">416165</td>
+</tr>
+<tr class="even">
+<td align="center">Saturday</td>
+<td align="center">375047</td>
+</tr>
+<tr class="odd">
+<td align="center">Thursday</td>
+<td align="center">371230</td>
+</tr>
+<tr class="even">
+<td align="center">Sunday</td>
+<td align="center">365415</td>
+</tr>
+<tr class="odd">
+<td align="center">Wednesday</td>
+<td align="center">346681</td>
+</tr>
+<tr class="even">
+<td align="center">Monday</td>
+<td align="center">341906</td>
+</tr>
+<tr class="odd">
+<td align="center">Tuesday</td>
+<td align="center">319019</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>I plot the activity levels over 47 weeks for each day to visually examine the impact of day of the week on activity levels. We can see that the slope of the regression lines seems to be higher for Friday, Saturday, and Sunday, suggesting that the patient is more active during those days and that our plots match what we discovered from our table above.</p>
+<pre class="r"><code>daily_act = 
+  activity %&gt;% 
+  group_by(week, day, overall_day) %&gt;% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %&gt;%
+  ggplot(aes(x = week, y = total_per_day, color = day)) +
+  geom_boxplot() +
+  geom_point() +
+    labs(
+    title = &quot;Activity Over 47 Weeks - By Each Day&quot;,
+    x = &quot;Week&quot;,
+    y = &quot;Total Activity Levels&quot;
+    ) +
+  scale_x_continuous(breaks = c(0, 10, 20, 30, 40, 50),
+                     labels = c(&quot;0&quot;, &quot;10&quot;, &quot;20&quot;, &quot;30&quot;, &quot;40&quot;, &quot;50&quot;)) + 
+  scale_y_continuous(labels = c(&quot;0&quot;, &quot;200,000&quot;, &quot;400,000&quot;, &quot;600,000&quot;, &quot;800,000&quot;)) +
+  geom_smooth(method = &quot;lm&quot;, size = 0.5, color = &quot;red&quot;, se = FALSE) +
+  facet_grid(~day) +
+  theme(legend.position = &quot;bottom&quot;)
+
+daily_act</code></pre>
+<p><img src="exploratory1_files/figure-html/daily_profiles-1.png" width="985" /></p>
+<p><br></p>
+<div id="statistical-analysis-1" class="section level5">
+<h5>Statistical Analysis</h5>
+<p>I run a formal statistical analysis to determine whether activity levels varied by day of the week, after adjusting for the day of the observational period (i.e., time). Sunday was used as the reference category. From the output below, we see that the parameter estimates for most of the days are negative, suggesting a lower activity level for most of the days in comparison to Sunday. Furthermore, the parameter estimates for <code>total_activity$dayMonday</code> to <code>total_activity$daySaturday</code> all have a p-value above 0.05, indicating that the association is not statistically significant, after adjusting for time. Thus, there was not a statistically significant difference in activity levels by day of the week, after adjusting for time.</p>
+<pre class="r"><code>regression2 &lt;- lm(total_activity$total_per_day ~ total_activity$day + total_activity$week)
+tidy(summary(regression2))</code></pre>
+<pre><code>## # A tibble: 8 x 5
+##   term                        estimate std.error statistic  p.value
+##   &lt;chr&gt;                          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)                  263730.    24786.    10.6   7.56e-23
+## 2 total_activity$dayMonday     -42278.    29138.    -1.45  1.48e- 1
+## 3 total_activity$dayTuesday    -52483.    29138.    -1.80  7.26e- 2
+## 4 total_activity$dayWednesday  -19462.    29138.    -0.668 5.05e- 1
+## 5 total_activity$dayThursday    -3654.    29138.    -0.125 9.00e- 1
+## 6 total_activity$dayFriday      30313.    29138.     1.04  2.99e- 1
+## 7 total_activity$daySaturday    -6882.    29138.    -0.236 8.13e- 1
+## 8 total_activity$week            3994.      574.     6.96  1.97e-11</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="hour-activity-profiles" class="section level4">
+<h4>24-Hour Activity Profiles</h4>
+<p>Lastly, I create 24-hour activity profiles for each day of the week aggregating data from all 47 weeks. We see higher peaks for Thursday, Friday, and Sunday toward the evenings, which again supports our theory that the patient tends to be more overall active during the later days of the week.</p>
+<pre class="r"><code>minute_act = 
+  activity %&gt;% 
+  group_by(minute_of_day, day) %&gt;% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %&gt;%
+  ggplot(aes(x = minute_of_day / 60, y = total_per_day, color = day)) +
+  geom_point() +
+    labs(
+    title = &quot;Activity Over 24 Hours - By Each Day&quot;,
+    x = &quot;Hour&quot;,
+    y = &quot;Total Activity Levels&quot;
+    ) +
+  geom_smooth(size = 0.5, color = &quot;red&quot;) +
+  facet_grid(~day) +
+  theme(legend.position = &quot;bottom&quot;)
+
+minute_act</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="exploratory1_files/figure-html/24_hour_profiles-1.png" width="985" /></p>
+</div>
 </div>
 </div>
 

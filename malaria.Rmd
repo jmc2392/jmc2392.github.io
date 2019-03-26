@@ -39,6 +39,17 @@ font-weight: bold;
 
 </style>
 
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
 ## Proposal for Phase III RCT: Vitamin C Supplementation and Malaria Prophylaxis (VCSMP Study)
 
 
@@ -105,7 +116,7 @@ font-weight: bold;
 
 <br>
 
-####iv) Inclusion and Exclusion Criteria 
+####iv) Inclusion/Exclusion Criteria 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inclusion Criteria: Individuals must 1) Be born in Ghana; 2) Be a current resident of Ghana; 3) Be aged 21-65; 4) Not have a history of uncomplicated or severe malaria; 5) Not currently have uncomplicated or severe malaria; 6) Not be taking any other vitamin supplements
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Regarding the inclusion criteria, it is critical that patients do not currently have uncomplicated or severe malaria, as this is the outcome that we are examining in this trial. Furthermore, patients should not have a history of uncomplicated or severe malaria, as malaria caused by certain Plasmodium parasites can remain dormant in their bodies and re-emerge at a later point in life, which would complicate study results. Lastly, individuals must be aged 21-65 because the trial is focused on examining treatment effects on Ghananian adults as opposed to children.  
@@ -121,7 +132,7 @@ font-weight: bold;
 
 <br>
 
-####vi) Data Coordination and Trial Management 
+####vi) Data Coordination 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For this trial, there will be a Data Coordinating Center (DCC) and Clinical Trial Management (CTM) resources at a level appropriate for the proposed trial. A DCC is responsible for the collection, storage, and maintenance of data obtained from a multi-site trial. A CTM is a system and process by which researchers are able to logistically and operationally manage and carry out essential functions and duties of a clinical trial. Because this is a proposed multi-site trial, both the DCC and CTM will be critical assets for the researchers in order for the trial to run smoothly. The DCC must have the capability to manage and sift through large amounts of data across multiple locations, maintain clear and constant communication regarding any data inconsistencies and issues with the researchers, contain experienced data managers and trial coordinators with exceptional organizational skills, and work extensively to protect and secure the data. A CTM must streamline the entire trial process smoothly, adequately help the research team plan and process various duties and functions pertinent to the success of the trial, and help the team manage their work flow. 
 
 <br>
@@ -131,7 +142,7 @@ font-weight: bold;
 
 <br>
 
-###4.0 Data Collection and Patient Follow-up
+###4.0 Data Collection and Timeline
 
 <br>
 

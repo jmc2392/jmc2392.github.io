@@ -393,6 +393,16 @@ font-weight: bold;
 }
 
 </style>
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
 <div id="proposal-for-phase-iii-rct-vitamin-c-supplementation-and-malaria-prophylaxis-vcsmp-study" class="section level2">
 <h2>Proposal for Phase III RCT: Vitamin C Supplementation and Malaria Prophylaxis (VCSMP Study)</h2>
 <p><br></p>
@@ -452,8 +462,8 @@ font-weight: bold;
 <p>     Furthermore, patients will be stratified by site. Since different sites can vary tremendously in terms of potential confounders and other factors that may obscure results, it is critical to stratify by site so that randomization is balanced across all sites; in other words, stratifying by site prevents any site-specific issues from affecting the treatment effect in our trial. The trial will not stratify by any other variables, for several reasons. First, I want to minimize the potential for overstratifying, as doing so would underpower our trial and require a larger sample size (e.g, more sites) for our trial. This, in turn, increases costs and burden. Second, overall randomization beforehand already adjusts for imbalances between known and unknown confounders, so stratifying by factors in addition to site is often not necessary. Lastly, stratifying solely by site keeps the randomization lists per site minimal and easily manageable. Stratification will occur prior to blocking.</p>
 <p><br></p>
 </div>
-<div id="iv-inclusion-and-exclusion-criteria" class="section level4">
-<h4>iv) Inclusion and Exclusion Criteria</h4>
+<div id="iv-inclusionexclusion-criteria" class="section level4">
+<h4>iv) Inclusion/Exclusion Criteria</h4>
 <p>     Inclusion Criteria: Individuals must 1) Be born in Ghana; 2) Be a current resident of Ghana; 3) Be aged 21-65; 4) Not have a history of uncomplicated or severe malaria; 5) Not currently have uncomplicated or severe malaria; 6) Not be taking any other vitamin supplements</p>
 <p>     Regarding the inclusion criteria, it is critical that patients do not currently have uncomplicated or severe malaria, as this is the outcome that we are examining in this trial. Furthermore, patients should not have a history of uncomplicated or severe malaria, as malaria caused by certain Plasmodium parasites can remain dormant in their bodies and re-emerge at a later point in life, which would complicate study results. Lastly, individuals must be aged 21-65 because the trial is focused on examining treatment effects on Ghananian adults as opposed to children.</p>
 <p>     Exclusion criteria: 1) Individuals who are pregnant; 2) Individuals with any contraindications to Malarone administration; 3) Individuals with any contraindications to Vitamin C administration; 4) Individuals who have current malaria (uncomplicated or severe); 5) Individuals who have a history of malaria (uncomplicated or severe); 6) Individuals with anemia; 7) Individuals who are malnourished, defined as being underweight when using BMI as the measure; 6) Individuals who were not born in Ghana</p>
@@ -465,8 +475,8 @@ font-weight: bold;
 <p>     The trial will recruit and enroll participants from medical centers, hospitals, and clinics. Doctors in Ghana will be asked to notify patients who meet the inclusion criteria to contact the research team if they are interested in participating, whereby they will be further screened to more accurately determine their eligibility for the study. We expect approximately 20 sites for this trial.</p>
 <p><br></p>
 </div>
-<div id="vi-data-coordination-and-trial-management" class="section level4">
-<h4>vi) Data Coordination and Trial Management</h4>
+<div id="vi-data-coordination" class="section level4">
+<h4>vi) Data Coordination</h4>
 <p>     For this trial, there will be a Data Coordinating Center (DCC) and Clinical Trial Management (CTM) resources at a level appropriate for the proposed trial. A DCC is responsible for the collection, storage, and maintenance of data obtained from a multi-site trial. A CTM is a system and process by which researchers are able to logistically and operationally manage and carry out essential functions and duties of a clinical trial. Because this is a proposed multi-site trial, both the DCC and CTM will be critical assets for the researchers in order for the trial to run smoothly. The DCC must have the capability to manage and sift through large amounts of data across multiple locations, maintain clear and constant communication regarding any data inconsistencies and issues with the researchers, contain experienced data managers and trial coordinators with exceptional organizational skills, and work extensively to protect and secure the data. A CTM must streamline the entire trial process smoothly, adequately help the research team plan and process various duties and functions pertinent to the success of the trial, and help the team manage their work flow.</p>
 <p><br></p>
 </div>
@@ -476,8 +486,8 @@ font-weight: bold;
 <p><br></p>
 </div>
 </div>
-<div id="data-collection-and-patient-follow-up" class="section level3">
-<h3>4.0 Data Collection and Patient Follow-up</h3>
+<div id="data-collection-and-timeline" class="section level3">
+<h3>4.0 Data Collection and Timeline</h3>
 <p><br></p>
 <div id="i-outcome-details" class="section level4">
 <h4>i) Outcome Details</h4>

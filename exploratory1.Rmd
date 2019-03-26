@@ -4,7 +4,8 @@ output:
   html_document:
     toc: true
     toc_float:
-      collapsed: false
+      collapsed: true
+    toc_depth: 5
 ---
 
 <br>
@@ -39,7 +40,18 @@ font-weight: bold;
 
 </style>
 
-## Exploring Activity Trends and Patterns Using EDA
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+##Exploring Activity Trends and Patterns Using EDA
 
 <br>
 
@@ -60,10 +72,12 @@ knitr::opts_chunk$set(
 
 library(tidyverse)
 library(skimr)
+library(pixiedust)
+library(broom)
 ```
 
 
-## Introduction
+###Introduction
 
 Accelerometers have become an increasingly important tool for studying around-the-clock physical activity in studies. Levels of activities can be counted by measuring voltage signals on a patient within a short span of time. The goal of this project is to summarize trends and patterns from data collected on a male patient who wore an accerlerometer device that recorded his physical activity for several months.
 
@@ -76,23 +90,23 @@ Researchers specifically want to understand his patterns of physical activity ov
 
 <br>
 
-## Data and Methods
+###Data and Methods
 
 The patient is a 63-year-old male individual with congestive heart failure (CHF). The data for the patient can be found [here](data/p8105_mtp_data.csv). The variables in the spreadsheet are:
 
 <p> `week`: Number indicating week of observational period <br> <p> 
 `day`: Day of the week <br> <p>
-`activity.*`: Activity count (measure of activity levels). Numbers replacing asterisk indicate the minute of day (e.g., `activity.3` contains the activity count for the 3rd minute after midnight for that particular day) <br> <p>
+`activity.*`: Activity count (measure of activity levels). Numbers replacing asterisk indicate the minute of day on which the activity level was captured (e.g., `activity.3` contains the activity count for the 3rd minute after midnight for that particular day) <br> <p>
 
 <br>
 
-## Results
+###Results
 
 <br>
 
-### Tidying Data
+####Tidying Data
 
-After importing the data, we clean up the data by renaming variables, ordering the data by day of the week (Sunday first), creating a variable that indicates the exact minute of the observational period (`overall_minutes`), and creating a variable that numerically indicates the day of the observational period (`overall_days`).
+After importing the data, we clean up the data by renaming variables, ordering the data by day of the week (Sunday first), creating a variable that indicates each day of the observational period (`overall_days`), and creating a variable that indicates each minute of the observational period (`overall_minutes`).
 
 ```{r tidy_data, centering = TRUE}
 activity = read_csv("data/p8105_mtp_data.csv", col_types = cols()) %>% 
@@ -100,20 +114,141 @@ activity = read_csv("data/p8105_mtp_data.csv", col_types = cols()) %>%
   mutate(day = fct_relevel(day, str_c(c("Sunday", "Monday", "Tuesday", "Wednesday",
                                         "Thursday", "Friday", "Saturday")))) %>% 
   arrange(week, day) %>% 
-  mutate(overall_day = seq(1:nrow(.))) %>% 
+  mutate(overall_day = seq(1:nrow(.))) %>%
   gather(key = minute_of_day, value = activity_count, activity_1:activity_1440) %>% 
   separate(minute_of_day, into = c("activity", "minute_of_day"), sep = "_") %>% 
   select(-activity) %>% 
   mutate(minute_of_day = as.numeric(minute_of_day)) %>% 
+  arrange(week, day, overall_day) %>% 
   mutate(overall_minutes = seq(1:nrow(.))) 
-
-activity
 ```
 
 <br>
 
-```{r}
-summary(activity)
-
+We can examine the head and tail ends of the dataset (shown below) to make sure that we cleaned our data properly.
+```{r check_data}
+kable(head(activity))
+kable(tail(activity))
 ```
 
+<br>
+
+I run a `summary` function to examine the distribution of the variables. We can see that the patient was studied over 473,760 minutes (47 weeks; 329 days). His activity levels ranged from 1 to 10,417 units; 240.3 units was the mean. There were no activity levels below 1 unit, signifying that 1 unit could have been an indication of extremely minimal or no activity in this case, or that the accelerometer device was removed at this time. The mean for activity count (240.3) is moderately greater than its media (43.0), suggesting that activity count is right-skewed; we are probably more likely to encounter lower levels of activity levels rather than higher levels.
+
+```{r summary_data}
+(summary(activity))
+```
+
+<br>
+
+####Activity Levels Over Time - Days
+
+We use the `ggplot` function to determine whether the patient increased activity levels over the span of the observational period; we run a regression line through the plots and can see that activity levels seem to increase over time.
+```{r activity_over_day}
+total_activity =
+  activity %>% 
+  group_by(week, day, overall_day) %>% 
+  summarise(total_per_day = as.integer(sum(activity_count))) 
+
+kable(head(total_activity, 15))
+
+act_graph =
+  activity %>% 
+  group_by(week, day, overall_day) %>% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %>% 
+  ggplot(aes(y = total_per_day, x = overall_day)) +
+  geom_line(alpha = 0.5) +
+  geom_smooth(method = "lm", size = 0.5, color = "red", se = FALSE) +
+  labs(
+    title = "Total Activity For Each of 329 Days",
+    x = "Day of Observational Period",
+    y = "Total Activity Levels"
+  )
+
+act_graph
+```
+
+<br>
+
+#####Statistical Analysis
+
+I run a formal statistical analysis to determine whether the association between total activity levels per day and the day of the observational period (i.e., time) is statistically significant. From the output below, we see that the parameter estimate for `overall_day` is around 573; thus, for every 1 day of the observational period that passes, the patient increased his total activity levels by 573 units, on average. The p-value is less than 0.05, indicating that this association is statistically significant - the patient did increase overall activity levels over time.
+```{r regression}
+regression <- lm(total_activity$total_per_day ~ total_activity$overall_day)
+tidy(summary(regression))
+```
+
+<br>
+
+####Variation in Activity Levels
+
+I now want to examine whether there is any variation in activity levels by day of the week. The median activity levels of all 47 weeks for each day of the week is included below. We notice that Friday, Saturday, Thursday, and Sunday have the highest median activity levels.
+
+```{r}
+median_act = 
+  total_activity %>% 
+  group_by(day) %>% 
+  summarise(median_per_day = as.integer(median(total_per_day)))
+
+kable(median_act[order(-median_act$median_per_day),])
+```
+
+<br>
+
+I plot the activity levels over 47 weeks for each day to visually examine the impact of day of the week on activity levels. We can see that the slope of the regression lines seems to be higher for Friday, Saturday, and Sunday, suggesting that the patient is more active during those days and that our plots match what we discovered from our table above.
+```{r daily_profiles, out.width = 985}
+daily_act = 
+  activity %>% 
+  group_by(week, day, overall_day) %>% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %>%
+  ggplot(aes(x = week, y = total_per_day, color = day)) +
+  geom_boxplot() +
+  geom_point() +
+    labs(
+    title = "Activity Over 47 Weeks - By Each Day",
+    x = "Week",
+    y = "Total Activity Levels"
+    ) +
+  scale_x_continuous(breaks = c(0, 10, 20, 30, 40, 50),
+                     labels = c("0", "10", "20", "30", "40", "50")) + 
+  scale_y_continuous(labels = c("0", "200,000", "400,000", "600,000", "800,000")) +
+  geom_smooth(method = "lm", size = 0.5, color = "red", se = FALSE) +
+  facet_grid(~day) +
+  theme(legend.position = "bottom")
+
+daily_act
+```
+
+<br>
+
+#####Statistical Analysis
+
+I run a formal statistical analysis to determine whether activity levels varied by day of the week, after adjusting for the day of the observational period (i.e., time). Sunday was used as the reference category. From the output below, we see that the parameter estimates for most of the days are negative, suggesting a lower activity level for most of the days in comparison to Sunday. Furthermore, the parameter estimates for `total_activity$dayMonday ` to `total_activity$daySaturday` all have a p-value above 0.05, indicating that the association is not statistically significant, after adjusting for time. Thus, there was not a statistically significant difference in activity levels by day of the week, after adjusting for time.
+```{r regression2}
+regression2 <- lm(total_activity$total_per_day ~ total_activity$day + total_activity$week)
+tidy(summary(regression2))
+```
+
+<br>
+
+####24-Hour Activity Profiles
+
+Lastly, I create 24-hour activity profiles for each day of the week aggregating data from all 47 weeks. We see higher peaks for Thursday, Friday, and Sunday toward the evenings, which again supports our theory that the patient tends to be more overall active during the later days of the week.
+```{r 24_hour_profiles, out.width = 985}
+minute_act = 
+  activity %>% 
+  group_by(minute_of_day, day) %>% 
+  summarise(total_per_day = as.integer(sum(activity_count))) %>%
+  ggplot(aes(x = minute_of_day / 60, y = total_per_day, color = day)) +
+  geom_point() +
+    labs(
+    title = "Activity Over 24 Hours - By Each Day",
+    x = "Hour",
+    y = "Total Activity Levels"
+    ) +
+  geom_smooth(size = 0.5, color = "red") +
+  facet_grid(~day) +
+  theme(legend.position = "bottom")
+
+minute_act
+```
