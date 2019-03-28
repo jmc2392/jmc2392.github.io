@@ -40,6 +40,6 @@ font-weight: bold;
 
 <br>
 ```{r resume, echo = FALSE, out.width = "100%"}
-knitr::include_graphics("images/Resume.jpg")
+knitr::include_graphics("images/Resume.JPG")
 ```
 
