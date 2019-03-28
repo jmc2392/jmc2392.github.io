@@ -39,7 +39,5 @@ font-weight: bold;
 </style>
 
 <br>
-```{r resume, echo = FALSE, out.width = "100%"}
-knitr::include_graphics("images/Resume.JPG")
-```
+<img src="images/Resume.JPG" alt="1" style="width:100%;">
 
