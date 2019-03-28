@@ -79,7 +79,7 @@ library(broom)
 
 ###Introduction
 
-Accelerometers have become an increasingly important tool for studying around-the-clock physical activity in studies. Levels of activities can be counted by measuring voltage signals on a patient within a short span of time. The goal of this project is to summarize trends and patterns from data collected on a male patient who wore an accerlerometer device that recorded his physical activity for several months.
+Accelerometers have become an increasingly important tool for studying around-the-clock physical activity in studies. Levels of activities can be counted by measuring voltage signals on a patient within a short span of time. The goal of this project is to summarize trends and patterns from data collected on a male patient who wore an accelerometer device that recorded his physical activity for several months.
 
 Researchers specifically want to understand his patterns of physical activity over periods of time; thus, some important questions to explore include, but are not limited to:
 
