@@ -839,7 +839,7 @@ tidy(summary(regression2))</code></pre>
 </div>
 <div id="hour-activity-profiles" class="section level4">
 <h4>24-Hour Activity Profiles</h4>
-<p>Lastly, I create 24-hour activity profiles for each day of the week aggregating data from all 47 weeks. We see higher peaks for Thursday, Friday, and Sunday toward the evenings, which again supports our theory that the patient tends to be more overall active during the later days of the week.</p>
+<p>Lastly, I create 24-hour activity profiles for each day of the week aggregating data from all 47 weeks. We see bimodal distributions for most of the days, suggesting that the patient was more active during the mornings and in the evenings. Secondly, we see higher peaks for Thursday, Friday, and Sunday, indicating heavier activity levels during this time. As noted above though, day of the week was not statistically associated with difference in activity levels, after adjusting for time.</p>
 <pre class="r"><code>minute_act = 
   activity %&gt;% 
   group_by(minute_of_day, day) %&gt;% 
