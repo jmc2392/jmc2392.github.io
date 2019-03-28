@@ -51,7 +51,7 @@ Columbia University Mailman School of Public Health
 
 I am currently a second-year graduate student in the Department of Epidemiology at the Mailman School of Public Health at Columbia University pursuing an Applied Biostatistics certificate. My academic coursework has been geared heavily toward foundational biostatistical skills using various statistical programs and languages, while my experience has involved working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health research. Taken together, I believe I am a formidable candidate for data scientist, analyst, and biostatistician positions. I am currently seeking these positions, or any that sufficiently develops my analytic mindset, programming/coding capability, biostatistical skills, and/or knowledge of research methods.
 
-To view my resume, you can click [here](images/resume.pdf).
+To view my resume, you can click [here](images/resume.PDF).
 
 <br>
 
