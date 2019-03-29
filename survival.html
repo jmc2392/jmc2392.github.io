@@ -808,7 +808,7 @@ new_df</code></pre>
 ## 2  2     2      0  30    1     4</code></pre>
 <pre class="r"><code>newmodel &lt;- survfit(model3, newdata = new_df, data = stroke)
 
-ggsurvplot(newmodel, conf.int = FALSE, palette = c(&quot;#075CA7&quot;, &#39;#ff0000&#39;), surv.median.line = &quot;hv&quot;, legend.labs = c(&quot;ID=1&quot;, &quot;ID=2&quot;))</code></pre>
+ggsurvplot(newmodel, conf.int = FALSE, palette = c(&quot;#075CA7&quot;, &#39;#ff0000&#39;), surv.median.line = &quot;hv&quot;, legend.labs = c(&quot;ID=1&quot;, &quot;ID=2&quot;), ylab = &quot;Survival Probability&quot;, title = &quot;Survival Curves for Two Patients&quot;)</code></pre>
 <p><img src="survival_files/figure-html/predicted_survivals-1.png" width="100%" style="background-color: #000000; padding:1px" /></p>
 <p>𝑟𝑤𝑖𝑠𝑒</p>
 </div>
