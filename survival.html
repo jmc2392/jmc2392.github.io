@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Jacky Choi" />
 
-<meta name="date" content="2019-03-25" />
 
-<title>survival</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -171,6 +172,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -263,35 +359,460 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">survival</h1>
-<h4 class="author"><em>Jacky Choi</em></h4>
-<h4 class="date"><em>March 25, 2019</em></h4>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<p><br></p>
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+<div id="survival-analysis-of-stroke-patients" class="section level2">
+<h2>Survival Analysis of Stroke Patients</h2>
+<p><br></p>
+<div id="skills" class="section level3">
+<h3>Skills</h3>
+<ul>
+<li>Survival Analysis</li>
+<li>R</li>
+<li>SAS</li>
+<li>Model Fitting</li>
+</ul>
+<p><br></p>
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="survival_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>The <a href="data/stroke_data.csv">stroke_data.csv</a> files provides the time until death (in days) for 500 patients following their hospital admission for incidences of stroke. For this analysis, we are interested in whether the rate of death is different between patients who experienced a stroke for the first time and those who have had a recurrent stroke. The number of days from hospital admission to last follow-up, as well as their vital status was recorded. Other variables, such as age, BMI, and year of admission into the hospital were also recorded. The variables (from left to right) are:</p>
+<p>
+<code>ID</code> = Patient ID <br>
+<p>
+<code>lenfol</code> = Days from Hospital Admission Date to Date of Last Follow-up <br>
+<p>
+<code>fstat</code> = Vital Status at Last Follow-up <br>
+<p>
+<ul>
+<li>0 - Alive</li>
+<li>1 - Dead <br></li>
+</ul>
+<p>
+<code>stroke</code> = Stroke Type <br>
+<p>
+<ul>
+<li>0 - First</li>
+<li>1 - Recurrent <br></li>
+</ul>
+<p><code>bmi</code> = Body Mass Index <br></p>
+<p>
+<code>year</code> = Admission Year <br>
+<p>
+<ul>
+<li>1 - 1997</li>
+<li>2 - 1999</li>
+<li>3 - 2001</li>
+</ul>
+<p>
+<code>age_c</code> = Age at Hospital Admission <br>
+<p>
+<ul>
+<li>1 - age &lt; 60</li>
+<li>2 - 60 ≤ age &lt; 70</li>
+<li>3 - 70 ≤ age &lt; 80</li>
+<li>4 - ≥ 80</li>
+</ul>
+<p><br></p>
+</div>
+<div id="model-fitting---sas" class="section level3">
+<h3>Model Fitting - SAS</h3>
+<p><br></p>
+<div id="model-1" class="section level4">
+<h4>Model 1</h4>
+<p>We first fit a Cox model with stroke recurrence as the only covariate (Model 1) and examine whether the rate of death is different between patients experiencing stroke for the first time and those experiencing a recurrent stroke at an alpha level of 0.05. The model statement is given below:</p>
+<p>Model 1 (Stroke) Statement: ℎ(t,<em>x</em>,B) = h<sub>0</sub>(t)exp(B<sub>1</sub><em>x</em><sub>1</sub>) where <br></p>
+<p><em>x</em><sub>1</sub> = (1 if Recurrent Stroke <br>         0 if First-Time Stroke)</p>
+<p>From the SAS output below, we can see that the Wald test statistic is 9.2592; the Pr(<em>x</em><sup>2</sup><sub>1</sub> ≥9.2592) = 0.0023, which is less than alpha level of 0.05. Thus, at the 5% significance level, we reject the null hypothesis; there is sufficient data on hand to conclude that the rate of death between patients with first time incident stroke and recurrent stroke is statistically different.</p>
+<p>Figure 1: SAS Code and Output for Model 1 <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig_sas.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig_sas.JPG" width="100%" style="background-color: #000000; padding:1px" /> <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+</div>
+<div id="model-2" class="section level4">
+<h4>Model 2</h4>
+<p>We next fit a multivariate Cox model with age, BMI, and admission year as additional covariates. Patients aged less than 60 with first-time strokes admitted to the hospital in 1997 were used as the reference category. The model statement is given below:</p>
+<p>Model 2 (Stroke, Age, BMI, Admission Year) Statement: h<sub>0</sub>(t)exp(B<sub>1</sub><em>x</em><sub>1</sub> + B<sub>2</sub><em>x</em><sub>2</sub> + B<sub>3</sub><em>x</em><sub>3</sub> + B<sub>4</sub><em>x</em><sub>4</sub> + B<sub>5</sub><em>x</em><sub>5</sub> + B<sub>6</sub><em>x</em><sub>6</sub> + B<sub>7</sub><em>x</em><sub>7</sub>) where <br></p>
+<p><em>x</em><sub>1</sub> = (1 if Recurrent Stroke <br>         (0 if First-Time Stroke <br></p>
+<p><em>x</em><sub>2</sub> = (1 if 60 ≤ age &lt; 70 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>3</sub> = (1 if 70 ≤ age &lt; 80 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>4</sub> = (1 if age ≥ 80 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>5</sub> = BMI <br></p>
+<p><em>x</em><sub>6</sub> = (1 if admission year = 1999 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>7</sub> = (1 if if admission year = 2001 <br>         (0 if otherwise <br></p>
+<p>From the SAS output below, we can see that the Wald test statistic is 1.2225; the Pr(<em>x</em><sup>2</sup><sub>7</sub> ≥1.2225) = 0.2689, which is greater than alpha level of 0.05. Thus, at the 5% significance level, we fail to reject the null hypothesis; there is insufficient data on hand to conclude that the rate of death between patients with first time incident stroke and recurrent stroke is statistically different, after adjusting for age, BMI, and admission year.</p>
+<p>Figure 2: SAS Code and Output for Model 2 <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig2_sas.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig2_sas.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig2.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig2.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<div id="likelihood-ratio-test" class="section level5">
+<h5>Likelihood Ratio Test</h5>
+<p>Using the partial likelihood ratios from Model 1 and Model 2, we can determine whether Model 2 is a signficantly better fit than Model 1, by subtracting the partial likelihood for the larger model from that for the smaller model (Figure 3). Pr(<em>x</em><sup>2</sup><sub>6</sub> ≥ 137.85) &lt; 0.05 (using a chi-squared distribution table) is less than alpha level of 0.05. Thus, at the 5% significance level, there is sufficient data on hand to conclude that Model 2 is a significantly better fit than Model 1.</p>
+<p>Figure 3: Testing Model 1 and Model 2 Fit <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/model2_lr.JPG&#39;)</code></pre>
+<p><img src="images2/model2_lr.JPG" width="55%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="model-3" class="section level4">
+<h4>Model 3</h4>
+<p>We hypothesize that recurrence of stroke varies by age of the patient. Therefore, we now fit a multivariate Cox model with stroke recurrence, age, BMI, admission year as covariates, along with an interaction term between stroke recurrence and age. Again, patients aged less than 60 with first-time strokes admitted to the hospital in 1997 were used as the reference category. The model statement is given below:</p>
+<p>Model 3 (Stroke, Age, BMI, Admission Year, StrokexAge) Statement: h<sub>0</sub>(t)exp(B<sub>1</sub><em>x</em><sub>1</sub> + B<sub>2</sub><em>x</em><sub>2</sub> + B<sub>3</sub><em>x</em><sub>3</sub> + B<sub>4</sub><em>x</em><sub>4</sub> + B<sub>5</sub><em>x</em><sub>5</sub> + B<sub>6</sub><em>x</em><sub>6</sub> + B<sub>7</sub><em>x</em><sub>7</sub> + B<sub>8</sub><em>x</em><sub>1</sub><em>x</em><sub>2</sub> + B<sub>9</sub><em>x</em><sub>1</sub><em>x</em><sub>3</sub> + B<sub>10</sub><em>x</em><sub>1</sub><em>x</em><sub>4</sub>) where <br></p>
+<p><em>x</em><sub>1</sub> = (1 if Recurrent Stroke <br>         (0 if First-Time Stroke <br></p>
+<p><em>x</em><sub>2</sub> = (1 if 60 ≤ age &lt; 70 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>3</sub> = (1 if 70 ≤ age &lt; 80 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>4</sub> = (1 if age ≥ 80 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>5</sub> = BMI <br></p>
+<p><em>x</em><sub>6</sub> = (1 if admission year = 1999 <br>         (0 if otherwise <br></p>
+<p><em>x</em><sub>7</sub> = (1 if if admission year = 2001 <br>         (0 if otherwise <br></p>
+<p>From the SAS output below, we can see that the Wald test statistic is 4.4958; the Pr(<em>x</em><sup>2</sup><sub>10</sub> ≥4.4958) = 0.034, which is less than alpha level of 0.05. Thus, at the 5% significance level, we reject the null hypothesis; there is sufficient data on hand to conclude that the rate of death between patients with first time incident stroke and recurrent stroke is statistically different, after adjusting for age, BMI, admission year, and an interaction term between stroke recurrence and age.</p>
+<p>Figure 4: SAS Code and Output for Model 3 <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig3_sas.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig3_sas.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig3.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig3.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<div id="likelihood-ratio-test-1" class="section level5">
+<h5>Likelihood Ratio Test</h5>
+<p>Using the partial likelihood ratios from Model 2 and Model 3, we can determine whether Model 3 is a signficantly better fit than Model 2, by subtracting the partial likelihood for the larger model from that for the smaller model (Figure 5). Pr(<em>x</em><sup>2</sup><sub>3</sub> ≥ 14.594) &lt; 0.05 (using a chi-squared distribution table) is less than alpha level of 0.05. Thus, at the 5% significance level, there is sufficient data on hand to conclude that Model 3 is a significantly better fit than Model 2.</p>
+<p>Figure 5: Testing Model 2 and Model 3 Fit <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/model3_lr.JPG&#39;)</code></pre>
+<p><img src="images2/model3_lr.JPG" width="55%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+</div>
+<div id="testing-ph-assumption" class="section level5">
+<h5>Testing PH Assumption</h5>
+<p>Before we proceed with plotting the survival curves and making predictions for certain patients, we quickly check that the proportional hazards assumption holds for Model 3. The SAS output below shows that the predictors in our model meet the PH assumption.</p>
+<p>Figure 6: Testing for PH Assumption <br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/phassume.JPG&#39;)</code></pre>
+<p><img src="images2/phassume.JPG" width="55%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="predictions-and-survival-curves" class="section level4">
+<h4>Predictions and Survival Curves</h4>
+<p>Using Model 3, we can make predict the hazard (i.e., rate) of death for patients with any given covariate.</p>
+<p>For example, the estimated hazard ratio for a patient aged 60 to 70 who experienced recurrrent stroke compared to a patient of the same age who experienced stroke for the first time is 4.556 - that is, the rate of death for a patient aged 60 to 70 who experienced recurrent stroke is 4.556 times that for a patient of the same age who experienced stroke for the first time, after controlling for BMI, admission year, and the interaction term between stroke recurrence and age. The SAS code and output are show below.</p>
+<p>Figure 7: Hazard Ratio for Stroke = 1 Vs. 0, Age_C = 2</p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig4_sas.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig4_sas.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig4.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig4.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<p>Lastly, we can predict survival curves with our model and estimate the probability of survival after a certain time point (or death up to a given time point). Using the SAS code below, we plot the survival functions of a patient aged 80 or older who experienced recurrent stroke with BMI = 30 admitted in 1997, and a patient aged 80 or older who experienced stroke for the first time with BMI = 30 admitted in 1997.</p>
+<p>Figure 8: Survival Curves for Stroke = 1 Vs. 0, Age_C = 4</p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig5_sas.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig5_sas.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<pre class="r"><code>knitr::include_graphics(&#39;images2/strokefig5.JPG&#39;)</code></pre>
+<p><img src="images2/strokefig5.JPG" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="model-fitting---r" class="section level3">
+<h3>Model Fitting - R</h3>
+<p>We now try to reproduce our models above using R. We first import the dataset and include the column names. From the output below, we can see that the code successfully imported and tidied the data.</p>
+<pre class="r"><code>library(&quot;survival&quot;)</code></pre>
+<pre><code>## Warning: package &#39;survival&#39; was built under R version 3.5.3</code></pre>
+<pre class="r"><code>library(&quot;survminer&quot;)</code></pre>
+<pre><code>## Warning: package &#39;survminer&#39; was built under R version 3.5.3</code></pre>
+<pre><code>## Loading required package: ggpubr</code></pre>
+<pre><code>## Loading required package: magrittr</code></pre>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre class="r"><code>library(&quot;ggplot2&quot;)
+library(&quot;broom&quot;)
+library(&quot;pixiedust&quot;)
+
+stroke &lt;- read.csv(&quot;data/stroke_data.csv&quot;, header = FALSE)
+colnames(stroke) &lt;- (c(&quot;id&quot;, &quot;lenfol&quot;, &quot;fstat&quot;, &quot;stroke&quot;, &quot;bmi&quot;, &quot;year&quot;, &quot;age_c&quot;))
+
+knitr::kable(head(stroke))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="right">lenfol</th>
+<th align="right">fstat</th>
+<th align="right">stroke</th>
+<th align="right">bmi</th>
+<th align="right">year</th>
+<th align="right">age_c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2178</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">25.54051</td>
+<td align="right">1</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2172</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">24.02398</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">2190</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">22.14290</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">297</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">26.63187</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">2131</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">24.41255</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">23.24236</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<div id="model-1-1" class="section level4">
+<h4>Model 1</h4>
+<p>As shown below, our univariate Cox model gives us identical results to those derived for Model 1 using SAS. The beta coefficient for our stroke variable is 0.4227; exponentiating the value gives us 1.526, indicating that the rate of death for patients who experienced a recurrent stroke is 1.526 times the rate for those who experienced a stroke for the first time. Note that R provided a z test statistic instead of the Wald Chi-Square test statistic derived from Model 1 using SAS; we can square the z test statistic and confirm that the result matches the Wald Chi-Square test statistic. Lastly, the p-value is also identical.</p>
+<p>Figure 9: Model 1 Using R <br></p>
+<pre class="r"><code>model1 &lt;- coxph(Surv(lenfol, fstat) ~ stroke, data = stroke)
+summary(model1)</code></pre>
+<pre><code>## Call:
+## coxph(formula = Surv(lenfol, fstat) ~ stroke, data = stroke)
+## 
+##   n= 500, number of events= 216 
+## 
+##          coef exp(coef) se(coef)     z Pr(&gt;|z|)   
+## stroke 0.4227    1.5260   0.1389 3.043  0.00235 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##        exp(coef) exp(-coef) lower .95 upper .95
+## stroke     1.526     0.6553     1.162     2.004
+## 
+## Concordance= 0.54  (se = 0.017 )
+## Rsquare= 0.018   (max possible= 0.993 )
+## Likelihood ratio test= 9  on 1 df,   p=0.003
+## Wald test            = 9.26  on 1 df,   p=0.002
+## Score (logrank) test = 9.39  on 1 df,   p=0.002</code></pre>
+<p><br></p>
+</div>
+<div id="model-2-1" class="section level4">
+<h4>Model 2</h4>
+<p>We next fit a multivariate Cox model with age, BMI, and admission year as additional covariates. We include “factor” in our code for any multi-level categorical variables. From the R output below, we can see that the z test statistic is 1.106; the Pr(|z| ≥1.106) = 0.2689, which is greater than alpha level of 0.05. Thus, at the 5% significance level, we fail to reject the null hypothesis; there is insufficient data on hand to conclude that the rate of death between patients with first time incident stroke and recurrent stroke is statistically different, after adjusting for age, BMI, and admission year. These results are identical to those derived from Model 2 using SAS. Note that the likeihood ratio test results provided below only test whether the current model is a better fit than the null model.</p>
+<p>Figure 10: Model 2 Using R <br></p>
+<pre class="r"><code>model2 &lt;- coxph(Surv(lenfol, fstat) ~ stroke + factor(age_c) + bmi + factor(year), data = stroke)
+summary(model2)</code></pre>
+<pre><code>## Call:
+## coxph(formula = Surv(lenfol, fstat) ~ stroke + factor(age_c) + 
+##     bmi + factor(year), data = stroke)
+## 
+##   n= 500, number of events= 216 
+## 
+##                    coef exp(coef) se(coef)      z Pr(&gt;|z|)    
+## stroke          0.15527   1.16797  0.14043  1.106  0.26888    
+## factor(age_c)2  0.44417   1.55919  0.32507  1.366  0.17182    
+## factor(age_c)3  1.50327   4.49637  0.26694  5.632 1.79e-08 ***
+## factor(age_c)4  1.82475   6.20126  0.26106  6.990 2.75e-12 ***
+## bmi            -0.05168   0.94964  0.01521 -3.397  0.00068 ***
+## factor(year)2   0.19237   1.21211  0.17349  1.109  0.26752    
+## factor(year)3   0.64523   1.90643  0.19225  3.356  0.00079 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##                exp(coef) exp(-coef) lower .95 upper .95
+## stroke            1.1680     0.8562    0.8869    1.5381
+## factor(age_c)2    1.5592     0.6414    0.8245    2.9485
+## factor(age_c)3    4.4964     0.2224    2.6647    7.5871
+## factor(age_c)4    6.2013     0.1613    3.7176   10.3442
+## bmi               0.9496     1.0530    0.9217    0.9784
+## factor(year)2     1.2121     0.8250    0.8627    1.7030
+## factor(year)3     1.9064     0.5245    1.3079    2.7788
+## 
+## Concordance= 0.732  (se = 0.017 )
+## Rsquare= 0.254   (max possible= 0.993 )
+## Likelihood ratio test= 146.8  on 7 df,   p=&lt;2e-16
+## Wald test            = 117.1  on 7 df,   p=&lt;2e-16
+## Score (logrank) test = 142.5  on 7 df,   p=&lt;2e-16</code></pre>
+</div>
+<div id="model-3-1" class="section level4">
+<h4>Model 3</h4>
+<p>We hypothesize that recurrence of stroke varies by age of the patient. Therefore, we now fit a multivariate Cox model with stroke recurrence, age, BMI, admission year as covariates, along with an interaction term between stroke recurrence and age. From the R output below, we can see that the z test statistic is 2.12; the Pr(|z| ≥2.12) = 0.034, which is less than alpha level of 0.05. Thus, at the 5% significance level, we reject the null hypothesis; there is sufficient data on hand to conclude that the rate of death between patients with first time incident stroke and recurrent stroke is statistically different, after adjusting for age, BMI, admission year, and an interaction term between stroke recurrence and age. The rate of death for those experiencing a recurrent stroke is 2.7085 times the rate of death for those experiecing a first-time stroke, after adjusting for age, BMI, admission year, and an interaction term between stroke recurrence and age.</p>
+<p>Figure 11: Model 3 Using R <br></p>
+<pre class="r"><code>model3 &lt;- coxph(Surv(lenfol, fstat) ~ stroke + factor(age_c) + bmi + factor(year) + stroke*factor(age_c), data = stroke)
+summary(model3)</code></pre>
+<pre><code>## Call:
+## coxph(formula = Surv(lenfol, fstat) ~ stroke + factor(age_c) + 
+##     bmi + factor(year) + stroke * factor(age_c), data = stroke)
+## 
+##   n= 500, number of events= 216 
+## 
+##                           coef exp(coef) se(coef)      z Pr(&gt;|z|)    
+## stroke                 0.99638   2.70847  0.46992  2.120 0.033978 *  
+## factor(age_c)2         0.09135   1.09565  0.48388  0.189 0.850257    
+## factor(age_c)3         1.80208   6.06225  0.35233  5.115 3.14e-07 ***
+## factor(age_c)4         2.27002   9.67956  0.33811  6.714 1.90e-11 ***
+## bmi                   -0.04982   0.95140  0.01528 -3.261 0.001110 ** 
+## factor(year)2          0.20882   1.23223  0.17373  1.202 0.229373    
+## factor(year)3          0.64575   1.90741  0.19216  3.360 0.000778 ***
+## stroke:factor(age_c)2  0.52010   1.68219  0.66678  0.780 0.435381    
+## stroke:factor(age_c)3 -0.85055   0.42718  0.53271 -1.597 0.110344    
+## stroke:factor(age_c)4 -1.18878   0.30459  0.50896 -2.336 0.019507 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##                       exp(coef) exp(-coef) lower .95 upper .95
+## stroke                   2.7085     0.3692    1.0783    6.8033
+## factor(age_c)2           1.0957     0.9127    0.4244    2.8285
+## factor(age_c)3           6.0622     0.1650    3.0390   12.0931
+## factor(age_c)4           9.6796     0.1033    4.9895   18.7783
+## bmi                      0.9514     1.0511    0.9233    0.9803
+## factor(year)2            1.2322     0.8115    0.8766    1.7321
+## factor(year)3            1.9074     0.5243    1.3088    2.7798
+## stroke:factor(age_c)2    1.6822     0.5945    0.4553    6.2149
+## stroke:factor(age_c)3    0.4272     2.3409    0.1504    1.2135
+## stroke:factor(age_c)4    0.3046     3.2831    0.1123    0.8259
+## 
+## Concordance= 0.743  (se = 0.017 )
+## Rsquare= 0.276   (max possible= 0.993 )
+## Likelihood ratio test= 161.4  on 10 df,   p=&lt;2e-16
+## Wald test            = 115  on 10 df,   p=&lt;2e-16
+## Score (logrank) test = 150.2  on 10 df,   p=&lt;2e-16</code></pre>
+<div id="test-ph-assumption" class="section level5">
+<h5>Test PH Assumption</h5>
+<p>We run the code below to see of the PH assumption is violated. Since p-values are above 0.05, this indicates that the PH assumption was not violated.</p>
+<p>Figure 12: Testing PH Assumption <br></p>
+<pre class="r"><code>cox.zph(model3)</code></pre>
+<pre><code>##                           rho   chisq     p
+## stroke                 0.0282  0.1733 0.677
+## factor(age_c)2        -0.0264  0.1517 0.697
+## factor(age_c)3        -0.0107  0.0264 0.871
+## factor(age_c)4         0.0434  0.4314 0.511
+## bmi                    0.0622  1.0490 0.306
+## factor(year)2          0.0270  0.1660 0.684
+## factor(year)3          0.0741  1.2837 0.257
+## stroke:factor(age_c)2  0.0308  0.2041 0.651
+## stroke:factor(age_c)3  0.0467  0.4800 0.488
+## stroke:factor(age_c)4 -0.0592  0.7688 0.381
+## GLOBAL                     NA 10.6768 0.383</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="predictions-and-survival-curves-1" class="section level4">
+<h4>Predictions and Survival Curves</h4>
+<p>Below, I plot the average survival curve for the patients (by default, covariates are assigned mean values).</p>
+<p>Figure 13: Average Survival Curve <br></p>
+<pre class="r"><code>ggsurvplot(survfit(model3), data = stroke,  ylab = &quot;Survival Probability&quot;, title = &quot;Model 3 - Survival Curve&quot;, 
+           palette = c(&quot;#075CA7&quot;), ggtheme = theme_classic2(), legend = &quot;bottom&quot;)</code></pre>
+<p><img src="survival_files/figure-html/survival_curves-1.png" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p><br></p>
+<p>Lastly, we can predict survival curves with our model and estimate the probability of survival after a certain time point (or death up to a given time point). Using the R code below, we plot the survival functions of a patient aged 80 or older who experienced recurrent stroke with BMI = 30 admitted in 1997, and a patient aged 80 or older who experienced stroke for the first time with BMI = 30 admitted in 1997. Note that while the SAS code</p>
+<pre class="r"><code>new_df &lt;- with(stroke, data.frame(id = c(1, 2), 
+                                  fstat = c(1, 2), 
+                                  stroke = c(1, 0),
+                                  bmi = c(30, 30),
+                                  year = c(1, 1),
+                                  age_c = c(4, 4)))
+
+new_df</code></pre>
+<pre><code>##   id fstat stroke bmi year age_c
+## 1  1     1      1  30    1     4
+## 2  2     2      0  30    1     4</code></pre>
+<pre class="r"><code>newmodel &lt;- survfit(model3, newdata = new_df, data = stroke)
+
+ggsurvplot(newmodel, conf.int = FALSE, palette = c(&quot;#075CA7&quot;, &#39;#ff0000&#39;), surv.median.line = &quot;hv&quot;, legend.labs = c(&quot;ID=1&quot;, &quot;ID=2&quot;))</code></pre>
+<p><img src="survival_files/figure-html/predicted_survivals-1.png" width="100%" style="background-color: #000000; padding:1px" /></p>
+<p>𝑟𝑤𝑖𝑠𝑒</p>
+</div>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
