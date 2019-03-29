@@ -381,7 +381,7 @@ new_df
 
 newmodel <- survfit(model3, newdata = new_df, data = stroke)
 
-ggsurvplot(newmodel, conf.int = FALSE, palette = c("#075CA7", '#ff0000'), surv.median.line = "hv", legend.labs = c("ID=1", "ID=2"))
+ggsurvplot(newmodel, conf.int = FALSE, palette = c("#075CA7", '#ff0000'), surv.median.line = "hv", legend.labs = c("ID=1", "ID=2"), ylab = "Survival Probability", title = "Survival Curves for Two Patients")
 ```
 
 
