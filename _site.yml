@@ -21,6 +21,8 @@ navbar:
           href: ordinalmodel.html
     - text: "Biostatistics"
       menu:
+        - text: "Survival Analysis of Stroke Patients"
+          href: survival.html
         - text: "Proposal for Phase III RCT"
           href: malaria.html
           
