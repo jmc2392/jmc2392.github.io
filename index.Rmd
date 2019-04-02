@@ -38,7 +38,7 @@ font-weight: bold;
 <link rel="stylesheet" href="styles.css" type="text/css">
 <link rel="stylesheet" href="academicons/css/academicons.min.css"/>
 
-MPH Graduate Student <br>
+MPH Candidate <br>
 [Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) <br>
 Applied Biostatistics Certificate <br>
 Columbia University Mailman School of Public Health
