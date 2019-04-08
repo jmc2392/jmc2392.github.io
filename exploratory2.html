@@ -445,9 +445,9 @@ $(document).ready(function() {
 <p><code>cmplnt_num</code>: Randomly generated ID for each incident <br> <code>boro_nm</code>: Borough in which the incident occurred <br> <code>cmplnt_fr_dt</code>: Exact start date of occurrence for the reported incident <br> <code>cmplnt_to_dt</code>: Exact end date of occurrence for the reported incident <br> <code>cmplnt_fr_tm</code>: Exact time of occurrence for the reported incident <br> <code>ky_cd</code>: Three-digit offense classification code <br> <code>ofns_desc</code>: Description of offense corresponding with key code (ky_cd) <br> <code>pd_cd</code>: Three-digit internal classification code <br> <code>pd_desc</code>: Description of internal classification corresponding with PD code (pd_cd) <br> <code>vic_race</code>: Victim’s race description <br> <code>vic_sex</code>: Victim’s sex description (D=Business/Organization, E=PSNY/People of the State of New York, F=Female, M=Male) <br> <code>year</code>: Year the incident occurred <br> <code>prem_typ_desc</code>: Specific description of premises where incident occurred <br> <code>crime_group</code>: Identifies whether crime was a sex-related felony, drug-related felony, or weapons-related felony <br></p>
 <p><br></p>
 </div>
-<div id="length-of-reported-incident" class="section level3">
-<h3>Length of Reported Incident</h3>
-<p>For our exploratory analysis, we examined whether the length of time between when the crime started and ended differed by borough and felony type. Examining the length of time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported felonies may have implications for law enforcement officials, policymakers, and urban residents.</p>
+<div id="length-of-reported-crime" class="section level3">
+<h3>Length of Reported Crime</h3>
+<p>For our exploratory analysis, we examined whether the average time between when the crime started and ended differed by borough and felony type. Examining the average time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported crimes may have implications for law enforcement officials, policymakers, and urban residents.</p>
 <p><br></p>
 <div id="raw-table" class="section level4">
 <h4>Raw Table</h4>
@@ -628,12 +628,14 @@ knitr::kable(head(felonies[1:5]))</code></pre>
 <p>Note that not every observation has a value for <code>cmplnt_to_dt</code>. This could be due to several factors - perhaps the crime was never closed (i.e., it remained an ongoing crime) or perhaps the city was not able to record the value for that variable for whatever reason. To remedy this issue, we take on two approaches: <br></p>
 <ul>
 <li>We input the end date for the crime as the difference between the end of 2017 and the start date of the occurrence of the crime (<code>cmplnt_fr_dt</code>). This makes sense if the crime remained ongoing until the end of 2017 or beyond. Our resulting dataset is <code>time_data</code>.</li>
-<li>We exclude missing values for end dates (denoted by ‘NA’). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is <code>time_data2</code>.</li>
+<li>We exclude missing values for end dates (denoted by ‘NA’). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is <code>time_data2</code>. <br></li>
 </ul>
+<p>We will examine whether the average length of reported felonies differs when we use these two approaches.</p>
 <p><br></p>
 </div>
-<div id="include-end-dates" class="section level4">
-<h4>Include End Dates</h4>
+<div id="approach-1" class="section level4">
+<h4>Approach 1</h4>
+<p>In the table below, we input the end dates for any crime with an “NA” for the variable cmplnt_to_dt. The first 10 rows of the resulting dataset, time_data, is shown below.</p>
 <p>Table 2. Input End Dates for Crime Occurrence</p>
 <pre class="r"><code>time_data = felonies %&gt;%
   mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),
@@ -689,8 +691,9 @@ knitr::kable(head(time_data))</code></pre>
 </table>
 <p><br></p>
 </div>
-<div id="exclude-missing-end-dates" class="section level4">
-<h4>Exclude Missing End Dates</h4>
+<div id="approach-2" class="section level4">
+<h4>Approach 2</h4>
+<p>Our second approach involves excluding any observations with missing end dates for crimes. The first 10 rows of the resulting dataset, time_data2, is shown in the table below.</p>
 <p>Table 3. Exclude Missing End Dates for Crime Occurrence</p>
 <pre class="r"><code>time_data2 = felonies %&gt;%
   mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),

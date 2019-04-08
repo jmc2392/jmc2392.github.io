@@ -104,9 +104,9 @@ Our final dataset, sex_drug_weapons, contains 46,692 observations. The list belo
 
 <br>
 
-###Length of Reported Incident
+###Length of Reported Crime
 
-For our exploratory analysis, we examined whether the length of time between when the crime started and ended differed by borough and felony type. Examining the length of time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported felonies may have implications for law enforcement officials, policymakers, and urban residents.
+For our exploratory analysis, we examined whether the average time between when the crime started and ended differed by borough and felony type. Examining the average time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported crimes may have implications for law enforcement officials, policymakers, and urban residents.
 
 <br>
 
@@ -129,11 +129,15 @@ knitr::kable(head(felonies[11:15]))
 Note that not every observation has a value for `cmplnt_to_dt`. This could be due to several factors - perhaps the crime was never closed (i.e., it remained an ongoing crime) or perhaps the city was not able to record the value for that variable for whatever reason. To remedy this issue, we take on two approaches: <br>
 
 * We input the end date for the crime as the difference between the end of 2017 and the start date of the occurrence of the crime (`cmplnt_fr_dt`). This makes sense if the crime remained ongoing until the end of 2017 or beyond. Our resulting dataset is `time_data`.
-* We exclude missing values for end dates (denoted by 'NA'). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is `time_data2`.
+* We exclude missing values for end dates (denoted by 'NA'). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is `time_data2`. <br>
+
+We will examine whether the average length of reported felonies differs when we use these two approaches.
 
 <br>
 
-####Include End Dates
+####Approach 1
+
+In the table below, we input the end dates for any crime with an "NA" for the variable cmplnt_to_dt. The first few rows of the resulting dataset, time_data, is shown below.
 
 Table 2. Input End Dates for Crime Occurrence
 ```{r time_data}
@@ -152,7 +156,9 @@ knitr::kable(head(time_data))
 
 <br>
 
-####Exclude Missing End Dates
+####Approach 2
+
+Our second approach involves excluding any observations with missing end dates for crimes. The first few rows of the resulting dataset, time_data2, is shown in the table below.
 
 Table 3. Exclude Missing End Dates for Crime Occurrence
 ```{r time_data2}
@@ -172,7 +178,7 @@ knitr::kable(head(time_data2))
 
 ####Average Length by Crime Group
 
-We then create tables showing the average length of felonies in days by borough and crime group.
+We then create tables showing the average length of felonies in days by borough and crime group for *both* approaches. Notice the dramatic change in both the counts and average length of felonies between the approaches.
 
 Table 4. Average Length of Felonies by Crime Group
 ```{r tidy_table1_2}
