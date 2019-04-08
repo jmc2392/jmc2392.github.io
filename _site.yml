@@ -9,6 +9,8 @@ navbar:
       menu:
         - text: "Exploring Activity Trends and Patterns Using EDA"
           href: exploratory1.html
+        - text: "Exploring NYC Crime Data Using EDA"
+          href: exploratory2.html
     - text: "Data Analysis - SAS"
       menu:
         - text: "Alcohol and Smoking Using NHANES"
@@ -19,6 +21,8 @@ navbar:
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
           href: ordinalmodel.html
+        - text: "Differences in Mean Length of NYC Felonies"
+          href: felonies.html
     - text: "Biostatistics"
       menu:
         - text: "Survival Analysis of Stroke Patients"

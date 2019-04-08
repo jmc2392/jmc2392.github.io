@@ -46,6 +46,7 @@ font-weight: bold;
 ###Skills 
 
 * Data Analysis
+* Statistical Analysis
 * Linear Regression
 * Model Fitting
 * Research Report Writing
