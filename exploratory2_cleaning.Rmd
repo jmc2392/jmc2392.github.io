@@ -1,0 +1,210 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 5
+---
+
+<br>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+##Exploring NYC Crime Data Using EDA - Cleaning Data
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ out.width = "100%"
+)
+```
+
+<br>
+
+###Importing Data
+
+Below, we include the code we used to import and clean the data for the "Exploring NYC Crime Data Using EDA" project:
+
+```{r load_packages}
+library(RSocrata)
+library(tidyverse)
+library(lubridate)
+```
+
+
+```{r import_data, eval = FALSE}
+nyc_crime <- read_csv("./data/NYPD_Complaint_Data_Historic.csv")
+
+#Code for importing directly from web:
+#nyc_crime = read.socrata("https://data.cityofnewyork.us/resource/9s4h-37hy.json", 
+#                          app_token = NULL, 
+#                          email = NULL, 
+#                          password = NULL,
+#                          stringsAsFactors = FALSE)
+
+#saveRDS(nyc_crime, file = "./data/nyc_crime.rds")
+```
+
+The raw, acquired dataset has 6,036,805 observations and 35 variables. Broadly speaking, the variables contain information on the exact date, time and location of crime, description of crime, demographic information of the victim and suspect, and police department infromation. For more information on the variables, click [here](https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i).
+
+<br>
+
+###Penal Codes 
+
+We were interested in sex-related, weapon-related and drug-related felonies occurring in NYC from 2014 - 2017. Below is a list of the penal codes associated with each type of felony.
+
+<br>
+
+####Sex–Related Felonies <br>
+`178` Facilitating A Sex Offense With A Controlled Substance <br>
+`694` Incest <br>
+`697` Use Of A Child In Sexual Performance <br>
+`176` Sex Crimes <br>
+`180` Course Of Sexual Conduct Against Child <br>
+`153` Rape 3 <br>
+`157` Rape 1 <br>
+`177` Sexual Abuse <br>
+`168` Sodomy 1 <br>
+`159` Rape 1 Attempt <br>
+`166` Sodomy 2 <br>
+`164` Sodomy 3 <br>
+`179` Aggrevated Sexual Abuse <br>
+`155` Rape 2 <br>
+`586` Sextrafficking <br>
+`696` Promoting Sexual Performance – Child 
+
+<br>
+
+####Drug-Related Felonies <br>
+
+`500` Controlled Substance, Possession <br>
+`501` Controlled Substance, Possession <br>
+`502` Controlled Substance, Possession <br>
+`503` Controlled Substance, Intent To <br>
+`505` Controlled Substance, Possession <br>
+`507` Controlled Substance, Possession <br>
+`510` Controlled Substance, Intent T <br>
+`512` Controlled Substance, Sale 1 <br>
+`514` Controlled Substance, Sale 2 <br>
+`515` Controlled Substance, Sale 3 <br>
+`519` Sale School Grounds 4 <br>
+`520` Controlled Substance, Sale 4 <br>
+`521` Controlled Substance, Sale 5 <br>
+`523` Sale School Grounds <br>
+`524` Controlled Substance, Possession<br>
+`529` Sales Of Prescription <br>
+`530` Drug, Injection Of <br>
+`531` Drug Paraphernalia, Possessesion <br>
+`532` Controlled Substance,Possession <br>
+`568` Marijuana, Possession 1, 2 & 3 <br>
+`570` Marijuana, Sale 1, 2 & 3 
+
+<br>
+
+####Weapons-Related Felonies <br> 
+
+`781` Criminal Disposal Firearm 1 <br>
+`792` Weapons Possession 1 & 2 <br>
+`793` Weapons Possession 3 <br>
+`796` Weapons,Prohibited Use 
+
+<br>
+
+###Subsetting Data <br>
+
+Using that information, we can subset and filter the data to provide us with our final dataset.
+```{r subset_data, eval = FALSE}
+#Cleaning and Filtering Data
+nyc_felonies = nyc_crime %>% 
+  janitor::clean_names() %>% 
+  mutate(year = year(cmplnt_fr_dt)) %>%
+  mutate_if(is.character, tolower) %>% 
+  filter(year %in% 2014:2017) %>% 
+  filter(law_cat_cd == "felony") %>% 
+  select(- station_name, - transit_district, - hadevelopt, - patrol_boro, - housing_psa, 
+         - juris_desc)
+
+#saveRDS(nyc_felonies, file = "./data/nyc_felonies.rds")
+
+#Selecting Crimes of Interest
+sex_drug_weapons = nyc_felonies %>% 
+  
+  filter(pd_cd %in% c(178, 694, 697, 176, 180, 153, 157, 177, 168, 159, 166, 164, 179, 155, 
+                      586, 696, # Sex-related felonies
+                      
+                      ## Drug-related felonies
+                      500, 501, 502, 503, 505, 507, 510, 512, 514, 515, 519, 520, 521, 523, 
+                      524, 529, 530, 531, 532, 568, 570,
+                      
+                      ### Weapons-related felonies
+                      781, 792, 793, 796)) %>% 
+  
+  #Select Variables of Interest
+  select(cmplnt_num, boro_nm, cmplnt_fr_dt, cmplnt_to_dt, cmplnt_fr_tm, ky_cd, ofns_desc, 
+         pd_cd, pd_desc, vic_race, vic_sex, vic_age_group, year, prem_typ_desc) %>% 
+  
+  #Create Classification of Felonies
+  mutate(boro_nm = if_else(boro_nm == "staten island", "staten_island", boro_nm),
+         
+     crime_group = if_else(pd_cd %in% c(178, 694, 697, 176, 180, 153, 157, 177, 168, 159, 166, 
+                                        164, 179, 155, 586, 696), "Sex-Related", 
+                               
+                   if_else(pd_cd %in% c(500, 501, 502, 503, 505, 507, 510, 512, 514, 515, 519, 
+                                        520, 521, 523, 524, 529, 530, 531, 532, 568, 570), 
+                                        "Drug-Related", 
+                               
+                   if_else(pd_cd %in% c(781, 792, 793, 796), "Weapons-Related", pd_cd))))
+
+#saveRDS(sex_drug_weapons, file = "./data/sex_drug_weapons.rds")
+```
+
+<br>
+
+The resulting dataset has **46,692 observations** and **14 variables**.
+```{r final_dataset, eval = FALSE}
+felonies = readRDS(file = "./data/sex_drug_weapons.rds")
+
+summary(felonies)
+```
+

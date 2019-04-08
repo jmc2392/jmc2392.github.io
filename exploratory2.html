@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Jacky Choi" />
 
-<meta name="date" content="2019-03-25" />
 
-<title>exploratory2</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -171,6 +172,107 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -198,6 +300,9 @@ $(document).ready(function () {
     <li>
       <a href="exploratory1.html">Exploring Activity Trends and Patterns Using EDA</a>
     </li>
+    <li>
+      <a href="exploratory2.html">Exploring NYC Crime Data Using EDA</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -224,6 +329,9 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="ordinalmodel.html">Analyzing Likert Scale of Depressive Symptoms</a>
+    </li>
+    <li>
+      <a href="felonies.html">Differences in Mean Length of NYC Felonies</a>
     </li>
   </ul>
 </li>
@@ -266,35 +374,536 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">exploratory2</h1>
-<h4 class="author"><em>Jacky Choi</em></h4>
-<h4 class="date"><em>March 25, 2019</em></h4>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<p><br></p>
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+<div id="exploring-nyc-crime-data-using-eda" class="section level2">
+<h2>Exploring NYC Crime Data Using EDA</h2>
+<p><br></p>
+<div id="skills" class="section level3">
+<h3>Skills</h3>
+<ul>
+<li>Exploratory Data Analysis (EDA)</li>
+<li>Data Wrangling</li>
+<li>Data Visualization</li>
+<li>R</li>
+</ul>
+<p><br></p>
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="exploratory2_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>NYC has a wealth of open and transparent data for anyone to study and analyze. Gathering such data and computing statistics on crime in NYC may provide critical insights regarding steps to be taken for other similar high-density and highly populated areas, which can be helpful for law enforcement and government officials to deter crime. For these particular project, we focused on examining the various factors, patterns, and variables associated with crime in New York City.</p>
+<p><br></p>
+</div>
+<div id="data-and-methods" class="section level3">
+<h3>Data and Methods</h3>
+<p>We decided to study sex-related, drug-related, and weapons-related felonies occurring from 2014 to 2017 in particular for a couple of reasons. First, we felt that there was a significant overlap among these three types of felonies - drug-related crimes, for example, are often committed concurrently with weapons-related crimes. Second, our raw data contained over 6 million observations and we wanted to reasonably limit our scope a bit. Third, felonies are generally ranked higher compared to misdemeanors and violations, in terms of violence, risk, severity, and danger, providing us with potentially more important insights than the other categories. These reasons led us to explore data on the three main types of felonies (sex-related, weapon-related and drug-related) that occurred in New York City from 2014 to 2017.</p>
+<p>We used the dataset collected by the New York City Police Department (NYPD); specifically, we used the NYPD Historic Complaint dataset, which provides longitudinal information on complaints filed to the NYPD, the type of crimes committed by a suspect, suspect demographics, victim demographics, location of crime, date and time of crime, and other variables. The link to the raw dataset is <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">here.</a> The link to how we acquired and cleaned the dataset is <a href="exploratory2_cleaning.html">here.</a></p>
+<p>Our final dataset, sex_drug_weapons, contains 46,692 observations. The list below provides all 14 variables in the dataset with their brief descriptions:</p>
+<p>
+<p><code>cmplnt_num</code>: Randomly generated ID for each incident <br> <code>boro_nm</code>: Borough in which the incident occurred <br> <code>cmplnt_fr_dt</code>: Exact start date of occurrence for the reported incident <br> <code>cmplnt_to_dt</code>: Exact end date of occurrence for the reported incident <br> <code>cmplnt_fr_tm</code>: Exact time of occurrence for the reported incident <br> <code>ky_cd</code>: Three-digit offense classification code <br> <code>ofns_desc</code>: Description of offense corresponding with key code (ky_cd) <br> <code>pd_cd</code>: Three-digit internal classification code <br> <code>pd_desc</code>: Description of internal classification corresponding with PD code (pd_cd) <br> <code>vic_race</code>: Victim’s race description <br> <code>vic_sex</code>: Victim’s sex description (D=Business/Organization, E=PSNY/People of the State of New York, F=Female, M=Male) <br> <code>year</code>: Year the incident occurred <br> <code>prem_typ_desc</code>: Specific description of premises where incident occurred <br> <code>crime_group</code>: Identifies whether crime was a sex-related felony, drug-related felony, or weapons-related felony <br></p>
+<p><br></p>
+</div>
+<div id="length-of-reported-incident" class="section level3">
+<h3>Length of Reported Incident</h3>
+<p>For our exploratory analysis, we examined whether the length of time between when the crime started and ended differed by borough and felony type. Examining the length of time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported felonies may have implications for law enforcement officials, policymakers, and urban residents.</p>
+<p><br></p>
+<div id="raw-table" class="section level4">
+<h4>Raw Table</h4>
+<p>First, we read in our data and create a variable calculating the length of the felony in days.</p>
+<p>Table 1. Reading in Dataset</p>
+<pre class="r"><code>felonies = readRDS(file = &quot;./data/sex_drug_weapons.rds&quot;)
+
+
+knitr::kable(head(felonies[1:5]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">cmplnt_num</th>
+<th align="left">boro_nm</th>
+<th align="left">cmplnt_fr_dt</th>
+<th align="left">cmplnt_to_dt</th>
+<th align="left">cmplnt_fr_tm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">642372589</td>
+<td align="left">brooklyn</td>
+<td align="left">2017-09-07</td>
+<td align="left">2017-09-07</td>
+<td align="left">06:15:00</td>
+</tr>
+<tr class="even">
+<td align="left">865947766</td>
+<td align="left">queens</td>
+<td align="left">2014-11-08</td>
+<td align="left">2014-11-08</td>
+<td align="left">22:50:00</td>
+</tr>
+<tr class="odd">
+<td align="left">265604404</td>
+<td align="left">bronx</td>
+<td align="left">2014-04-10</td>
+<td align="left">NA</td>
+<td align="left">19:30:00</td>
+</tr>
+<tr class="even">
+<td align="left">663741947</td>
+<td align="left">brooklyn</td>
+<td align="left">2017-08-12</td>
+<td align="left">2017-08-12</td>
+<td align="left">20:00:00</td>
+</tr>
+<tr class="odd">
+<td align="left">831735305</td>
+<td align="left">brooklyn</td>
+<td align="left">2017-06-29</td>
+<td align="left">2017-06-29</td>
+<td align="left">10:45:00</td>
+</tr>
+<tr class="even">
+<td align="left">617379463</td>
+<td align="left">staten_island</td>
+<td align="left">2016-06-17</td>
+<td align="left">2016-06-17</td>
+<td align="left">14:30:00</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(felonies[6:10])) </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ky_cd</th>
+<th align="left">ofns_desc</th>
+<th align="left">pd_cd</th>
+<th align="left">pd_desc</th>
+<th align="left">vic_race</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">118</td>
+<td align="left">dangerous weapons</td>
+<td align="left">793</td>
+<td align="left">weapons possession 3</td>
+<td align="left">unknown</td>
+</tr>
+<tr class="even">
+<td align="left">117</td>
+<td align="left">dangerous drugs</td>
+<td align="left">510</td>
+<td align="left">controlled substance, intent t</td>
+<td align="left">unknown</td>
+</tr>
+<tr class="odd">
+<td align="left">117</td>
+<td align="left">dangerous drugs</td>
+<td align="left">501</td>
+<td align="left">controlled substance,possess.</td>
+<td align="left">unknown</td>
+</tr>
+<tr class="even">
+<td align="left">118</td>
+<td align="left">dangerous weapons</td>
+<td align="left">792</td>
+<td align="left">weapons possession 1 &amp; 2</td>
+<td align="left">unknown</td>
+</tr>
+<tr class="odd">
+<td align="left">117</td>
+<td align="left">dangerous drugs</td>
+<td align="left">503</td>
+<td align="left">controlled substance,intent to</td>
+<td align="left">unknown</td>
+</tr>
+<tr class="even">
+<td align="left">117</td>
+<td align="left">dangerous drugs</td>
+<td align="left">501</td>
+<td align="left">controlled substance,possess.</td>
+<td align="left">unknown</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(felonies[11:15]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">vic_sex</th>
+<th align="left">vic_age_group</th>
+<th align="right">year</th>
+<th align="left">prem_typ_desc</th>
+<th align="left">crime_group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">e</td>
+<td align="left">unknown</td>
+<td align="right">2017</td>
+<td align="left">residence-house</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="even">
+<td align="left">e</td>
+<td align="left">NA</td>
+<td align="right">2014</td>
+<td align="left">street</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="odd">
+<td align="left">e</td>
+<td align="left">NA</td>
+<td align="right">2014</td>
+<td align="left">street</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="even">
+<td align="left">e</td>
+<td align="left">unknown</td>
+<td align="right">2017</td>
+<td align="left">residence - apt. house</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="odd">
+<td align="left">e</td>
+<td align="left">unknown</td>
+<td align="right">2017</td>
+<td align="left">residence - public housing</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="even">
+<td align="left">e</td>
+<td align="left">unknown</td>
+<td align="right">2016</td>
+<td align="left">grocery/bodega</td>
+<td align="left">Drug-Related</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Note that not every observation has a value for <code>cmplnt_to_dt</code>. This could be due to several factors - perhaps the crime was never closed (i.e., it remained an ongoing crime) or perhaps the city was not able to record the value for that variable for whatever reason. To remedy this issue, we take on two approaches: <br></p>
+<ul>
+<li>We input the end date for the crime as the difference between the end of 2017 and the start date of the occurrence of the crime (<code>cmplnt_fr_dt</code>). This makes sense if the crime remained ongoing until the end of 2017 or beyond. Our resulting dataset is <code>time_data</code>.</li>
+<li>We exclude missing values for end dates (denoted by ‘NA’). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is <code>time_data2</code>.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="include-end-dates" class="section level4">
+<h4>Include End Dates</h4>
+<p>Table 2. Input End Dates for Crime Occurrence</p>
+<pre class="r"><code>time_data = felonies %&gt;%
+  mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),
+         boro_nm = forcats::fct_relevel(boro_nm, &quot;manhattan&quot;)) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(time_diff2 = (as.numeric(cmplnt_to_dt - cmplnt_fr_dt, units = &quot;days&quot;, 
+                       na.rm = TRUE))) %&gt;% 
+  mutate(time_diff2 = if_else(is.na(time_diff2), as.Date(&quot;2017-12-31&quot;) 
+         - as.Date(cmplnt_fr_dt), time_diff2)) %&gt;%   
+  select(time_diff2, boro_nm, crime_group)
+
+knitr::kable(head(time_data))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">time_diff2</th>
+<th align="left">boro_nm</th>
+<th align="left">crime_group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0 days</td>
+<td align="left">brooklyn</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="even">
+<td align="left">0 days</td>
+<td align="left">queens</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="odd">
+<td align="left">1361 days</td>
+<td align="left">bronx</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="even">
+<td align="left">0 days</td>
+<td align="left">brooklyn</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="odd">
+<td align="left">0 days</td>
+<td align="left">brooklyn</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="even">
+<td align="left">0 days</td>
+<td align="left">staten_island</td>
+<td align="left">Drug-Related</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="exclude-missing-end-dates" class="section level4">
+<h4>Exclude Missing End Dates</h4>
+<p>Table 3. Exclude Missing End Dates for Crime Occurrence</p>
+<pre class="r"><code>time_data2 = felonies %&gt;%
+  mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),
+         boro_nm = forcats::fct_relevel(boro_nm, &quot;manhattan&quot;)) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(time_diff2 = (as.numeric(cmplnt_to_dt - cmplnt_fr_dt, units = &quot;days&quot;, 
+                       na.rm = FALSE))) %&gt;% 
+  select(time_diff2, boro_nm, crime_group) %&gt;% 
+  filter(!is.na(time_diff2))
+
+knitr::kable(head(time_data2))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">time_diff2</th>
+<th align="left">boro_nm</th>
+<th align="left">crime_group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">brooklyn</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">queens</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">brooklyn</td>
+<td align="left">Weapons-Related</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">brooklyn</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">staten_island</td>
+<td align="left">Drug-Related</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">brooklyn</td>
+<td align="left">Weapons-Related</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="average-length-by-crime-group" class="section level4">
+<h4>Average Length by Crime Group</h4>
+<p>We then create tables showing the average length of felonies in days by borough and crime group.</p>
+<p>Table 4. Average Length of Felonies by Crime Group</p>
+<pre class="r"><code>tidy1 = time_data %&gt;% 
+  rename(`Crime Group` = crime_group) %&gt;% 
+  group_by(`Crime Group`) %&gt;%
+  summarise(&#39;Count with End Date&#39; = n(), 
+            `Avg. Length With End Date` = mean(time_diff2),
+            `SD With End Date` = sd(time_diff2))
+
+tidy2 = time_data2 %&gt;% 
+  rename(`Crime Group` = crime_group) %&gt;% 
+  group_by(`Crime Group`) %&gt;%
+  summarise(&#39;Count w/o End Date&#39; = n(), 
+            `Avg. Length Excluding NAs` = mean(time_diff2),
+            `SD Excluding NAs` = sd(time_diff2))
+
+merged_table &lt;- merge(tidy1, tidy2, by = c(&quot;Crime Group&quot;))
+knitr::kable(merged_table)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Crime Group</th>
+<th align="right">Count with End Date</th>
+<th align="left">Avg. Length With End Date</th>
+<th align="left">SD With End Date</th>
+<th align="right">Count w/o End Date</th>
+<th align="right">Avg. Length Excluding NAs</th>
+<th align="right">SD Excluding NAs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Drug-Related</td>
+<td align="right">18293</td>
+<td align="left">156.8032 days</td>
+<td align="left">363.8860 days</td>
+<td align="right">14591</td>
+<td align="right">0.7349879</td>
+<td align="right">13.78610</td>
+</tr>
+<tr class="even">
+<td align="left">Sex-Related</td>
+<td align="right">8646</td>
+<td align="left">157.3583 days</td>
+<td align="left">350.1052 days</td>
+<td align="right">7128</td>
+<td align="right">23.3329008</td>
+<td align="right">91.21814</td>
+</tr>
+<tr class="odd">
+<td align="left">Weapons-Related</td>
+<td align="right">19753</td>
+<td align="left">150.4999 days</td>
+<td align="left">355.5124 days</td>
+<td align="right">15865</td>
+<td align="right">0.3511451</td>
+<td align="right">10.15509</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="average-length-by-borough" class="section level4">
+<h4>Average Length by Borough</h4>
+<p>Table 5. Average Length of Felonies by Borough</p>
+<pre class="r"><code>tidy3 = time_data %&gt;% 
+  filter(!is.na(boro_nm)) %&gt;% 
+  rename(Borough = boro_nm) %&gt;% 
+  group_by(Borough) %&gt;%
+  summarise(&#39;Count with End Date&#39; = n(), 
+            `Avg. Length With End Date` = mean(time_diff2), 
+            `SD With End Dates` = sd(time_diff2))
+
+tidy4 = time_data2 %&gt;% 
+  filter(!is.na(boro_nm)) %&gt;% 
+  rename(Borough = boro_nm) %&gt;% 
+  group_by(Borough) %&gt;%
+  summarise(&#39;Count w/o End Date&#39; = n(), 
+            `Avg. Length Excluding NAs` = mean(time_diff2), 
+            `SD Excluding NAs` = sd(time_diff2))
+
+merged_table2 &lt;- merge(tidy3, tidy4, by = c(&quot;Borough&quot;))
+knitr::kable(merged_table2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Borough</th>
+<th align="right">Count with End Date</th>
+<th align="left">Avg. Length With End Date</th>
+<th align="left">SD With End Dates</th>
+<th align="right">Count w/o End Date</th>
+<th align="right">Avg. Length Excluding NAs</th>
+<th align="right">SD Excluding NAs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bronx</td>
+<td align="right">12848</td>
+<td align="left">216.5919 days</td>
+<td align="left">410.3039 days</td>
+<td align="right">9261</td>
+<td align="right">4.519990</td>
+<td align="right">41.55909</td>
+</tr>
+<tr class="even">
+<td align="left">brooklyn</td>
+<td align="right">15014</td>
+<td align="left">128.3765 days</td>
+<td align="left">331.8315 days</td>
+<td align="right">12615</td>
+<td align="right">4.258720</td>
+<td align="right">38.26172</td>
+</tr>
+<tr class="odd">
+<td align="left">manhattan</td>
+<td align="right">9200</td>
+<td align="left">151.6389 days</td>
+<td align="left">349.8756 days</td>
+<td align="right">7380</td>
+<td align="right">4.274063</td>
+<td align="right">38.52996</td>
+</tr>
+<tr class="even">
+<td align="left">queens</td>
+<td align="right">7995</td>
+<td align="left">108.5520 days</td>
+<td align="left">310.8985 days</td>
+<td align="right">6985</td>
+<td align="right">6.540014</td>
+<td align="right">47.96291</td>
+</tr>
+<tr class="odd">
+<td align="left">staten_island</td>
+<td align="right">1634</td>
+<td align="left">139.4144 days</td>
+<td align="left">337.9634 days</td>
+<td align="right">1343</td>
+<td align="right">7.300136</td>
+<td align="right">62.23328</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div id="discussion" class="section level3">
+<h3>Discussion</h3>
+<p>From our tables above, we notice that there seems to be a marked difference in the average length of incidents across boroughs and felony type. Notably, we see that, on average, sex-related felonies seem to have a longer average incident length than drug-related and weapons-related felonies, whether we input end dates for crimes or exclude NAs. In terms of boroughs, Bronx ranks the highest for average length of felonies when inputting end dates for crimes; Staten Island slightly ranks higher than the rest of the boroughs when we exclude NAs.</p>
+<p>View the <a href="felonies.html">“Differences in Mean Length of NYC Felonies”</a> project under the “Data Analysis - R” page for formal statistical tests.</p>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 

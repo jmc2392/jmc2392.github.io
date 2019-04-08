@@ -1,30 +1,231 @@
 ---
-title: "exploratory2"
-author: "Jacky Choi"
-date: "March 25, 2019"
-output: html_document
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 5
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+<br>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+##Exploring NYC Crime Data Using EDA
+
+<br>
+
+###Skills 
+
+* Exploratory Data Analysis (EDA)
+* Data Wrangling
+* Data Visualization
+* R
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ out.width = "100%"
+)
+
+library(tidyverse)
 ```
 
-## R Markdown
+<br>
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+###Introduction
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+NYC has a wealth of open and transparent data for anyone to study and analyze. Gathering such data and computing statistics on crime in NYC may provide critical insights regarding steps to be taken for other similar high-density and highly populated areas, which can be helpful for law enforcement and government officials to deter crime. For these particular project, we focused on examining the various factors, patterns, and variables associated with crime in New York City.
 
-```{r cars}
-summary(cars)
+<br>
+
+###Data and Methods
+
+We decided to study sex-related, drug-related, and weapons-related felonies occurring from 2014 to 2017 in particular for a couple of reasons. First, we felt that there was a significant overlap among these three types of felonies - drug-related crimes, for example, are often committed concurrently with weapons-related crimes. Second, our raw data contained over 6 million observations and we wanted to reasonably limit our scope a bit. Third, felonies are generally ranked higher compared to misdemeanors and violations, in terms of violence, risk, severity, and danger, providing us with potentially more important insights than the other categories. These reasons led us to explore data on the three main types of felonies (sex-related, weapon-related and drug-related) that occurred in New York City from 2014 to 2017.
+
+We used the dataset collected by the New York City Police Department (NYPD); specifically, we used the NYPD Historic Complaint dataset, which provides longitudinal information on complaints filed to the NYPD, the type of crimes committed by a suspect, suspect demographics, victim demographics, location of crime, date and time of crime, and other variables. The link to the raw dataset is [here.](https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i) The link to how we acquired and cleaned the dataset is [here.](exploratory2_cleaning.pdf) 
+
+Our final dataset, sex_drug_weapons, contains 46,692 observations. The list below provides all 14 variables in the dataset with their brief descriptions:
+
+<p> `cmplnt_num`: Randomly generated ID for each incident <br>
+`boro_nm`: Borough in which the incident occurred <br>
+`cmplnt_fr_dt`: Exact start date of occurrence for the reported incident <br>
+`cmplnt_to_dt`: Exact end date of occurrence for the reported incident <br> 
+`cmplnt_fr_tm`: Exact time of occurrence for the reported incident <br> 
+`ky_cd`: Three-digit offense classification code <br> 
+`ofns_desc`: Description of offense corresponding with key code (ky_cd) <br> 
+`pd_cd`: Three-digit internal classification code <br> 
+`pd_desc`: Description of internal classification corresponding with PD code (pd_cd) <br>
+`vic_race`: Victim’s race description <br> 
+`vic_sex`: Victim’s sex description (D=Business/Organization, E=PSNY/People of the State of New York, F=Female, M=Male) <br> 
+`year`: Year the incident occurred <br> 
+`prem_typ_desc`: Specific description of premises where incident occurred <br> 
+`crime_group`: Identifies whether crime was a sex-related felony, drug-related felony, or weapons-related felony <br>
+
+<br>
+
+###Length of Reported Incident
+
+For our exploratory analysis, we examined whether the length of time between when the crime started and ended differed by borough and felony type. Examining the length of time between when the crime started and ended can serve as a proxy indicator of the severity of the crime. Longer times may mean the crime is more severe, harder to resolve, more violent, and may require more resources to deal with. Furthermore, differences in the length of reported felonies may have implications for law enforcement officials, policymakers, and urban residents.
+
+<br>
+
+####Raw Table
+
+First, we read in our data and create a variable calculating the length of the felony in days.
+
+Table 1. Reading in Dataset
+```{r read_data}
+felonies = readRDS(file = "./data/sex_drug_weapons.rds")
+
+
+knitr::kable(head(felonies[1:5]))
+knitr::kable(head(felonies[6:10])) 
+knitr::kable(head(felonies[11:15]))
 ```
 
-## Including Plots
+<br>
 
-You can also embed plots, for example:
+Note that not every observation has a value for `cmplnt_to_dt`. This could be due to several factors - perhaps the crime was never closed (i.e., it remained an ongoing crime) or perhaps the city was not able to record the value for that variable for whatever reason. To remedy this issue, we take on two approaches: <br>
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+* We input the end date for the crime as the difference between the end of 2017 and the start date of the occurrence of the crime (`cmplnt_fr_dt`). This makes sense if the crime remained ongoing until the end of 2017 or beyond. Our resulting dataset is `time_data`.
+* We exclude missing values for end dates (denoted by 'NA'). This makes sense if the city was not able to record the end dates for the crime for whatever reason. Our resulting dataset is `time_data2`.
+
+<br>
+
+####Include End Dates
+
+Table 2. Input End Dates for Crime Occurrence
+```{r time_data}
+time_data = felonies %>%
+  mutate(crime_group = forcats::fct_relevel(crime_group, "Drug-Related"),
+         boro_nm = forcats::fct_relevel(boro_nm, "manhattan")) %>% 
+  janitor::clean_names() %>% 
+  mutate(time_diff2 = (as.numeric(cmplnt_to_dt - cmplnt_fr_dt, units = "days", 
+                       na.rm = TRUE))) %>% 
+  mutate(time_diff2 = if_else(is.na(time_diff2), as.Date("2017-12-31") 
+         - as.Date(cmplnt_fr_dt), time_diff2)) %>%   
+  select(time_diff2, boro_nm, crime_group)
+
+knitr::kable(head(time_data))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+<br>
+
+####Exclude Missing End Dates
+
+Table 3. Exclude Missing End Dates for Crime Occurrence
+```{r time_data2}
+time_data2 = felonies %>%
+  mutate(crime_group = forcats::fct_relevel(crime_group, "Drug-Related"),
+         boro_nm = forcats::fct_relevel(boro_nm, "manhattan")) %>% 
+  janitor::clean_names() %>% 
+  mutate(time_diff2 = (as.numeric(cmplnt_to_dt - cmplnt_fr_dt, units = "days", 
+                       na.rm = FALSE))) %>% 
+  select(time_diff2, boro_nm, crime_group) %>% 
+  filter(!is.na(time_diff2))
+
+knitr::kable(head(time_data2))
+```
+
+<br>
+
+####Average Length by Crime Group
+
+We then create tables showing the average length of felonies in days by borough and crime group.
+
+Table 4. Average Length of Felonies by Crime Group
+```{r tidy_table1_2}
+tidy1 = time_data %>% 
+  rename(`Crime Group` = crime_group) %>% 
+  group_by(`Crime Group`) %>%
+  summarise('Count with End Date' = n(), 
+            `Avg. Length With End Date` = mean(time_diff2),
+            `SD With End Date` = sd(time_diff2))
+
+tidy2 = time_data2 %>% 
+  rename(`Crime Group` = crime_group) %>% 
+  group_by(`Crime Group`) %>%
+  summarise('Count w/o End Date' = n(), 
+            `Avg. Length Excluding NAs` = mean(time_diff2),
+            `SD Excluding NAs` = sd(time_diff2))
+
+merged_table <- merge(tidy1, tidy2, by = c("Crime Group"))
+knitr::kable(merged_table)
+```
+
+<br>
+
+####Average Length by Borough
+
+Table 5. Average Length of Felonies by Borough
+```{r tidy_table3_4}
+tidy3 = time_data %>% 
+  filter(!is.na(boro_nm)) %>% 
+  rename(Borough = boro_nm) %>% 
+  group_by(Borough) %>%
+  summarise('Count with End Date' = n(), 
+            `Avg. Length With End Date` = mean(time_diff2), 
+            `SD With End Dates` = sd(time_diff2))
+
+tidy4 = time_data2 %>% 
+  filter(!is.na(boro_nm)) %>% 
+  rename(Borough = boro_nm) %>% 
+  group_by(Borough) %>%
+  summarise('Count w/o End Date' = n(), 
+            `Avg. Length Excluding NAs` = mean(time_diff2), 
+            `SD Excluding NAs` = sd(time_diff2))
+
+merged_table2 <- merge(tidy3, tidy4, by = c("Borough"))
+knitr::kable(merged_table2)
+```
+
+<br>
+
+###Discussion
+
+From our tables above, we notice that there seems to be a marked difference in the average length of incidents across boroughs and felony type. Notably, we see that, on average, sex-related felonies seem to have a longer average incident length than drug-related and weapons-related felonies, whether we input end dates for crimes or exclude NAs. In terms of boroughs, Bronx ranks the highest for average length of felonies when inputting end dates for crimes; Staten Island slightly ranks higher than the rest of the boroughs when we exclude NAs.
+
+View the ["Differences in Mean Length of NYC Felonies"](felonies.html) project under the "Data Analysis - R" page for formal statistical tests.
+
+

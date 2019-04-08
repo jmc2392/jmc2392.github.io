@@ -61,6 +61,7 @@ $(document).ready(function() {
 * Data Wrangling
 * Data Visualization
 * R
+* Statistical Analysis
 
 <br>
 

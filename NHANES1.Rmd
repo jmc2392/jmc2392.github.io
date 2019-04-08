@@ -46,6 +46,7 @@ font-weight: bold;
 ###Skills
 * Data Cleaning
 * Data Analysis
+* Statistical Analysis
 * Logistic Regression
 * Research Report Writing
 * SAS

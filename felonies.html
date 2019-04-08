@@ -182,7 +182,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4,h5",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -408,36 +408,175 @@ font-weight: bold;
 }
 
 </style>
-<div id="alcohol-use-and-smoking-in-the-nhanes-dataset" class="section level2">
-<h2>Alcohol Use and Smoking in the NHANES Dataset</h2>
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+<div id="differences-in-mean-length-of-nyc-felonies" class="section level2">
+<h2>Differences in Mean Length of NYC Felonies</h2>
 <p><br></p>
 <div id="skills" class="section level3">
 <h3>Skills</h3>
 <ul>
-<li>Data Cleaning</li>
-<li>Data Analysis</li>
+<li>R</li>
 <li>Statistical Analysis</li>
-<li>Logistic Regression</li>
-<li>Research Report Writing</li>
-<li>SAS</li>
 </ul>
 <p><br></p>
 </div>
-<div id="abstract" class="section level3">
-<h3>Abstract</h3>
-<p><u>Background:</u> Previous literature has reported an association between alcohol use and smoking. This study examined whether level of alcohol use in the past 12 months predicted cigarette use among U.S. adults aged 18-65, and whether this association was modified by race, adjusted for income and age.</p>
-<p><u>Methods:</u> 2015-2016 NHANES data were analyzed. Alcohol usage was divided into four categories: No Alcohol Use, Low Alcohol Use, Moderate Alcohol Use, and High Alcohol Use. Smoking status was operationalized as binary variable, income (14-level) and race (6-level) as categorical variables, and age as a continuous variable. Bivariate regression was conducted between alcohol use and smoking status. Multivariable logistic regression was used to adjust for income and age and to test for differences in racial group strata.</p>
-<p><u>Findings:</u> Data from 1,440 respondents were analyzed after excluding those who refused, had missing data, or answered “don’t know.” We found that levels of alcohol usage significantly predicted smoking status at the 5% significance level (Model 1, <em>X</em><sup>2</sup> = 33.5250, p &lt; 0.0001). We also found that levels of alcohol usage significantly predicted smoking at the 5% significance level, adjusted for income and age (Model 2, <em>X</em><sup>2</sup> = 29.8135, p &lt; 0.0001). We did not find that race modified the association between levels of alcohol use and smoking status, adjusted for income and age (Model 3, <em>x</em><sup>2</sup> = 8.7703, p = 0.8892).</p>
-<p><u>Interpretation:</u> Alcohol consumption level was significantly associated with smoking status at the 5% significance level and remained significant after adjusting for income and age (Model 2). This association was not modified by race (Model 3), which refuted our research hypothesis on the effects of race.</p>
-<p><u>Conclusion:</u> Because our results did not show that race significantly modified the association between alcohol use and smoking, public health researchers may need to focus more on other demographic risk factors, such as income and age, when implementing alcohol and smoking abatement interventions. <br></p>
-<p><img src="images/table1.JPG" alt="table1" style="width:75%; border:1px solid"></p>
-<p><br></p>
-<p><img src="images/table2.JPG" alt="table2" style="width:75%; border:1px solid"></p>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>In the <a href="exploratory2.html">“Exploring NYC Crime Data Using EDA”</a> exploratory data analysis, we found that the average length of time of reported crime (i.e., time between when it started and when it ended) differed by felony type (sex-related, drug-related, and weapons-related), as well as by borough in NYC.</p>
+<p>We now want to test whether these differences are statistically significant. Testing this difference can yield important insights regarding whether there is a disproportionate amount of felonies occurring in a certain borough. Finding a significant result may also suggest that certain felonies are more extensive and complicated, potentially more dangerous or violent, or may require more resources to deal with. Lastly, it may indicate that certain types of victims (e.g., victims of sex trafficking) are at a higher risk compared to those involved in other types of felonies.</p>
 <p><br></p>
 </div>
-<div id="sas-code" class="section level3">
-<h3>SAS Code</h3>
-<p><img src="images/sas2.JPG" alt="sas2" style="width:100%; border:transparent"> <img src="images/sas3.JPG" alt="sas3" style="width:100%; border:transparent"> <img src="images/sas4.JPG" alt="sas4" style="width:100%; border:transparent"> <img src="images/sas5.JPG" alt="sas5" style="width:100%; border:transparent"> <img src="images/sas6.JPG" alt="sas6" style="width:100%; border:transparent"> <img src="images/sas7.JPG" alt="sas7" style="width:100%; border:transparent"> <img src="images/sas8.JPG" alt="sas8" style="width:100%; border:transparent"> <img src="images/sas9.JPG" alt="sas9" style="width:100%; border:transparent"> <img src="images/sas10.JPG" alt="sas10" style="width:100%; border:transparent"> <img src="images/sas11.JPG" alt="sas11" style="width:100%; border:transparent"> <img src="images/sas12.JPG" alt="sas12" style="width:100%; border:transparent"> <img src="images/sas13.JPG" alt="sas13" style="width:100%; border:transparent"> <img src="images/sas14.JPG" alt="sas14" style="width:100%; border:transparent"> <img src="images/sas15.JPG" alt="sas15" style="width:100%; border:transparent"> <img src="images/sas16.JPG" alt="sas16" style="width:100%; border:transparent"> <img src="images/sas17.JPG" alt="sas17" style="width:100%; border:transparent"></p>
+<div id="data-and-methods" class="section level3">
+<h3>Data and Methods</h3>
+<p>Results from the exploratory data analysis are included below. We notice that sex-related felonies last the longest, on average; compared to the other boroughs, Bronx reports the longest felonies, on average. Note that this statistical analysis uses data with missing end dates inputted as the last day of 2017, which was the last year of recorded data. Also, we used Manhattan as the reference borough and drug-related felonies as the reference felony.</p>
+<p>Figure 1: Mean Length of Felonies by Crime Group <br> <img src="images/felonies1.JPG" alt="felonies1" style="width:75%; border:1px solid"></p>
+<p><br></p>
+<p>Figure 2: Mean Length of Felonies by Borough <br> <img src="images/felonies3.JPG" alt="felonies3" style="width:75%; border:1px solid"></p>
+<p>See the exploratory data analysis project related to this for fuller details regarding how the data were cleaned.</p>
+<p><br></p>
+</div>
+<div id="results" class="section level3">
+<h3>Results</h3>
+<div id="differences-by-felony-type" class="section level4">
+<h4>Differences by Felony Type</h4>
+<p>We first test whether there is a difference in average length of crime by felony. Since we are testing the difference in means between three groups, we can conduct an ANOVA test. To ensure that the assumptions of the ANOVA test are not violated, we first test for homogeneity of variances. We used Levene’s test to test homogeneity of variances. We see from the results below that the p-value is greater than 0.05. Therefore, the assumption of homogenous variances is met.</p>
+<pre class="r"><code>time_data$time_diff2 &lt;- as.numeric(time_data$time_diff2)
+
+leveneTest(time_diff2 ~ crime_group, data = time_data) %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">df</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">group</td>
+<td align="right">2</td>
+<td align="right">1.876591</td>
+<td align="right">0.1531227</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">46689</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>We can now proceed to use the ANOVA test. The results indicate that the p-value is greater than 0.05; thus, we have insufficient data to conclude that at least one of the mean lengths of crime differ by felony type.</p>
+<pre class="r"><code>anova &lt;- aov(time_diff2 ~ crime_group, data = time_data)
+broom::tidy(anova)</code></pre>
+<pre><code>## # A tibble: 2 x 6
+##   term           df       sumsq  meansq statistic p.value
+##   &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 crime_group     2     480567. 240284.      1.88   0.153
+## 2 Residuals   46689 5978184131. 128043.     NA     NA</code></pre>
+<p><br></p>
+</div>
+<div id="differences-by-borough" class="section level4">
+<h4>Differences by Borough</h4>
+<p>We now test whether there is a difference in average length of crime by borough. Again, to ensure that the assumptions of the ANOVA test are not violated, we first test for homogeneity of variances. We used Levene’s test to test homogeneity of variances. We see from the results below that the p-value is less than 0.05. Therefore, the assumption of homogenous variances is not met.</p>
+<pre class="r"><code>time_data$time_diff2 &lt;- as.numeric(time_data$time_diff2)
+
+leveneTest(time_diff2 ~ boro_nm, data = time_data) %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">df</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">group</td>
+<td align="right">4</td>
+<td align="right">152.4968</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">46686</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>We resort to using a non-parametric approach in detecting a difference of means among these five boroughs by utilizing the Kruskal-Wallis test. From the test below, we can see that the p-value is less that 0.05. We conclude that at the 5% level of significance, at least one of the average lengths of reported crimes (i.e., time between when the crime started and when it ended) is different among the five boroughs.</p>
+<pre class="r"><code>kruskal.test(time_diff2 ~ boro_nm, data = time_data) %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="left">method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">646.7241</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="left">Kruskal-Wallis rank sum test</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Since the Kruskal–Wallis test is significant, we now conduct a post-hoc analysis to determine which boroughs differ from each other. We use the Dunn test for the post-hoc analysis. From the test below, we can clearly see that the average length of felony is statistically different from borough to borough, except when you compare 1) Staten Island and Manhattan and 2) Staten Island and Brooklyn.</p>
+<pre class="r"><code>dunn.test(time_data$time_diff2, time_data$boro_nm, method = &quot;bonferroni&quot;)</code></pre>
+<pre><code>##   Kruskal-Wallis rank sum test
+## 
+## data: x and group
+## Kruskal-Wallis chi-squared = 646.7241, df = 4, p-value = 0
+## 
+## 
+##                            Comparison of x by group                            
+##                                  (Bonferroni)                                  
+## Col Mean-|
+## Row Mean |      bronx   brooklyn   manhatta     queens
+## ---------+--------------------------------------------
+## brooklyn |   21.58242
+##          |    0.0000*
+##          |
+## manhatta |   12.68001  -6.510852
+##          |    0.0000*    0.0000*
+##          |
+##   queens |   21.69130   3.582797   8.882338
+##          |    0.0000*    0.0017*    0.0000*
+##          |
+## staten_i |   8.359785  -1.528450   1.727960  -3.293653
+##          |    0.0000*     0.6320     0.4200    0.0049*
+## 
+## alpha = 0.05
+## Reject Ho if p &lt;= alpha/2</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="discussion" class="section level3">
+<h3>Discussion</h3>
+<p>The results show that the average length of reported crimes does not statistically differ by felony type (p = 0.153). However, when we examine all felony types by borough, we notice that the average length of reported crimes does statistically differ by borough - we found statistical differences for each borough-borough comparison, except when comparing 1) Staten Island and Manhattan and 2) Staten Island and Brooklyn. All together, we do not have evidence suggesting that sex-related, weapons-related, or drug-related felonies have different mean lengths of crime; however, we have sufficient evidence to conclude that the length of felonies vary by borough, with the longest felonies occuring in the Bronx.</p>
 </div>
 </div>
 
