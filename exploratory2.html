@@ -635,7 +635,7 @@ knitr::kable(head(felonies[1:5]))</code></pre>
 </div>
 <div id="approach-1" class="section level4">
 <h4>Approach 1</h4>
-<p>In the table below, we input the end dates for any crime with an “NA” for the variable cmplnt_to_dt. The first 10 rows of the resulting dataset, time_data, is shown below.</p>
+<p>In the table below, we input the end dates for any crime with an “NA” for the variable cmplnt_to_dt. The first few rows of the resulting dataset, time_data, is shown below.</p>
 <p>Table 2. Input End Dates for Crime Occurrence</p>
 <pre class="r"><code>time_data = felonies %&gt;%
   mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),
@@ -693,7 +693,7 @@ knitr::kable(head(time_data))</code></pre>
 </div>
 <div id="approach-2" class="section level4">
 <h4>Approach 2</h4>
-<p>Our second approach involves excluding any observations with missing end dates for crimes. The first 10 rows of the resulting dataset, time_data2, is shown in the table below.</p>
+<p>Our second approach involves excluding any observations with missing end dates for crimes. The first few rows of the resulting dataset, time_data2, is shown in the table below.</p>
 <p>Table 3. Exclude Missing End Dates for Crime Occurrence</p>
 <pre class="r"><code>time_data2 = felonies %&gt;%
   mutate(crime_group = forcats::fct_relevel(crime_group, &quot;Drug-Related&quot;),
@@ -750,7 +750,7 @@ knitr::kable(head(time_data2))</code></pre>
 </div>
 <div id="average-length-by-crime-group" class="section level4">
 <h4>Average Length by Crime Group</h4>
-<p>We then create tables showing the average length of felonies in days by borough and crime group.</p>
+<p>We then create tables showing the average length of felonies in days by borough and crime group for <em>both</em> approaches. Notice the dramatic change in both the counts and average length of felonies between the approaches.</p>
 <p>Table 4. Average Length of Felonies by Crime Group</p>
 <pre class="r"><code>tidy1 = time_data %&gt;% 
   rename(`Crime Group` = crime_group) %&gt;% 
