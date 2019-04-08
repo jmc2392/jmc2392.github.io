@@ -164,5 +164,6 @@ dunn.test(time_data$time_diff2, time_data$boro_nm, method = "bonferroni")
 <br>
 
 ### Discussion
+
 The results show that the average length of reported crimes does not statistically differ by felony type (p = 0.153). However, when we examine all felony types by borough, we notice that the average length of reported crimes does statistically differ by borough - we found statistical differences for each borough-borough comparison, except when comparing 1) Staten Island and Manhattan and 2) Staten Island and Brooklyn. All together, we do not have evidence suggesting that sex-related, weapons-related, or drug-related felonies have different mean lengths of crime; however, we have sufficient evidence to conclude that the length of felonies vary by borough, with the longest felonies occuring in the Bronx.
 
