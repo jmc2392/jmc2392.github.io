@@ -57,6 +57,8 @@ $(document).ready(function() {
 
 ###Skills 
 
+* Data Analysis
+* ANOVA
 * R
 * Statistical Analysis
 
