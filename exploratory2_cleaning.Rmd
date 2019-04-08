@@ -202,7 +202,7 @@ sex_drug_weapons = nyc_felonies %>%
 <br>
 
 The resulting dataset has **46,692 observations** and **14 variables**.
-```{r final_dataset, eval = FALSE}
+```{r final_dataset}
 felonies = readRDS(file = "./data/sex_drug_weapons.rds")
 
 summary(felonies)
