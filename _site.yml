@@ -11,18 +11,22 @@ navbar:
           href: exploratory1.html
         - text: "Exploring NYC Crime Data Using EDA"
           href: exploratory2.html
-    - text: "Data Analysis - SAS"
-      menu:
-        - text: "Alcohol and Smoking Using NHANES"
-          href: NHANES1.html
-        - text: "Away-From-Home Meals and BMI"
-          href: NHANES2.html
     - text: "Data Analysis - R"
       menu:
         - text: "Analyzing Likert Scale of Depressive Symptoms"
           href: ordinalmodel.html
         - text: "Differences in Mean Length of NYC Felonies"
           href: felonies.html
+    - text: "Data Analysis - SAS"
+      menu:
+        - text: "Alcohol and Smoking Using NHANES"
+          href: NHANES1.html
+        - text: "Away-From-Home Meals and BMI"
+          href: NHANES2.html
+    - text: "SQL Queries"
+      menu:
+        - text: "SQL Queries With NHANES Data "
+          href: sql.html
     - text: "Biostatistics"
       menu:
         - text: "Survival Analysis of Stroke Patients"

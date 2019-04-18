@@ -430,145 +430,143 @@ $(document).ready(function() {
 
 });
 </script>
-<div id="exploring-nyc-crime-data-using-eda---cleaning-data" class="section level2">
-<h2>Exploring NYC Crime Data Using EDA - Cleaning Data</h2>
+<div id="sql-queries-with-nhanes-data" class="section level2">
+<h2>SQL Queries With NHANES Data</h2>
 <p><br></p>
-<div id="importing-data" class="section level3">
-<h3>Importing Data</h3>
-<p>Below, we include the code we used to import and clean the data for the “Exploring NYC Crime Data Using EDA” project:</p>
-<pre class="r"><code>library(RSocrata)</code></pre>
-<pre><code>## Warning: package &#39;RSocrata&#39; was built under R version 3.5.3</code></pre>
-<pre class="r"><code>library(tidyverse)
-library(lubridate)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:base&#39;:
-## 
-##     date</code></pre>
-<pre class="r"><code>nyc_crime &lt;- read_csv(&quot;./data/NYPD_Complaint_Data_Historic.csv&quot;)
-
-#Code for importing directly from web:
-#nyc_crime = read.socrata(&quot;https://data.cityofnewyork.us/resource/9s4h-37hy.json&quot;, 
-#                          app_token = NULL, 
-#                          email = NULL, 
-#                          password = NULL,
-#                          stringsAsFactors = FALSE)
-
-#saveRDS(nyc_crime, file = &quot;./data/nyc_crime.rds&quot;)</code></pre>
-<p>The raw, acquired dataset has 6,036,805 observations and 35 variables. Broadly speaking, the variables contain information on the exact date, time and location of crime, description of crime, demographic information of the victim and suspect, and police department infromation. For more information on the variables, click <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">here</a>.</p>
+<div id="skills" class="section level3">
+<h3>Skills</h3>
+<ul>
+<li>SQL</li>
+</ul>
 <p><br></p>
 </div>
-<div id="penal-codes" class="section level3">
-<h3>Penal Codes</h3>
-<p>We were interested in sex-related, weapon-related and drug-related felonies occurring in NYC from 2014 - 2017. Below is a list of the penal codes associated with each type of felony.</p>
-<p><br></p>
-<div id="sexrelated-felonies" class="section level4">
-<h4>Sex–Related Felonies <br></h4>
-<p><code>178</code> Facilitating A Sex Offense With A Controlled Substance <br> <code>694</code> Incest <br> <code>697</code> Use Of A Child In Sexual Performance <br> <code>176</code> Sex Crimes <br> <code>180</code> Course Of Sexual Conduct Against Child <br> <code>153</code> Rape 3 <br> <code>157</code> Rape 1 <br> <code>177</code> Sexual Abuse <br> <code>168</code> Sodomy 1 <br> <code>159</code> Rape 1 Attempt <br> <code>166</code> Sodomy 2 <br> <code>164</code> Sodomy 3 <br> <code>179</code> Aggrevated Sexual Abuse <br> <code>155</code> Rape 2 <br> <code>586</code> Sextrafficking <br> <code>696</code> Promoting Sexual Performance – Child</p>
+<div id="task" class="section level3">
+<h3>Task</h3>
+<p>Complete the following questions using SQL.</p>
 <p><br></p>
 </div>
-<div id="drug-related-felonies" class="section level4">
-<h4>Drug-Related Felonies <br></h4>
-<p><code>500</code> Controlled Substance, Possession <br> <code>501</code> Controlled Substance, Possession <br> <code>502</code> Controlled Substance, Possession <br> <code>503</code> Controlled Substance, Intent To <br> <code>505</code> Controlled Substance, Possession <br> <code>507</code> Controlled Substance, Possession <br> <code>510</code> Controlled Substance, Intent T <br> <code>512</code> Controlled Substance, Sale 1 <br> <code>514</code> Controlled Substance, Sale 2 <br> <code>515</code> Controlled Substance, Sale 3 <br> <code>519</code> Sale School Grounds 4 <br> <code>520</code> Controlled Substance, Sale 4 <br> <code>521</code> Controlled Substance, Sale 5 <br> <code>523</code> Sale School Grounds <br> <code>524</code> Controlled Substance, Possession<br> <code>529</code> Sales Of Prescription <br> <code>530</code> Drug, Injection Of <br> <code>531</code> Drug Paraphernalia, Possessesion <br> <code>532</code> Controlled Substance,Possession <br> <code>568</code> Marijuana, Possession 1, 2 &amp; 3 <br> <code>570</code> Marijuana, Sale 1, 2 &amp; 3</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>NHANES data containing demographic information for respondents can be found <a href="data/NHANES_Demographics.csv">here</a>. NHANES data containing additional information on respondents, such as triglyceride and cholesterol levels, can be found <a href="data/NHANES_Triglycerides">here</a>. Relevant information on the variables is included below:</p>
+<p>
+<code>Gender</code> - Gender of respondents <br>
+<p>
+<ul>
+<li>1 - Male</li>
+<li>2 - Female <br></li>
+</ul>
+<p>
+<code>Age_in_years_at_screening</code> = Age at screening in years (continuous up to 79) <br>
+<p>
+<ul>
+<li>0-79 - Any age between 0 and 79</li>
+<li>80 - 80 or older <br></li>
+</ul>
+<p>
+<code>Race_Hispanic_origin_w_NH_Asian</code> = Race/Hispanic origin <br>
+<p>
+<ul>
+<li>1 - Mexican American</li>
+<li>2 - Other Hispanic</li>
+<li>3 - Non-Hispanic White</li>
+<li>4 - Non-Hispanic Black</li>
+<li>6 - Non-Hispanic Asian</li>
+<li>7 - Other race, including multi-racial</li>
+<li>NA - Missing <br></li>
+</ul>
+<p>
+<code>Marital_status</code> = Marital status <br>
+<p>
+<ul>
+<li>1 - Married</li>
+<li>2 - Widowed</li>
+<li>3 - Divorced</li>
+<li>4 - Separated</li>
+<li>5 - Never married</li>
+<li>6 - Living with partner</li>
+<li>77 - Refused</li>
+<li>99 - Don’t know</li>
+<li>NA - Missing <br></li>
+</ul>
+<p>
+<code>Annual_household_income</code> = Annual household income <br>
+<p>
+<ul>
+<li>1 - $0 to $4,999</li>
+<li>2 - $5,000 to $9,999</li>
+<li>3 - $10,000 to $14,999</li>
+<li>4 - $15,000 to $19,999</li>
+<li>5 - $20,000 to $24,999</li>
+<li>6 - $25,000 to $34,999</li>
+<li>7 - $35,000 to $44,999</li>
+<li>8 - $45,000 to $54,999</li>
+<li>9 - $55,000 to $64,999</li>
+<li>10 - $65,000 to $74,999</li>
+<li>11 - $20,000 and over</li>
+<li>12 - Under $20,000</li>
+<li>14 - $75,000 to $99,999</li>
+<li>15 - $100,000 and over</li>
+<li>77 - Refused</li>
+<li>99 - Don’t know</li>
+<li><p>NA - Missing <br></p></li>
+<li>3 - 70 ≤ age &lt; 80</li>
+<li><p>4 - ≥ 80</p></li>
+</ul>
+<p>I first import the data and merge the datasets before running any queries.</p>
 <p><br></p>
 </div>
-<div id="weapons-related-felonies" class="section level4">
-<h4>Weapons-Related Felonies <br></h4>
-<p><code>781</code> Criminal Disposal Firearm 1 <br> <code>792</code> Weapons Possession 1 &amp; 2 <br> <code>793</code> Weapons Possession 3 <br> <code>796</code> Weapons,Prohibited Use</p>
-<p><br></p>
+<div id="queries" class="section level3">
+<h3>Queries</h3>
 </div>
 </div>
-<div id="subsetting-data" class="section level3">
-<h3>Subsetting Data <br></h3>
-<p>Using that information, we can subset and filter the data to provide us with our final dataset.</p>
-<pre class="r"><code>#Cleaning and Filtering Data
-nyc_felonies = nyc_crime %&gt;% 
-  janitor::clean_names() %&gt;% 
-  mutate(year = year(cmplnt_fr_dt)) %&gt;%
-  mutate_if(is.character, tolower) %&gt;% 
-  filter(year %in% 2014:2017) %&gt;% 
-  filter(law_cat_cd == &quot;felony&quot;) %&gt;% 
-  select(- station_name, - transit_district, - hadevelopt, - patrol_boro, - housing_psa, 
-         - juris_desc)
-
-#saveRDS(nyc_felonies, file = &quot;./data/nyc_felonies.rds&quot;)
-
-#Selecting Crimes of Interest
-sex_drug_weapons = nyc_felonies %&gt;% 
-  
-  filter(pd_cd %in% c(178, 694, 697, 176, 180, 153, 157, 177, 168, 159, 166, 164, 179, 155, 
-                      586, 696, # Sex-related felonies
-                      
-                      ## Drug-related felonies
-                      500, 501, 502, 503, 505, 507, 510, 512, 514, 515, 519, 520, 521, 523, 
-                      524, 529, 530, 531, 532, 568, 570,
-                      
-                      ### Weapons-related felonies
-                      781, 792, 793, 796)) %&gt;% 
-  
-  #Select Variables of Interest
-  select(cmplnt_num, boro_nm, cmplnt_fr_dt, cmplnt_to_dt, cmplnt_fr_tm, ky_cd, ofns_desc, 
-         pd_cd, pd_desc, vic_race, vic_sex, vic_age_group, year, prem_typ_desc) %&gt;% 
-  
-  #Create Classification of Felonies
-  mutate(boro_nm = if_else(boro_nm == &quot;staten island&quot;, &quot;staten_island&quot;, boro_nm),
-         
-     crime_group = if_else(pd_cd %in% c(178, 694, 697, 176, 180, 153, 157, 177, 168, 159, 166, 
-                                        164, 179, 155, 586, 696), &quot;Sex-Related&quot;, 
-                               
-                   if_else(pd_cd %in% c(500, 501, 502, 503, 505, 507, 510, 512, 514, 515, 519, 
-                                        520, 521, 523, 524, 529, 530, 531, 532, 568, 570), 
-                                        &quot;Drug-Related&quot;, 
-                               
-                   if_else(pd_cd %in% c(781, 792, 793, 796), &quot;Weapons-Related&quot;, pd_cd))))
-
-#saveRDS(sex_drug_weapons, file = &quot;./data/sex_drug_weapons.rds&quot;)</code></pre>
-<p><br></p>
-<p>The resulting dataset has <strong>46,692 observations</strong> and <strong>14 variables</strong>.</p>
-<pre class="r"><code>felonies = readRDS(file = &quot;./data/sex_drug_weapons.rds&quot;)
-
-summary(felonies)</code></pre>
-<pre><code>##   cmplnt_num          boro_nm           cmplnt_fr_dt                
-##  Length:46692       Length:46692       Min.   :2014-01-01 00:00:00  
-##  Class :character   Class :character   1st Qu.:2015-01-15 00:00:00  
-##  Mode  :character   Mode  :character   Median :2016-01-16 00:00:00  
-##                                        Mean   :2016-01-03 21:27:52  
-##                                        3rd Qu.:2016-12-22 00:00:00  
-##                                        Max.   :2017-12-31 00:00:00  
-##                                                                     
-##   cmplnt_to_dt                 cmplnt_fr_tm          ky_cd          
-##  Min.   :2014-01-01 00:00:00   Length:46692       Length:46692      
-##  1st Qu.:2015-02-05 00:00:00   Class :character   Class :character  
-##  Median :2016-02-09 00:00:00   Mode  :character   Mode  :character  
-##  Mean   :2016-01-19 07:31:50                                        
-##  3rd Qu.:2017-01-08 00:00:00                                        
-##  Max.   :2017-12-31 00:00:00                                        
-##  NA&#39;s   :9108                                                       
-##   ofns_desc            pd_cd             pd_desc         
-##  Length:46692       Length:46692       Length:46692      
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##    vic_race           vic_sex          vic_age_group           year     
-##  Length:46692       Length:46692       Length:46692       Min.   :2014  
-##  Class :character   Class :character   Class :character   1st Qu.:2015  
-##  Mode  :character   Mode  :character   Mode  :character   Median :2016  
-##                                                           Mean   :2016  
-##                                                           3rd Qu.:2016  
-##                                                           Max.   :2017  
-##                                                                         
-##  prem_typ_desc      crime_group       
-##  Length:46692       Length:46692      
-##  Class :character   Class :character  
-##  Mode  :character   Mode  :character  
-##                                       
-##                                       
-##                                       
-## </code></pre>
+<div id="import-the-nhanes-demographics-csv-file-and-call-it-demo" class="section level1">
+<h1>Import the NHANES demographics csv file and call it “demo”</h1>
+<p>demo &lt;- read.csv(“NHANES_Demographics.csv”)</p>
 </div>
+<div id="import-the-nhanes-triglycerides-csv-file-and-call-it-tri" class="section level1">
+<h1>Import the NHANES triglycerides csv file and call it “tri”</h1>
+<p>tri &lt;- read.csv(“NHANES_Triglycerides.csv”)</p>
+</div>
+<div id="show-the-first-few-records-of-each-dataframe-to-identify-any-common-fields-between-them" class="section level1">
+<h1>Show the first few records of each dataframe to identify any common fields between them</h1>
+<p>head(demo) head(tri)</p>
+</div>
+<div id="write-a-query-that-would-allow-you-to-fill-out-table-1-and-assign-the-results-to-an-object-called-table1" class="section level1">
+<h1>1. Write a query that would allow you to fill out table 1 and assign the results to an object called table1</h1>
+<p>table1 &lt;- sqldf(“SELECT Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq, ROUND(AVG(Age_in_years_at_screening),1) AS mean_age FROM demo GROUP BY Race_Hispanic_origin_w_NH_Asian”) table1</p>
+</div>
+<div id="show-the-distribution-of-race-by-gender-and-display-the-racegender-combinations-from-highest-to-lowest" class="section level1">
+<h1>2. Show the distribution of race by gender and display the race/gender combinations from highest to lowest</h1>
+</div>
+<div id="frequency.-note-when-using-sql-in-r-you-can-refer-to-column-aliases-outside-of-the-select-clause." class="section level1">
+<h1>frequency. Note: when using SQL in R, you <em>can</em> refer to column aliases outside of the SELECT clause.</h1>
+<p>table2 &lt;- sqldf(“SELECT Gender, Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq FROM demo GROUP BY Race_Hispanic_origin_w_NH_Asian, Gender ORDER BY freq DESC”) table2</p>
+</div>
+<div id="count-the-number-of-women-who-were-pregnant-at-the-time-of-screening.-use-the-column-alias-preg_at_screen." class="section level1">
+<h1>3. Count the number of women who were pregnant at the time of screening. Use the column alias preg_at_screen.</h1>
+<p>table3 &lt;- sqldf(“SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen FROM demo GROUP BY Pregnancy_status_at_exam HAVING Pregnancy_status_at_exam = 1”) table3</p>
+</div>
+<div id="how-many-men-refused-to-provide-annual-household-income" class="section level1">
+<h1>4. How many men refused to provide annual household income?</h1>
+<p>table4 &lt;- sqldf(“SELECT COUNT(Annual_household_income) AS num_refused FROM demo WHERE Gender = 1 and Annual_household_income = 77”) table4</p>
+</div>
+<div id="what-is-the-mean-ldl-level-mgdl-for-men-and-women-use-column-alias-mean_ldl-and-round-results-to" class="section level1">
+<h1>5. What is the mean LDL level (mg/dL) for men and women? Use column alias mean_ldl and round results to</h1>
+</div>
+<div id="decimal-place." class="section level1">
+<h1>1 decimal place.</h1>
+<p>table5 &lt;- sqldf(“SELECT Gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_ldl FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number GROUP BY Gender”) table5</p>
+</div>
+<div id="display-the-minimum-and-maximum-triglyceride-levels-mmoll-for-each-race.-use-column-aliases-min_tri-and-max_tri." class="section level1">
+<h1>6. Display the minimum and maximum triglyceride levels (mmol/L) for each race. Use column aliases min_tri and max_tri.</h1>
+<p>table6 &lt;- sqldf(“SELECT Race_Hispanic_origin_w_NH_Asian, MIN(LDL_cholesterol_mg_dL), MAX(LDL_cholesterol_mg_dL) FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number GROUP BY Race_Hispanic_origin_w_NH_Asian”) table6</p>
+</div>
+<div id="create-a-new-data-frame-that-can-be-used-for-future-analyses-that-combines-all-demographic-data-and-any" class="section level1">
+<h1>7. Create a new data frame that can be used for future analyses that combines all demographic data and any</h1>
+</div>
+<div id="matching-triglyceride-data.-call-it-demo_tri." class="section level1">
+<h1>matching triglyceride data. Call it demo_tri.</h1>
+<p>demo_tri &lt;- sqldf(“SELECT * FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number“) demo_tri</p>
 </div>
 
 

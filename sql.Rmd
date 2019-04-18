@@ -1,0 +1,259 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 5
+---
+
+<br>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+##SQL Queries With NHANES Data
+
+<br>
+
+###Skills 
+
+* SQL
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ out.width = "100%"
+)
+
+library(tidyverse)
+library(sqldf)
+```
+
+<br>
+
+###Task
+
+Complete the following questions using SQL.
+
+<br>
+
+###Data
+
+NHANES data containing demographic information for respondents can be found [here](data/NHANES_Demographics.csv). NHANES data containing additional information on respondents, such as triglyceride and cholesterol levels, can be found [here](data/NHANES_Triglycerides). Relevant information on the variables is included below:
+
+<p> `Gender` - Gender of respondents <br> <p>
+* 1 - Male
+* 2 - Female <br>
+
+<p> `Age_in_years_at_screening` = Age at screening in years (continuous up to 79) <br> <p>
+* 0-79 - Any age between 0 and 79
+* 80 - 80 or older <br>
+
+<p> `Race_Hispanic_origin_w_NH_Asian` = Race/Hispanic origin <br> <p>
+* 1 - Mexican American
+* 2 - Other Hispanic
+* 3 - Non-Hispanic White
+* 4 - Non-Hispanic Black
+* 6 - Non-Hispanic Asian
+* 7 - Other race, including multi-racial
+* NA - Missing <br>
+
+<p> `Marital_status` = Marital status  <br> <p>
+* 1 - Married
+* 2 - Widowed
+* 3 - Divorced
+* 4 - Separated
+* 5 - Never married
+* 6 - Living with partner
+* 77 - Refused
+* 99 - Don't know
+* NA - Missing <br>
+
+<p> `Annual_household_income` = Annual household income <br> <p>
+* 1 - $0 to $4,999
+* 2 - $5,000 to $9,999
+* 3 - $10,000 to $14,999
+* 4 - $15,000 to $19,999
+* 5 - $20,000 to $24,999
+* 6 - $25,000 to $34,999
+* 7 - $35,000 to $44,999
+* 8 - $45,000 to $54,999
+* 9 - $55,000 to $64,999
+* 10 - $65,000 to $74,999
+* 11 - $20,000 and over
+* 12 - Under $20,000
+* 14 - $75,000 to $99,999
+* 15 - $100,000 and over
+* 77 - Refused
+* 99 - Don't know
+* NA - Missing <br>
+
+<p> `Pregnancy_status_at_exam` = Pregnancy status at exam  <br> <p>
+* 1 - Yes
+* 2 - No
+* 3 - Cannot ascertain
+* NA - Missing <br>
+
+<p> `Education_level_Adults` = Eucation level <br> <p>
+* 1 - Less than 9th grade
+* 2 - 9-11th grade (Includes 12th grade with no diploma)
+* 3 - High school graduate/GED or equivalent
+* 4 - Some college or AA degree
+* 5 - College graduate or above
+* 7 - Refused
+* 9 - Don't know
+* NA - Missing <br>
+
+I first import and merge the datasets before running any queries.
+```{r import_data}
+demo <- read.csv('data/NHANES_Demographics.csv')
+tri <- read.csv('data/NHANES_Triglycerides.csv')
+
+merged <- sqldf(
+"SELECT *
+FROM demo AS d
+LEFT JOIN tri AS t
+ON d.Respondent_sequence_number = t.Respondent_sequence_number"
+)
+
+knitr::kable(head(merged[1:5]))
+knitr::kable(head(merged[6:10]))
+knitr::kable(head(merged[11:14]))
+```
+
+<br>
+
+I rename the variables in the merged dataset and remove the duplicate ID column.
+```{r rename_var}
+full.data <- sqldf(
+"SELECT Respondent_sequence_number      AS id, 
+        Gender                          AS gender,
+        Age_in_years_at_screening       AS age, 
+        Race_Hispanic_origin_w_NH_Asian AS race,
+        Education_level_Adults          AS educ, 
+        Marital_status                  AS marital_status,
+        Pregnancy_status_at_exam        AS pregnancy_status,      
+        Annual_household_income         AS household_income,
+        Annual_family_income            AS family_income,
+        Triglyceride_mg_dL              AS tri_mg_dl,
+        Triglyceride_mmol_L             AS tri_mmol_l,
+        LDL_cholesterol_mg_dL           AS chol_ldl,
+        LDL_cholesterol_mmol_L          AS chol_mmol_l
+FROM merged"
+)
+```
+
+
+###Queries
+
+1) Write a query that gives the frequency of each race, as well as the average age of participants by race.
+```{r race_freq}
+race_freq <- sqldf(
+"SELECT race, COUNT(race) AS freq, ROUND(AVG(age),1) AS mean_age
+  FROM full.data 
+  GROUP BY race"
+)
+
+knitr::kable(head(race_freq))
+```
+
+<br>
+
+2) Show the distribution of race by gender and display all unique race-gender combinations from highest to lowest frequency.  
+```{r race_freq2}
+race_freq2 <- sqldf(
+"SELECT Gender, Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq
+    FROM demo 
+GROUP BY Race_Hispanic_origin_w_NH_Asian, Gender 
+ORDER BY freq DESC"
+)
+
+knitr::kable(head(race_freq2))
+```
+
+<br>
+
+3) How many women were pregnant at the time of screening?
+```{r preg_freq}
+preg_freq <- sqldf(
+"SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen
+    FROM demo GROUP BY Pregnancy_status_at_exam
+HAVING Pregnancy_status_at_exam = 1"
+)
+
+preg_freq
+```
+
+table3 <- sqldf("SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen
+                FROM demo GROUP BY Pregnancy_status_at_exam
+                HAVING Pregnancy_status_at_exam = 1")
+table3
+
+    
+4. How many men refused to provide annual household income?
+table4 <- sqldf("SELECT COUNT(Annual_household_income) AS num_refused
+                FROM demo 
+                WHERE Gender = 1 and Annual_household_income = 77")
+table4
+
+
+5. What is the mean LDL level (mg/dL) for men and women?  Use column alias mean_ldl and round results to 
+1 decimal place.  
+table5 <- sqldf("SELECT Gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_ldl
+                FROM demo AS d
+                LEFT JOIN tri AS t
+                ON d.Respondent_sequence_number = t.Respondent_sequence_number
+                GROUP BY Gender")
+table5
+
+    
+6. Display the minimum and maximum triglyceride levels (mmol/L) for each race.  Use column aliases min_tri and max_tri.
+
+table6 <- sqldf("SELECT Race_Hispanic_origin_w_NH_Asian, MIN(LDL_cholesterol_mg_dL), MAX(LDL_cholesterol_mg_dL)
+                FROM demo AS d
+                LEFT JOIN tri AS t
+                ON d.Respondent_sequence_number = t.Respondent_sequence_number
+                GROUP BY Race_Hispanic_origin_w_NH_Asian")
+table6
+
+  
