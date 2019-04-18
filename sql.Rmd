@@ -282,7 +282,7 @@ knitr::kable(head(minmax))
 
 ####Q7
 
-How many participants had an annual household income of $55,000 or more? Break this down my gender and order the results in descending frequency.
+How many participants had an annual household income of $55,000 or more? Break this down by gender and order the results in descending frequency.
 ```{r high_income}
 high_income <- sqldf(
 "SELECT gender, COUNT(household_income) AS freq
