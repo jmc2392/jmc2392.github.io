@@ -508,65 +508,472 @@ $(document).ready(function() {
 <li>15 - $100,000 and over</li>
 <li>77 - Refused</li>
 <li>99 - Don’t know</li>
-<li><p>NA - Missing <br></p></li>
-<li>3 - 70 ≤ age &lt; 80</li>
-<li><p>4 - ≥ 80</p></li>
+<li>NA - Missing <br></li>
 </ul>
-<p>I first import the data and merge the datasets before running any queries.</p>
+<p>
+<code>Pregnancy_status_at_exam</code> = Pregnancy status at exam <br>
+<p>
+<ul>
+<li>1 - Yes</li>
+<li>2 - No</li>
+<li>3 - Cannot ascertain</li>
+<li>NA - Missing <br></li>
+</ul>
+<p>
+<code>Education_level_Adults</code> = Eucation level <br>
+<p>
+<ul>
+<li>1 - Less than 9th grade</li>
+<li>2 - 9-11th grade (Includes 12th grade with no diploma)</li>
+<li>3 - High school graduate/GED or equivalent</li>
+<li>4 - Some college or AA degree</li>
+<li>5 - College graduate or above</li>
+<li>7 - Refused</li>
+<li>9 - Don’t know</li>
+<li>NA - Missing <br></li>
+</ul>
+<p>I first import and merge the datasets before running any queries.</p>
+<pre class="r"><code>demo &lt;- read.csv(&#39;data/NHANES_Demographics.csv&#39;)
+tri &lt;- read.csv(&#39;data/NHANES_Triglycerides.csv&#39;)
+
+merged &lt;- sqldf(
+&quot;SELECT *
+FROM demo AS d
+LEFT JOIN tri AS t
+ON d.Respondent_sequence_number = t.Respondent_sequence_number&quot;
+)
+
+knitr::kable(head(merged[1:5]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Respondent_sequence_number</th>
+<th align="right">Gender</th>
+<th align="right">Age_in_years_at_screening</th>
+<th align="right">Race_Hispanic_origin_w_NH_Asian</th>
+<th align="right">Education_level_Adults</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">62161</td>
+<td align="right">1</td>
+<td align="right">22</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">62162</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">62163</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">62164</td>
+<td align="right">2</td>
+<td align="right">44</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">62165</td>
+<td align="right">2</td>
+<td align="right">14</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">62166</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(merged[6:10]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Marital_status</th>
+<th align="right">Pregnancy_status_at_exam</th>
+<th align="right">Annual_household_income</th>
+<th align="right">Annual_family_income</th>
+<th align="right">Respondent_sequence_number..10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">NA</td>
+<td align="right">14</td>
+<td align="right">14</td>
+<td align="right">62161</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">15</td>
+<td align="right">15</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">8</td>
+<td align="right">62164</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">62165</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">77</td>
+<td align="right">77</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(head(merged[11:14]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Triglyceride_mg_dL</th>
+<th align="right">Triglyceride_mmol_L</th>
+<th align="right">LDL_cholesterol_mg_dL</th>
+<th align="right">LDL_cholesterol_mmol_L</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">84</td>
+<td align="right">0.948</td>
+<td align="right">110</td>
+<td align="right">2.845</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">56</td>
+<td align="right">0.632</td>
+<td align="right">151</td>
+<td align="right">3.905</td>
+</tr>
+<tr class="odd">
+<td align="right">71</td>
+<td align="right">0.802</td>
+<td align="right">84</td>
+<td align="right">2.172</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
 <p><br></p>
+<p>I rename the variables in the merged dataset and remove the duplicate ID column.</p>
+<pre class="r"><code>full_data &lt;- sqldf(
+&quot;SELECT Respondent_sequence_number      AS id, 
+        Gender                          AS gender,
+        Age_in_years_at_screening       AS age, 
+        Race_Hispanic_origin_w_NH_Asian AS race,
+        Education_level_Adults          AS educ, 
+        Marital_status                  AS marital_status,
+        Pregnancy_status_at_exam        AS pregnancy_status,      
+        Annual_household_income         AS household_income,
+        Annual_family_income            AS family_income,
+        Triglyceride_mg_dL              AS tri_mg_dl,
+        Triglyceride_mmol_L             AS tri_mmol_l,
+        LDL_cholesterol_mg_dL           AS chol_mg_ldl,
+        LDL_cholesterol_mmol_L          AS chol_mmol_l
+FROM merged&quot;
+)</code></pre>
 </div>
 <div id="queries" class="section level3">
 <h3>Queries</h3>
+<div id="q1" class="section level4">
+<h4>Q1</h4>
+<p>Write a query that gives the frequency of each race, as well as the average age of participants by race.</p>
+<pre class="r"><code>race_freq &lt;- sqldf(
+&quot;SELECT race, COUNT(race) AS freq, ROUND(AVG(age),1) AS mean_age
+    FROM full_data 
+GROUP BY race&quot;
+)
+
+knitr::kable(head(race_freq))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">race</th>
+<th align="right">freq</th>
+<th align="right">mean_age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1355</td>
+<td align="right">22.5</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1076</td>
+<td align="right">30.4</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">2973</td>
+<td align="right">37.9</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">2683</td>
+<td align="right">30.5</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">1282</td>
+<td align="right">31.5</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="right">387</td>
+<td align="right">21.8</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="q2" class="section level4">
+<h4>Q2</h4>
+<p>Show the distribution of race by gender and display all unique race-gender combinations from highest to lowest frequency.</p>
+<pre class="r"><code>race_freq2 &lt;- sqldf(
+&quot;SELECT gender, race, COUNT(race) AS freq
+    FROM full_data 
+GROUP BY race, gender 
+ORDER BY freq DESC&quot;
+)
+
+knitr::kable(head(race_freq2))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">gender</th>
+<th align="right">race</th>
+<th align="right">freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1508</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">1465</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">1372</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1311</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">694</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">661</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="q3" class="section level4">
+<h4>Q3</h4>
+<p>How many women were pregnant at the time of screening?</p>
+<pre class="r"><code>preg_freq &lt;- sqldf(
+&quot;SELECT COUNT(pregnancy_status) AS number_pregnant
+    FROM full_data 
+GROUP BY pregnancy_status
+HAVING pregnancy_status = 1&quot;
+)
+
+preg_freq</code></pre>
+<pre><code>##   number_pregnant
+## 1              57</code></pre>
+<p><br></p>
+</div>
+<div id="q4" class="section level4">
+<h4>Q4</h4>
+<p>How many men refused to provide their annual household income?</p>
+<pre class="r"><code>refuse_income &lt;- sqldf(
+&quot;SELECT gender, COUNT(household_income) AS num_refused
+    FROM full_data 
+WHERE gender = 1 and household_income = 77&quot;)
+
+knitr::kable(head(refuse_income))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">gender</th>
+<th align="right">num_refused</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">134</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="q5" class="section level4">
+<h4>Q5</h4>
+<p>Using the <em>two separate datasets</em>, find the mean LDL level (mg/dL) for each gender.</p>
+<pre class="r"><code>mean_chol &lt;- sqldf(
+&quot;SELECT gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_chol
+    FROM demo AS d
+      INNER JOIN tri AS t
+      ON d.Respondent_sequence_number = t.Respondent_sequence_number
+GROUP BY Gender&quot;)
+
+mean_chol</code></pre>
+<pre><code>##   Gender mean_chol
+## 1      1     107.8
+## 2      2     111.1</code></pre>
+<p><br></p>
+</div>
+<div id="q6" class="section level4">
+<h4>Q6</h4>
+<p>Using the <em>two separate datasets</em>, find the minimum and maximum triglyceride levels (mmol/L) for each race.</p>
+<pre class="r"><code>minmax &lt;- sqldf(
+&quot;SELECT Race_Hispanic_origin_w_NH_Asian AS race, MIN(Triglyceride_mmol_L) AS min, MAX(Triglyceride_mmol_L) AS max
+    FROM demo AS d
+      INNER JOIN tri AS t
+      ON d.Respondent_sequence_number = t.Respondent_sequence_number
+GROUP BY race&quot;)
+
+knitr::kable(head(minmax))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">race</th>
+<th align="right">min</th>
+<th align="right">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0.339</td>
+<td align="right">11.053</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0.339</td>
+<td align="right">7.768</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0.361</td>
+<td align="right">17.635</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.203</td>
+<td align="right">6.040</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">0.237</td>
+<td align="right">6.593</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="right">0.294</td>
+<td align="right">4.301</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="q7" class="section level4">
+<h4>Q7</h4>
+<p>How many participants had an annual household income of $55,000 or more? Break this down my gender and order the results in descending frequency.</p>
+<pre class="r"><code>high_income &lt;- sqldf(
+&quot;SELECT gender, COUNT(household_income) AS freq
+    FROM full_data 
+WHERE household_income in (9, 10, 14, 15)
+GROUP BY gender 
+ORDER BY freq DESC&quot;
+)
+
+knitr::kable(head(high_income))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">gender</th>
+<th align="right">freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1588</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1541</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="import-the-nhanes-demographics-csv-file-and-call-it-demo" class="section level1">
-<h1>Import the NHANES demographics csv file and call it “demo”</h1>
-<p>demo &lt;- read.csv(“NHANES_Demographics.csv”)</p>
-</div>
-<div id="import-the-nhanes-triglycerides-csv-file-and-call-it-tri" class="section level1">
-<h1>Import the NHANES triglycerides csv file and call it “tri”</h1>
-<p>tri &lt;- read.csv(“NHANES_Triglycerides.csv”)</p>
-</div>
-<div id="show-the-first-few-records-of-each-dataframe-to-identify-any-common-fields-between-them" class="section level1">
-<h1>Show the first few records of each dataframe to identify any common fields between them</h1>
-<p>head(demo) head(tri)</p>
-</div>
-<div id="write-a-query-that-would-allow-you-to-fill-out-table-1-and-assign-the-results-to-an-object-called-table1" class="section level1">
-<h1>1. Write a query that would allow you to fill out table 1 and assign the results to an object called table1</h1>
-<p>table1 &lt;- sqldf(“SELECT Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq, ROUND(AVG(Age_in_years_at_screening),1) AS mean_age FROM demo GROUP BY Race_Hispanic_origin_w_NH_Asian”) table1</p>
-</div>
-<div id="show-the-distribution-of-race-by-gender-and-display-the-racegender-combinations-from-highest-to-lowest" class="section level1">
-<h1>2. Show the distribution of race by gender and display the race/gender combinations from highest to lowest</h1>
-</div>
-<div id="frequency.-note-when-using-sql-in-r-you-can-refer-to-column-aliases-outside-of-the-select-clause." class="section level1">
-<h1>frequency. Note: when using SQL in R, you <em>can</em> refer to column aliases outside of the SELECT clause.</h1>
-<p>table2 &lt;- sqldf(“SELECT Gender, Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq FROM demo GROUP BY Race_Hispanic_origin_w_NH_Asian, Gender ORDER BY freq DESC”) table2</p>
-</div>
-<div id="count-the-number-of-women-who-were-pregnant-at-the-time-of-screening.-use-the-column-alias-preg_at_screen." class="section level1">
-<h1>3. Count the number of women who were pregnant at the time of screening. Use the column alias preg_at_screen.</h1>
-<p>table3 &lt;- sqldf(“SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen FROM demo GROUP BY Pregnancy_status_at_exam HAVING Pregnancy_status_at_exam = 1”) table3</p>
-</div>
-<div id="how-many-men-refused-to-provide-annual-household-income" class="section level1">
-<h1>4. How many men refused to provide annual household income?</h1>
-<p>table4 &lt;- sqldf(“SELECT COUNT(Annual_household_income) AS num_refused FROM demo WHERE Gender = 1 and Annual_household_income = 77”) table4</p>
-</div>
-<div id="what-is-the-mean-ldl-level-mgdl-for-men-and-women-use-column-alias-mean_ldl-and-round-results-to" class="section level1">
-<h1>5. What is the mean LDL level (mg/dL) for men and women? Use column alias mean_ldl and round results to</h1>
-</div>
-<div id="decimal-place." class="section level1">
-<h1>1 decimal place.</h1>
-<p>table5 &lt;- sqldf(“SELECT Gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_ldl FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number GROUP BY Gender”) table5</p>
-</div>
-<div id="display-the-minimum-and-maximum-triglyceride-levels-mmoll-for-each-race.-use-column-aliases-min_tri-and-max_tri." class="section level1">
-<h1>6. Display the minimum and maximum triglyceride levels (mmol/L) for each race. Use column aliases min_tri and max_tri.</h1>
-<p>table6 &lt;- sqldf(“SELECT Race_Hispanic_origin_w_NH_Asian, MIN(LDL_cholesterol_mg_dL), MAX(LDL_cholesterol_mg_dL) FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number GROUP BY Race_Hispanic_origin_w_NH_Asian”) table6</p>
-</div>
-<div id="create-a-new-data-frame-that-can-be-used-for-future-analyses-that-combines-all-demographic-data-and-any" class="section level1">
-<h1>7. Create a new data frame that can be used for future analyses that combines all demographic data and any</h1>
-</div>
-<div id="matching-triglyceride-data.-call-it-demo_tri." class="section level1">
-<h1>matching triglyceride data. Call it demo_tri.</h1>
-<p>demo_tri &lt;- sqldf(“SELECT * FROM demo AS d LEFT JOIN tri AS t ON d.Respondent_sequence_number = t.Respondent_sequence_number“) demo_tri</p>
 </div>
 
 

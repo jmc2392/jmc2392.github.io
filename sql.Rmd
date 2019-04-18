@@ -165,7 +165,7 @@ knitr::kable(head(merged[11:14]))
 
 I rename the variables in the merged dataset and remove the duplicate ID column.
 ```{r rename_var}
-full.data <- sqldf(
+full_data <- sqldf(
 "SELECT Respondent_sequence_number      AS id, 
         Gender                          AS gender,
         Age_in_years_at_screening       AS age, 
@@ -177,7 +177,7 @@ full.data <- sqldf(
         Annual_family_income            AS family_income,
         Triglyceride_mg_dL              AS tri_mg_dl,
         Triglyceride_mmol_L             AS tri_mmol_l,
-        LDL_cholesterol_mg_dL           AS chol_ldl,
+        LDL_cholesterol_mg_dL           AS chol_mg_ldl,
         LDL_cholesterol_mmol_L          AS chol_mmol_l
 FROM merged"
 )
@@ -186,12 +186,14 @@ FROM merged"
 
 ###Queries
 
-1) Write a query that gives the frequency of each race, as well as the average age of participants by race.
+####Q1
+
+Write a query that gives the frequency of each race, as well as the average age of participants by race.
 ```{r race_freq}
 race_freq <- sqldf(
 "SELECT race, COUNT(race) AS freq, ROUND(AVG(age),1) AS mean_age
-  FROM full.data 
-  GROUP BY race"
+    FROM full_data 
+GROUP BY race"
 )
 
 knitr::kable(head(race_freq))
@@ -199,12 +201,14 @@ knitr::kable(head(race_freq))
 
 <br>
 
-2) Show the distribution of race by gender and display all unique race-gender combinations from highest to lowest frequency.  
+####Q2
+
+Show the distribution of race by gender and display all unique race-gender combinations from highest to lowest frequency.  
 ```{r race_freq2}
 race_freq2 <- sqldf(
-"SELECT Gender, Race_Hispanic_origin_w_NH_Asian, COUNT(Race_Hispanic_origin_w_NH_Asian) AS freq
-    FROM demo 
-GROUP BY Race_Hispanic_origin_w_NH_Asian, Gender 
+"SELECT gender, race, COUNT(race) AS freq
+    FROM full_data 
+GROUP BY race, gender 
 ORDER BY freq DESC"
 )
 
@@ -213,47 +217,83 @@ knitr::kable(head(race_freq2))
 
 <br>
 
-3) How many women were pregnant at the time of screening?
+####Q3
+
+How many women were pregnant at the time of screening?
 ```{r preg_freq}
 preg_freq <- sqldf(
-"SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen
-    FROM demo GROUP BY Pregnancy_status_at_exam
-HAVING Pregnancy_status_at_exam = 1"
+"SELECT COUNT(pregnancy_status) AS number_pregnant
+    FROM full_data 
+GROUP BY pregnancy_status
+HAVING pregnancy_status = 1"
 )
 
 preg_freq
 ```
 
-table3 <- sqldf("SELECT COUNT(Pregnancy_status_at_exam) AS preg_at_screen
-                FROM demo GROUP BY Pregnancy_status_at_exam
-                HAVING Pregnancy_status_at_exam = 1")
-table3
+<br>
 
-    
-4. How many men refused to provide annual household income?
-table4 <- sqldf("SELECT COUNT(Annual_household_income) AS num_refused
-                FROM demo 
-                WHERE Gender = 1 and Annual_household_income = 77")
-table4
+####Q4
 
+How many men refused to provide their annual household income?
+```{r refuse_income}
+refuse_income <- sqldf(
+"SELECT gender, COUNT(household_income) AS num_refused
+    FROM full_data 
+WHERE gender = 1 and household_income = 77")
 
-5. What is the mean LDL level (mg/dL) for men and women?  Use column alias mean_ldl and round results to 
-1 decimal place.  
-table5 <- sqldf("SELECT Gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_ldl
-                FROM demo AS d
-                LEFT JOIN tri AS t
-                ON d.Respondent_sequence_number = t.Respondent_sequence_number
-                GROUP BY Gender")
-table5
+knitr::kable(head(refuse_income))
+```
 
-    
-6. Display the minimum and maximum triglyceride levels (mmol/L) for each race.  Use column aliases min_tri and max_tri.
+<br>
 
-table6 <- sqldf("SELECT Race_Hispanic_origin_w_NH_Asian, MIN(LDL_cholesterol_mg_dL), MAX(LDL_cholesterol_mg_dL)
-                FROM demo AS d
-                LEFT JOIN tri AS t
-                ON d.Respondent_sequence_number = t.Respondent_sequence_number
-                GROUP BY Race_Hispanic_origin_w_NH_Asian")
-table6
+####Q5
+
+Using the *two separate datasets*, find the mean LDL level (mg/dL) for each gender.
+```{r mean_chol}
+mean_chol <- sqldf(
+"SELECT gender, ROUND(AVG(LDL_cholesterol_mg_dL), 1) AS mean_chol
+    FROM demo AS d
+      INNER JOIN tri AS t
+      ON d.Respondent_sequence_number = t.Respondent_sequence_number
+GROUP BY Gender")
+
+mean_chol
+
+```
+
+<br>
+
+####Q6
+
+Using the *two separate datasets*, find the minimum and maximum triglyceride levels (mmol/L) for each race.
+```{r min_max_chol}
+minmax <- sqldf(
+"SELECT Race_Hispanic_origin_w_NH_Asian AS race, MIN(Triglyceride_mmol_L) AS min, MAX(Triglyceride_mmol_L) AS max
+    FROM demo AS d
+      INNER JOIN tri AS t
+      ON d.Respondent_sequence_number = t.Respondent_sequence_number
+GROUP BY race")
+
+knitr::kable(head(minmax))
+```
+
+<br>
+
+####Q7
+
+How many participants had an annual household income of $55,000 or more? Break this down my gender and order the results in descending frequency.
+```{r high_income}
+high_income <- sqldf(
+"SELECT gender, COUNT(household_income) AS freq
+    FROM full_data 
+WHERE household_income in (9, 10, 14, 15)
+GROUP BY gender 
+ORDER BY freq DESC"
+)
+
+knitr::kable(head(high_income))
+```
+
 
   

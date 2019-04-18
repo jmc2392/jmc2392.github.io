@@ -27,6 +27,8 @@ navbar:
       menu:
         - text: "SQL Queries With NHANES Data "
           href: sql.html
+        - text: "SQL Queries With Cancer Data "
+          href: sql2.html
     - text: "Biostatistics"
       menu:
         - text: "Survival Analysis of Stroke Patients"

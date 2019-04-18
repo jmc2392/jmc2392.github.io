@@ -1,0 +1,312 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 5
+---
+
+<br>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+background-color: #337ab7;
+}
+
+#Drop-Down Menu Color
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+background-color: #337ab7;
+}
+
+.navbar-default {
+background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav>li>a {
+color: white;
+font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+color: white;
+font-weight: bold;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+##SQL Queries With Cancer Data
+
+<br>
+
+###Skills 
+
+* SQL
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ out.width = "100%"
+)
+
+library(tidyverse)
+library(sqldf)
+library(lubridate)
+```
+
+<br>
+
+###Task
+
+Complete the following questions using SQL.
+
+<br>
+
+###Data
+
+The following data provide information regarding breast and/or colon cancer patients from a clinic, who have been given drugs (A, B, C, and/or D). Data containing patient diagnoses can be found [here](data/diagnosis.csv). Data containing patient drug treatments can be found [here](data/treatment.csv). Relevant information on the variables is included below:
+
+<p> `patient_id` - Patient ID <br> <p>
+`diagnosis_date` - Date of Cancer Diagnosis <br> <p>
+`diagnosis_code` - Diagnosis Code (ICD-9-CM) <br> <p>
+`diagnosis` - Breast Cancer or Colon Cancer <br> <p>
+`treatment_date` - Date Patient Initiated Drug Regimen  <br> <p>
+`drug_code` - Drug Regimen (A, B, C, or D) 
+
+<br>
+
+I first import and merge the datasets before running any queries.
+```{r import_data}
+diag <- read.csv('data/diagnosis.csv')
+txt <- read.csv('data/treatment.csv')
+
+merged <- sqldf(
+"SELECT d.patient_id, diagnosis_date, diagnosis_code, diagnosis, treatment_date, drug_code
+    FROM diag AS d
+    INNER JOIN txt AS t
+    ON d.patient_id = t.patient_id"
+)
+
+knitr::kable(head(merged[1:3]))
+knitr::kable(head(merged[4:6]))
+```
+
+<br>
+
+###Queries
+
+####Q1
+Write a query that finds the number of unique patients.
+
+**There are 46 unique patients.**
+```{r unique_patients}
+unique_patients <- sqldf(
+"SELECT COUNT(DISTINCT patient_id) AS unique_patients
+    FROM merged" 
+)
+
+unique_patients
+#46 unique patients
+```
+
+<br>
+
+####Q2
+
+How many patients have breast cancer only, colon cancer only, and both breast and colon cancer?
+
+**We have 30 patients breast cancer only patients, 11 colon cancer only patients, and 5 patients with both cancers.**
+```{r cancer_num}
+breast <- sqldf(
+"SELECT COUNT(DISTINCT patient_id)
+    FROM merged
+WHERE diagnosis = 'Breast Cancer'"
+)
+breast
+#35 patients with breast cancer
+```
+
+```{r cancer_num2}
+colon <- sqldf(
+"SELECT COUNT(DISTINCT patient_id)
+    FROM merged
+WHERE diagnosis = 'Colon Cancer'"
+) 
+colon
+#16 patients with colon cancer.
+```
+
+```{r comment}
+#Since there are only 46 unique patients, and 35+16 = 51, this suggests we have 5 individuals who have both cancers.
+#This means we have 35 - 5 = 30 breast cancer only patients and 16 - 5 = 11 colon cancer only patients
+```
+
+```{r both_cancers}
+both_cancers <- sqldf(
+"SELECT DISTINCT patient_id, diagnosis
+    FROM merged
+ORDER BY patient_id")
+both_cancers
+#Code above confirms that we have 5 patients with both cancers: IDs 3757, 6877, 6889, 6922, and 7230
+#Code also confirms numbers for breast cancer only patients and colon cancer only patients
+```
+
+<br>
+
+####Q3
+
+What's the average duration between diagnosis date and the earliest treatment date among breast cancer patients? Among colon cancer patients?
+
+**On average, colon cancer patients tend to start treatment 22.9375 days after being diagnosed while breast cancer patients tend to start treatment 4.857143 days after being diagnosed.**
+```{r duration1}
+merged$diagnosis_date <- as.Date(merged$diagnosis_date, format("%m/%d/%y"))
+merged$treatment_date <- as.Date(merged$treatment_date, format("%m/%d/%y"))
+
+breast_dur <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer'
+    GROUP BY patient_id)"
+)
+breast_dur
+#4.857143 days
+```
+
+```{r duration2}
+colon_dur <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Colon Cancer'
+    GROUP BY patient_id)"
+)
+colon_dur
+#22.9375 days
+```
+
+```{r comment2}
+#Patients with both cancers are included in the calculations for both breast_dur and colon_dur
+```
+
+<br>
+
+####Q4
+
+Do breast cancer patients vary in terms of average duration between diagnosis date and the earliest treatment date?
+Stratify by drug.
+
+Average duration between diagnosis and treatment for breast cancer patients taking: <p>
+* Drug A - 4.782609 days
+* Drug B - 5.4 days
+* Drug C - 42.13333 days
+* Drug D - NA (seems like no breast cancer patients took drug D)
+```{r stratify_duration}
+breast_a <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer' AND drug_code = 'A'
+    GROUP BY patient_id)"
+)
+breast_a
+
+
+breast_b <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer' AND drug_code = 'B'
+    GROUP BY patient_id)"
+)
+breast_b
+
+
+breast_c <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer' AND drug_code = 'C'
+    GROUP BY patient_id)"
+)
+breast_c
+
+
+breast_d <- sqldf(
+"SELECT AVG(min_date_diff)
+    FROM
+    (SELECT patient_id, MIN(treatment_date - diagnosis_date) AS min_date_diff
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer' AND drug_code = 'D'
+    GROUP BY patient_id)"
+)
+breast_d
+#No breast cancer patients using drug D, so no average duration 
+```
+
+```{r comment3}
+#Code looks at any drug taken at any point during their treatment dates
+```
+
+<br>
+
+####Q5
+
+What tends to be the most popular drug used by breast cancer patients? What about colon cancer patients?
+
+*A and B tend to be the most popular drugs used by breast cancer patients. B and C tend to be the most popular drugs used by colon cancer patients.*
+```{r popular_drugs1}
+
+breast_drug <- sqldf(
+"SELECT drug_code, COUNT(drug_code)
+    FROM
+    (SELECT DISTINCT patient_id, drug_code
+        FROM merged
+    WHERE diagnosis = 'Breast Cancer'
+    ORDER BY patient_id)
+GROUP BY drug_code"
+)
+knitr::kable(head(breast_drug))
+#A and B tend to be the most popular drugs used by breast cancer patients.
+#Observations total more than 35 because some breast cancer patients use multiple drugs.
+#Code looks at any drug taken at any point during their treatment dates
+```
+
+```{r popular_drugs2}
+colon_drug <- sqldf(
+"SELECT drug_code, COUNT(drug_code)
+    FROM
+    (SELECT DISTINCT patient_id, drug_code
+        FROM merged
+    WHERE diagnosis = 'Colon Cancer'
+    ORDER BY patient_id)
+GROUP BY drug_code"
+)
+knitr::kable(head(colon_drug))
+#B and C tend to be the most popular drugs used by colon cancer patients.
+#Observations total more than 16 because some colon cancer patients use multiple drugs.
+#Code looks at any drug taken at any point during their treatment date
+```
+
+
