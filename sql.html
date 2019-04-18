@@ -947,7 +947,7 @@ knitr::kable(head(minmax))</code></pre>
 </div>
 <div id="q7" class="section level4">
 <h4>Q7</h4>
-<p>How many participants had an annual household income of $55,000 or more? Break this down my gender and order the results in descending frequency.</p>
+<p>How many participants had an annual household income of $55,000 or more? Break this down by gender and order the results in descending frequency.</p>
 <pre class="r"><code>high_income &lt;- sqldf(
 &quot;SELECT gender, COUNT(household_income) AS freq
     FROM full_data 
