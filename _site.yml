@@ -39,7 +39,7 @@ navbar:
     - text: "Resume"
       href: resume.html
     - icon: fa-envelope fa-lg
-      href: mailto:<jmc2392@cumc.columbia.edu>
+      href: mailto:<jmc525@cornell.edu>
     - icon: fa-github fa-lg
       href: http://github.com/jmc2392/
 header includes:
