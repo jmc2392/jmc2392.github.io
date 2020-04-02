@@ -48,19 +48,13 @@ font-weight: bold;
 <link rel="stylesheet" href="styles.css" type="text/css">
 <link rel="stylesheet" href="academicons/css/academicons.min.css"/>
 
-MPH Candidate <br>
-[Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) <br>
-Applied Biostatistics Certificate <br>
-Columbia University Mailman School of Public Health
-
 <br>
 
 #### About Me
 
-I am currently a second-year graduate student in the Department of Epidemiology at the Mailman School of Public Health at Columbia University's Mailman School of Public Health pursuing an Applied Biostatistics certificate with an expected graduation date of May 2019. My academic coursework has been geared heavily toward foundational biostatistical skills using various statistical programs and languages, while my experience has involved working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health research. My goal is to utilize data effectively to create meaningful results in a fast-paced and challenging work environment through the application of various statistical and analytic programs, tools, and languages. Taken together, I believe I am a formidable candidate for data scientist and analyst roles. I am currently seeking these positions, or any that sufficiently develops or hones my: ability to work with and manipulate data, analytic mindset, programming/coding capability, statistical skills, and/or knowledge of research methods.
+I graduated from the [Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) at the Mailman School of Public Health at Columbia University's Mailman School of Public Health with an Applied Biostatistics certificate. My academic coursework was geared heavily toward biostatistical skills using various statistical programs and languages, and included courses such as "Data Science ," "Relational Databases and SQL Programming for Research and Data Science," Analysis of Categorical Data,", "Applied Regression (I and II)." During my time there, I was able to learn, apply, and utilize R, SAS, and SQL.
 
-
-Next Steps: I worked hard to familiarize myself with R, SAS, and SQL, and I am always willing to learn new approaches and methods to become better at what I want to do! My next steps are to learn Tableau and Python (numPy, pandas).
+My experience has involved working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health data. My goal is to utilize data effectively to create meaningful results in a fast-paced and challenging work environment through the application of various statistical and analytic programs, tools, and languages. Taken together, I believe I am a formidable candidate for data scientist and analyst roles. I am currently seeking these positions, or any that sufficiently develops or hones my: ability to work with and manipulate data to derive meaningful results, analytic mindset, programming/coding capability, statistical skills, and/or knowledge of research methods.
 
 <br>
 
@@ -69,9 +63,9 @@ Next Steps: I worked hard to familiarize myself with R, SAS, and SQL, and I am a
 I built this website using R and GitHub (with a bit of CSS and HTML) to showcase some of the projects that I have worked on over the past couple of years. I incorporated projects that highlight my various competencies, including:
 
 * Usage of various statistical programs and/or languages (e.g., R, SAS, SQL)
+* Knowledge of how to apply various regression techniques, interpret models, and draw valid statistical conclusions
+* Understanding of how to clean, manipulate, and analyze data to derive clear and useful insights
 * Fluency in data science skills - EDA, data wrangling, data visualization
-* Understanding of how to clean, manipulate, and analyze data
-* Knowledge of how to apply various regression techniques and interpret models (e.g., linear, logistic)
 * Ability to write scientific or research papers
 
 **You can view my [resume](images2/resume.pdf) for a more in-depth look at my skills.**
@@ -81,15 +75,15 @@ I built this website using R and GitHub (with a bit of CSS and HTML) to showcase
 #### Contact Information
 
 Jacky Choi <br>
-Primary Email: [jmc2392@cumc.columbia.edu](mailto:jmc2392@cumc.columbia.edu)  
-Alternate Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
+Primary Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
+Alternat Email: [jmc2392@caa.columbia.edu](mailto:jmc2392@caa.columbia.edu)  
 Phone: 917-216-1621
 
 <br>
 
 #### Copyright
 
-Copyright Â© 2019 Jacky Choi
+Copyright © 2019 Jacky Choi
 
 All rights reserved. This website or any portion thereof may not be reproduced or used in any manner whatsoever
 without the express written permission of the author. Note that all projects use hypothetical data, with the exception of the NHANES and NYC Crime projects.
