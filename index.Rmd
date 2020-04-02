@@ -83,7 +83,8 @@ Phone: 917-216-1621
 
 #### Copyright
 
-Copyright © 2019 Jacky Choi
+Copyright Â© 2020 Jacky Choi
 
 All rights reserved. This website or any portion thereof may not be reproduced or used in any manner whatsoever
 without the express written permission of the author. Note that all projects use hypothetical data, with the exception of the NHANES and NYC Crime projects.
+
