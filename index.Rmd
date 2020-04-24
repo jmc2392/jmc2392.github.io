@@ -52,7 +52,7 @@ font-weight: bold;
 
 #### About Me
 
-I graduated from the [Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) at Columbia University's Mailman School of Public Health with an Applied Biostatistics certificate. My academic coursework was geared heavily toward biostatistical skills using various statistical programs and languages, and included courses such as "Data Science ," "Relational Databases and SQL Programming for Research and Data Science," Analysis of Categorical Data,", "Applied Regression (I and II)." During my time there, I was able to learn, apply, and utilize R, SAS, and SQL.
+I graduated from the [Department of Epidemiology](https://www.mailman.columbia.edu/become-student/departments/epidemiology) at Columbia University's Mailman School of Public Health with an Applied Biostatistics certificate. My academic coursework was geared heavily toward biostatistical skills using various statistical programs and languages, and included courses such as "Data Science," "Relational Databases and SQL Programming for Research and Data Science," Analysis of Categorical Data," and "Applied Regression (I and II)." During my time there, I was able to learn, apply, and utilize R, SAS, and SQL.
 
 My experience has involved working with various aspects of data (including data acquisition, cleaning, management, analysis, and reporting) in relation to health data. My goal is to utilize data effectively to create meaningful results in a fast-paced and challenging work environment through the application of various statistical and analytic programs, tools, and languages. Taken together, I believe I am a formidable candidate for data analyst, statistical analyst, and data scientist roles. I am currently seeking these positions, or any that sufficiently develops or hones my: ability to work with and manipulate data to derive meaningful results, analytic mindset, programming/coding capability, statistical skills, and/or knowledge of research methods.
 
@@ -76,7 +76,7 @@ I built this website using R and GitHub (with a bit of CSS and HTML) to showcase
 
 Jacky Choi <br>
 Primary Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
-Alternat Email: [jmc2392@caa.columbia.edu](mailto:jmc2392@caa.columbia.edu)  
+Alternate Email: [jmc2392@caa.columbia.edu](mailto:jmc2392@caa.columbia.edu)  
 Phone: 917-216-1621
 
 <br>
