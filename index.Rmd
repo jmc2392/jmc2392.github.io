@@ -68,7 +68,7 @@ I built this website using R and GitHub (with a bit of CSS and HTML) to showcase
 * Fluency in data science skills - EDA, data wrangling, data visualization
 * Ability to write scientific or research papers
 
-**You can view my [resume](images2/resume.pdf) for a more in-depth look at my skills.**
+<!-- **You can view my [resume](images2/resume.pdf) for a more in-depth look at my skills.** -->
 
 <br> 
 
@@ -76,8 +76,6 @@ I built this website using R and GitHub (with a bit of CSS and HTML) to showcase
 
 Jacky Choi <br>
 Primary Email: [jmc525@cornell.edu](mailto:jmc525@cornell.edu) <br>
-Alternate Email: [jmc2392@caa.columbia.edu](mailto:jmc2392@caa.columbia.edu)  
-Phone: 917-216-1621
 
 <br>
 

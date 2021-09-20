@@ -35,9 +35,6 @@ navbar:
           href: survival.html
         - text: "Proposal for Phase III RCT"
           href: malaria.html
-          
-    - text: "Resume"
-      href: resume.html
     - icon: fa-envelope fa-lg
       href: mailto:<jmc525@cornell.edu>
     - icon: fa-github fa-lg
